@@ -152,6 +152,7 @@ plugin.tx_wtgallery_pi1 {
 	# Category view settings
 	category {
 		# Constants
+		order = {$plugin.wtgallery.category.order}
 		width = {$plugin.wtgallery.category.width}
 		height = {$plugin.wtgallery.category.height}
 		previewpicture_order = {$plugin.wtgallery.category.previewpicture_order}
@@ -274,43 +275,18 @@ seite.includeCSS.file3135 < page.includeCSS.file3135# COOLIRIS part for wt_galle
 
 # add rss feed to header
 page.headerData.3135 = COA
-page.headerData.3135.wrap = <link rel="alternate" type="application/rss+xml" title="RSS-Feed" href="|" />
 page.headerData.3135 {
+    wrap = <link rel="alternate" type="application/rss+xml" title="RSS-Feed" href="|" />
+	
 	10 = TEXT
 	10.data = getIndpEnv:TYPO3_SITE_URL
 	
 	20 = TEXT
 	20 {
-		value = x
-		stdWrap.wrap = |
-		stdWrap.typolinkno_cache = 1
-		stdWrap.typolink.returnLast = url
-		stdWrap.typolink.parameter.cObject = COA
-		stdWrap.typolink.parameter.cObject {
-			10 = TEXT
-			10.data = page:uid
-			10.wrap = index.php?id=|
-			10.required = 1
-       
-			20 = TEXT
-			20.data = GPvar : L
-			20.wrap = &L=|
-			20.required = 1
-		   
-			30 = TEXT
-			30.data = GPvar : tx_wtgallery_pi1|category
-			30.wrap = &tx_wtgallery_pi1[category]=|
-			30.required = 1
-		   
-			40 = TEXT
-			40.data = GPvar : cHash
-			40.wrap = &cHash=|
-			40.required = 1
-		   
-			50 = TEXT
-			50.value = &type=3135
-			50.required = 1
-		}
+    	typolink.parameter.data = page : uid
+    	typolink.additionalParams = &type=3135
+    	typolink.addQueryString = 1
+    	typolink.returnLast = url
 	}
 }
 seite.headerData.3135 < page.headerData.3135

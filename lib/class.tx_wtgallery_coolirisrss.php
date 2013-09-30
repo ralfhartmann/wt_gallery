@@ -45,47 +45,50 @@ class tx_wtgallery_coolirisrss extends tslib_pibase {
 		$this->tmpl[$this->mode]['all'] = trim($this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.'][$this->mode]), '###WTGALLERY_COOLIRIS_RSS###')); // Load HTML Template
 		$this->tmpl[$this->mode]['item'] = $this->cObj->getSubpart($this->tmpl[$this->mode]['all'],'###ITEM###'); // work on subpart 2
 		
-		
 		// let's go
-		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->piVars['category'] : $this->conf['main.']['path']); // startpath from piVars or from ts
-		$pictures = $this->div->getFiles($this->conf, $startpath, $this->conf[$this->mode.'.']['order'], $this->conf[$this->mode.'.']['limit']); // get all pictures from current folder
-		
-		if (count($pictures) > 0) { // if there are pictures
-			for ($i=0; $i<count($pictures); $i++) { // one loop for every picture in current folder
-				// let's start
-				$row = array ( // write $row for .field in ts AND for markers in html template
-					'picture' => $pictures[$i], // first entry of files array (e.g. fileadmin/pic1.jpg)
-					'tstamp' => filemtime($pictures[$i]), // timestamp of file
-					'filename' => $this->div->fileInfo($pictures[$i], 'filename'), // like pic
-					'dirname' => $this->div->fileInfo($pictures[$i], 'dirname'), // like fileadmin/pics
-					'basename' => $this->div->fileInfo($pictures[$i], 'basename'), // like pic.jpg
-					'extension' => $this->div->fileInfo($pictures[$i], 'extension'), // like jpg
-					'currentfolder' => $this->div->fileInfo($pictures[$i], 'currentfolder'), // like folder
-					'picturehash' => t3lib_div::md5int($pictures[$i]), // like 12345678
-				);
-				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
-				
-				if (!empty($this->conf[$this->mode.'.']['width'])) $this->conf[$this->mode.'.']['image.']['file.']['width'] = $this->conf[$this->mode.'.']['width'];  // set width from config (e.g. flexform if not empty)
-				if (!empty($this->conf[$this->mode.'.']['height'])) $this->conf[$this->mode.'.']['image.']['file.']['height'] = $this->conf[$this->mode.'.']['height'];  // set height from config (e.g. flexform if not empty)
-				$this->markerArray['###IMAGE###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode.'.']['image'], $this->conf[$this->mode.'.']['image.']); // values from ts
-				foreach ($row as $key => $value) { // one loop for every row entry
-					$this->markerArray['###'.strtoupper($key).'###'] = $value; // fill marker with value of row
-				}
-				
-				$content_item .= $this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode]['item'], $this->markerArray, array(), $this->wrappedSubpartArray); // add inner html to variable
-			} 
+		if (!empty($this->conf['main.']['path'])) { // if startpath was set via typoscript
+			$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->div->hash2folder($this->piVars['category'], $this->conf['main.']['path']) : $this->conf['main.']['path']); // startpath from piVars or from ts
+			$pictures = $this->div->getFiles($this->conf, $startpath, $this->conf[$this->mode.'.']['order'], $this->conf[$this->mode.'.']['limit']); // get all pictures from current folder
+			
+			if (count($pictures) > 0) { // if there are pictures
+				for ($i=0; $i<count($pictures); $i++) { // one loop for every picture in current folder
+					// let's start
+					$row = array ( // write $row for .field in ts AND for markers in html template
+						'picture' => $pictures[$i], // first entry of files array (e.g. fileadmin/pic1.jpg)
+						'tstamp' => filemtime($pictures[$i]), // timestamp of file
+						'filename' => $this->div->fileInfo($pictures[$i], 'filename'), // like pic
+						'dirname' => $this->div->fileInfo($pictures[$i], 'dirname'), // like fileadmin/pics
+						'basename' => $this->div->fileInfo($pictures[$i], 'basename'), // like pic.jpg
+						'extension' => $this->div->fileInfo($pictures[$i], 'extension'), // like jpg
+						'currentfolder' => $this->div->fileInfo($pictures[$i], 'currentfolder'), // like folder
+						'picturehash' => t3lib_div::md5int($pictures[$i]), // like 12345678
+					);
+					$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
+					
+					if (!empty($this->conf[$this->mode.'.']['width'])) $this->conf[$this->mode.'.']['image.']['file.']['width'] = $this->conf[$this->mode.'.']['width'];  // set width from config (e.g. flexform if not empty)
+					if (!empty($this->conf[$this->mode.'.']['height'])) $this->conf[$this->mode.'.']['image.']['file.']['height'] = $this->conf[$this->mode.'.']['height'];  // set height from config (e.g. flexform if not empty)
+					$this->markerArray['###IMAGE###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode.'.']['image'], $this->conf[$this->mode.'.']['image.']); // values from ts
+					foreach ($row as $key => $value) { // one loop for every row entry
+						$this->markerArray['###'.strtoupper($key).'###'] = $value; // fill marker with value of row
+					}
+					
+					$content_item .= $this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode]['item'], $this->markerArray, array(), $this->wrappedSubpartArray); // add inner html to variable
+				} 
+			}
+			$subpartArray['###CONTENT###'] = $content_item; // work on subpart 3
+			$this->outerMarkerArray['###TITLE###'] = $this->conf[$this->mode.'.']['title']; // Add title to RSS
+			$this->outerMarkerArray['###URL###'] = $this->conf[$this->mode.'.']['url']; // Add url to RSS
+			$this->outerMarkerArray['###DESCRIPTION###'] = $this->conf[$this->mode.'.']['description']; // Add description to RSS
+			
+			
+			$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode]['all'], $this->outerMarkerArray, $subpartArray); // Get html template
+			$this->content = $this->dynamicMarkers->main($this->conf, $this->cObj, $this->content); // Fill dynamic locallang or typoscript markers
+			$this->content = preg_replace("|###.*?###|i", "", $this->content); // Finally clear not filled markers
+			if (!empty($this->content) && count($pictures) > 0) return $this->content; // return HTML if $content is not empty and if there are pictures
+			else return $this->pi_getLL('wtgallery_ll_coolirisError', 'no pictures to list on current url'); // return error message for dynamic RSS
+		} else { // if startpath was not set via typoscript
+			return $this->pi_getLL('wtgallery_ll_coolirisErrorNoPath', 'Please set the startpath via typoscript and not only in the plugin - this is needed for cooliris!'); // return error message for dynamic RSS
 		}
-		$subpartArray['###CONTENT###'] = $content_item; // work on subpart 3
-		$this->outerMarkerArray['###TITLE###'] = $this->conf[$this->mode.'.']['title']; // Add title to RSS
-		$this->outerMarkerArray['###URL###'] = $this->conf[$this->mode.'.']['url']; // Add url to RSS
-		$this->outerMarkerArray['###DESCRIPTION###'] = $this->conf[$this->mode.'.']['description']; // Add description to RSS
-		
-		
-		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode]['all'], $this->outerMarkerArray, $subpartArray); // Get html template
-		$this->content = $this->dynamicMarkers->main($this->conf, $this->cObj, $this->content); // Fill dynamic locallang or typoscript markers
-		$this->content = preg_replace("|###.*?###|i", "", $this->content); // Finally clear not filled markers
-		if (!empty($this->content) && count($pictures) > 0) return $this->content; // return HTML if $content is not empty and if there are pictures
-		else return 'no pictures to list on current url'; // return error message for dynamic RSS
 	}	
 	
 

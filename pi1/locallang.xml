@@ -14,6 +14,8 @@
 			<label index="wtgallery_ll_pagebrowser_upto">up to</label>
 			<label index="wtgallery_ll_pagebrowser_within">within</label>
 			<label index="wtgallery_ll_pagebrowser_page">Page %s</label>
+			<label index="wtgallery_ll_coolirisError">Error in generating cooliris RSS on current page, because there are no pictures in the listview!</label>
+			<label index="wtgallery_ll_coolirisErrorNoPath">Please set the startpath via typoscript and not only in the plugin - this is needed for cooliris!</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wtgallery_ll_title_category">Galeriekategorien</label>
@@ -24,6 +26,8 @@
 			<label index="wtgallery_ll_pagebrowser_upto">bis</label>
 			<label index="wtgallery_ll_pagebrowser_within">von insgesamt</label>
 			<label index="wtgallery_ll_pagebrowser_page">Seite %s</label>
+			<label index="wtgallery_ll_coolirisError">Auf der aktuellen Seite befinden sich keine Bilder in der Listenansicht, somit kann kein cooliris RSS erzeugt werden!</label>
+			<label index="wtgallery_ll_coolirisErrorNoPath">Bitte den Ausgangspfad über Typoscript setzen und nicht nur über das Plugin, sonst kann das RSS für cooliris nicht erzeugt werden!</label>
 		</languageKey>
 		<languageKey index="it" type="array">
 			<label index="wtgallery_ll_title_category">Lista delle categorie</label>

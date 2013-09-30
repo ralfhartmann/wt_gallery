@@ -44,7 +44,7 @@ class tx_wtgallery_single extends tslib_pibase {
 		$this->tmpl['single'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.']['single']), '###WTGALLERY_SINGLE###'); // Load HTML Template
 		
 		// let's go
-		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->piVars['category'] : $this->conf['main.']['path']); // startpath from piVars or from ts
+		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->div->hash2folder($this->piVars['category'], $this->conf['main.']['path']) : $this->conf['main.']['path']); // startpath from piVars or from ts
 		if (!isset($this->piVars['show'])) { // GET param show is not set
 			$files = $this->div->getFiles($this->conf, $startpath, $this->conf['single.']['order'], 1); // get pictures (limit 1)
 		} else { // GET param show was set

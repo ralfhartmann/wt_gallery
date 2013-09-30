@@ -86,7 +86,7 @@ class tx_wtgallery_div extends tslib_pibase {
 					$temparray = array();
 					if (is_array($array)) { // if is array
 						foreach ($array as $key => $value) { // one loop for every picture in array
-							if (t3lib_div::md5int($value) == $limit) { // if hash fits, return picture
+							if ($this->hashCode($value) == $limit) { // if hash fits, return picture
 								$temparray[] = $value; // $temparray[0] = fileadmin/pic.jpg
 								return $temparray;
 							}
@@ -99,17 +99,47 @@ class tx_wtgallery_div extends tslib_pibase {
 		}
 	}
 	
+	
+	// Function sorting4folders() returns sorted folder array ($sort could be: random, ASC, DESC, newest, oldest)
+	function sorting4folders($folderArray, $sort = 'ASC') {
+		if (is_array($folderArray)) {
+			// sort array
+			switch ($sort) { // sortmode
+				case 'random': // shuffle array
+					shuffle($folderArray);
+					break;
+					
+				case 'DESC': // alphabetical descendening
+					arsort($folderArray);
+					break;
+				
+				default: // default
+				case 'ASC': // or ASC
+					asort($folderArray);
+					break;
+			}
+		}	
+		return $folderArray;
+	}
+	
+	
 	// Get info of a file (extension, filename, etc...)
-	function fileInfo($file, $mode = 'filename') { // $mode could be: dirname (fileadmin/pics), basename (pic.jpg), extension (jpg), filename (pic)
+	function fileInfo($file, $mode = 'filename', $md5 = 0) { // $mode could be: dirname (fileadmin/pics), basename (pic.jpg), extension (jpg), filename (pic)
 		if ($file) {
 			$pathinfo = pathinfo($file); // get file infos
 			
-			if ($mode == 'filename') { // if filename should be returned
-				return basename($file, '.'.$pathinfo['extension']); // return basename
-			} elseif ($mode == 'currentfolder') {
-				return str_replace('/', '' ,substr($pathinfo['dirname'], strrpos($pathinfo['dirname'], '/'))); // return current folder (subfolder of folder/subfolder/pic.jpg)
-			} else {
-				return $pathinfo[$mode]; // return part of array
+			switch ($mode) { 
+				case 'filename': // if filename should be returned
+					return $md5 ? $this->hashCode(basename($file, '.'.$pathinfo['extension'])) : basename($file, '.'.$pathinfo['extension']); // return basename
+					break;
+					
+				case 'currentfolder': // return currentfolder
+					return $md5 ? $this->hashCode(str_replace('/', '' ,substr($pathinfo['dirname'], strrpos($pathinfo['dirname'], '/')))) : str_replace('/', '' ,substr($pathinfo['dirname'], strrpos($pathinfo['dirname'], '/'))); // return current folder (subfolder of folder/subfolder/pic.jpg)
+					break;
+				
+				default: // default
+					return $md5 ? $this->hashCode($pathinfo[$mode]) : $pathinfo[$mode]; // return part of array
+					break;
 			}
 		}
 	}
@@ -127,7 +157,7 @@ class tx_wtgallery_div extends tslib_pibase {
 				
 			case 2: // should be a valid path
 				if ($value != '' && !empty($this->conf['main.']['path'])) { // if category is set
-					if (strpos($value, $this->conf['main.']['path']) === false) { // category contains not the mainpath!
+					if (!in_array($value, $array = $this->folderChange($this->conf['main.']['path']))) { // only if current hash is in folderarray
 						$error = $this->extKey . ' Error: ' . $msg . '!'; // set errormessage
 					}
 				}
@@ -270,7 +300,7 @@ class tx_wtgallery_div extends tslib_pibase {
 			$content = t3lib_div::getURL($file.$postfix); // read txtfile
 			$contentarray = t3lib_div::trimExplode('|', $content, 1); // split on '|'
 			for ($i=0; $i<count($contentarray); $i++) { // one loop for every splitted part in array
-				$array[$this->infoarray[$i]] = $contentarray[$i]; // rewrite array
+				$array[$this->infoarray[$i]] = htmlspecialchars($contentarray[$i]); // rewrite array
 			}
 			
 			if (!empty($array)) return $array;
@@ -278,6 +308,52 @@ class tx_wtgallery_div extends tslib_pibase {
 	}
 	
 	
+	// Function folderChange() gives an array with all picture folders and the fitting md5 hash
+	function folderChange($startpath) {
+		$folderArray = $newArray = array(); // init empty array
+		$folderArray = t3lib_div::getAllFilesAndFoldersInPath($folderArray, t3lib_div::getFileAbsFileName($startpath), 'wt_gallery', 1); // get all folders of the startpath in an array
+		$folderArray = array_flip($folderArray); // flip array
+		
+		foreach ((array) $folderArray as $key => $value) { // one loop for every array content
+			if (substr($key, -1) === '/') $key = substr($key, 0, -1); // if last sign is '/' than delete it
+			$newArray[str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT').'/', '', $key)] = $this->hashCode(str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT').'/', '', $key)); // rewrite array like 12345 => fileadmin/pics
+		}
+		
+		if (!empty($newArray)) return $newArray;
+	}
+	
+	
+	// Function hash2folder returns fitting folder to a hash code
+	function hash2folder($hash, $startpath = 0) {
+		if (!$startpath) $startpath = $this->conf['main.']['path']; // set startpath if not yet
+		$folderArray = $this->folderChange($startpath);
+		$folderArrayFlipped = array_flip($folderArray); // flip array
+		return $folderArrayFlipped[$hash];
+	}
+	
+	
+	// Function changeSlash() changes / to @ and reverse
+	function changeSlash($string, $encode = 1) {
+		if ($encode) $string = str_replace('/', '@', $string); // replace 1
+		else $string = str_replace('@', '/', $string); // replace 2
+		
+		return $string;
+	}
+	
+	
+	// Function hashCode() returns md5 hash of anything (this is an own function if I want to change it future)
+	function hashCode($string) {
+		if (!empty($string)) return t3lib_div::md5int($string);
+	}
+	
+	
+	// Function init() enables $this->conf
+	function init($conf) {
+		$this->conf = $conf;
+	}
+	
+	
+	/*
 	// Function getFolderStructure() returns array with recursive folder list ($folder could be 'fileadmin/pics/')
 	function getFolderStructure($folder, $level = 1, $limit = 10) {
 		if ($level <= $limit) { // only if limit not reached yet
@@ -293,21 +369,7 @@ class tx_wtgallery_div extends tslib_pibase {
 			else return 0; // if there where no folders return 0
 		}
 	}
-	
-	
-	// Function changeSlash() changes / to @ and reverse
-	function changeSlash($string, $encode = 1) {
-		if ($encode) $string = str_replace('/', '@', $string); // replace 1
-		else $string = str_replace('@', '/', $string); // replace 2
-		
-		return $string;
-	}
-	
-	
-	// Function init() enables $this->conf
-	function init($conf) {
-		$this->conf = $conf;
-	}
+	*/
 
 }
 	

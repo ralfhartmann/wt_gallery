@@ -44,7 +44,7 @@ class tx_wtgallery_cooliris extends tslib_pibase {
 		
 		// let's go
 		// check if there are pictures in current folder
-		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->piVars['category'] : $this->conf['main.']['path']); // startpath from piVars or from ts
+		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->div->hash2folder($this->piVars['category'], $this->conf['main.']['path']) : $this->conf['main.']['path']); // startpath from piVars or from ts
 		$pictures = $this->div->getFiles($this->conf, $startpath, $this->conf[$this->mode.'.']['order'], $this->conf[$this->mode.'.']['limit']); // get all pictures from current folder
 		
 		if (count($pictures) > 0) { // if there are pictures in current folder

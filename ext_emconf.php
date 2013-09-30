@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "wt_gallery".
  *
- * Auto generated 30-09-2013 14:30
+ * Auto generated 30-09-2013 14:31
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'description' => 'Easy to use gallery with separate single- , category- and listview. Configurable via typoscript, show EXIF or TXT information, Cooliris (Piclens) and Imagelightbox integration, see screenshots in manual!',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '3.0.4',
+	'version' => '3.0.5',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',

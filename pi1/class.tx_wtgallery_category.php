@@ -47,8 +47,8 @@ class tx_wtgallery_category extends tslib_pibase {
 		$this->tmpl['category']['item'] = $this->cObj->getSubpart($this->tmpl['category']['all'],'###ITEM###'); // work on subpart 2
 
 		// let's go
-		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->piVars['category'] : $this->conf['main.']['path']); // startpath from piVars or from ts
-		$folders = t3lib_div::get_dirs($startpath); // Get all subfolders in the picture folder
+		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->div->hash2folder($this->piVars['category'], $this->conf['main.']['path']) : $this->conf['main.']['path']); // startpath from piVars or from ts
+		$folders = $this->div->sorting4folders(t3lib_div::get_dirs($startpath), $this->conf['category.']['order']); // Get all subfolders in the picture folder
 		$folders_current = array_chunk((array) $folders, ($this->conf['category.']['rows'] * $this->conf['category.']['columns'])); // split array in parts for pagebrowser
 		$this->overall = count($folders); // count all pictures
 		$pointer = ($this->piVars['categorypointer'] > 0 ? $this->piVars['categorypointer'] : 0); // pointer
@@ -65,7 +65,7 @@ class tx_wtgallery_category extends tslib_pibase {
 					'basename' => $this->div->fileInfo($picture[0], 'basename'), // like pic.jpg
 					'extension' => $this->div->fileInfo($picture[0], 'extension'), // like jpg
 					'currentfolder' => $this->div->fileInfo($picture[0], 'currentfolder'), // like folder
-					'link_list' => $this->cObj->typolink('x', array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname'), 'useCacheHash' => 1, 'returnLast' => 'url') ) // , 'ATagParams' => 'target="_self"'
+					'link_list' => $this->cObj->typolink('x', array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname', 1), 'useCacheHash' => 1, 'returnLast' => 'url') ) // , 'ATagParams' => 'target="_self"'
 				);
 				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
 				
@@ -82,7 +82,7 @@ class tx_wtgallery_category extends tslib_pibase {
 				$this->cObj->start($metarow, 'tt_content'); // enable .field in typoscript for singleview
 				$this->markerArray['###TEXT###'] = $this->cObj->cObjGetSingle($this->conf['category.']['text'], $this->conf['category.']['text.']); // values from ts
 		
-				$this->wrappedSubpartArray['###CATEGORYLINK###'] = $this->cObj->typolinkWrap( array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname'), 'useCacheHash' => 1) ); // Link to same page with current folder
+				$this->wrappedSubpartArray['###CATEGORYLINK###'] = $this->cObj->typolinkWrap( array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname', 1), 'useCacheHash' => 1) ); // Link to same page with current folder
 				
 				$content_item .= $this->div->rowWrapper($this->cObj->substituteMarkerArrayCached($this->tmpl['category']['item'], $this->markerArray, array(), $this->wrappedSubpartArray), $i, 'category', count($folders_current[$pointer]), $this->conf); // add inner html to variable
 			} 

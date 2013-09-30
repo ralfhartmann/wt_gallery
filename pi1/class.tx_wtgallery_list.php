@@ -47,7 +47,7 @@ class tx_wtgallery_list extends tslib_pibase {
 		$this->tmpl['list']['item'] = $this->cObj->getSubpart($this->tmpl['list']['all'],'###ITEM###'); // work on subpart 2
 		
 		// let's go
-		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->piVars['category'] : $this->conf['main.']['path']); // startpath from piVars or from ts
+		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->div->hash2folder($this->piVars['category'], $this->conf['main.']['path']) : $this->conf['main.']['path']); // startpath from piVars or from ts
 		$pictures = $this->div->getFiles($this->conf, $startpath, $this->conf['list.']['order'], $this->conf['list.']['limit']); // get all pictures from current folder
 		$pictures_current = array_chunk((array) $pictures, ($this->conf['list.']['rows'] * $this->conf['list.']['columns'])); // split array in parts for pagebrowser
 		$this->overall = count($pictures); // count all pictures
