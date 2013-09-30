@@ -53,7 +53,7 @@ class tx_wtgallery_category_pagebrowser extends tslib_pibase {
 		}
 		if ($this->pbarray['overall'] == 0) $this->markerArray['###WTGALLERY_LL_PAGEBROWSER_UPTO###'] = ''; // clear marker
 		if ($this->pbarray['overall'] == 0) $this->markerArray['###WTGALLERY_LL_PAGEBROWSER_WITHIN###'] = ''; // clear marker
-		$this->conf['category.']['pagebrowser.']['special.']['userFunc.'] = $this->pbarray; // config for pagebrowser userfunc
+		$this->conf['category.']['pagebrowser.']['special.']['userFunc.'] = array_merge((array) $this->conf['category.']['pagebrowser.']['special.']['userFunc.'], (array) $this->pbarray); // config for pagebrowser userfunc
 		$this->conf['category.']['pagebrowser.']['special.']['userFunc.']['mode'] = 'category'; // transmit the mode
 		if (($this->conf['category.']['rows'] * $this->conf['category.']['columns']) < $this->pbarray['overall']) $this->markerArray['###PAGELINKS###'] = $this->cObj->cObjGetSingle($this->conf['category.']['pagebrowser'], $this->conf['category.']['pagebrowser.']); // Pagebrowser menu (show only if needed)
 		

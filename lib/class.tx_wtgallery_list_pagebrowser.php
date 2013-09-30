@@ -49,7 +49,7 @@ class tx_wtgallery_list_pagebrowser extends tslib_pibase {
 		$this->markerArray['###CURRENT_MAX###'] = ($this->pbarray['pointer'] * ($this->conf['list.']['rows'] * $this->conf['list.']['columns'])) + $this->pbarray['overall_cur']; // Current page: up to
 		if ($this->markerArray['###CURRENT_MAX###'] > $this->pbarray['overall']) $this->markerArray['###CURRENT_MAX###'] = $this->pbarray['overall']; // set maximum
 		$this->markerArray['###OVERALL###'] = $this->pbarray['overall']; // Overall addresses
-		$this->conf['list.']['pagebrowser.']['special.']['userFunc.'] = $this->pbarray; // config for pagebrowser userfunc
+		$this->conf['list.']['pagebrowser.']['special.']['userFunc.'] = array_merge((array) $this->conf['list.']['pagebrowser.']['special.']['userFunc.'], (array) $this->pbarray); // config for pagebrowser userfunc
 		$this->conf['list.']['pagebrowser.']['special.']['userFunc.']['mode'] = 'list'; // transmit the mode
 		if (($this->conf['list.']['rows'] * $this->conf['list.']['columns']) < $this->pbarray['overall']) $this->markerArray['###PAGELINKS###'] = $this->cObj->cObjGetSingle($this->conf['list.']['pagebrowser'], $this->conf['list.']['pagebrowser.']); // Pagebrowser menu (show only if needed)
 		

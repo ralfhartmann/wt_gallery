@@ -142,6 +142,13 @@ plugin.tx_wtgallery_pi1 {
 			special = userfunction
 			# Available functions are: "pagemenu" and "clickmenu"
 			special.userFunc = user_wtgallery_pagebrowser->pagemenu
+			special.userFunc {
+				# clickmenu settings
+				clickmenu.previous = TEXT
+				clickmenu.previous.data = LLL:EXT:wt_gallery/pi1/locallang.xml:wtgallery_ll_pagebrowser_previous
+				clickmenu.next = TEXT
+				clickmenu.next.data = LLL:EXT:wt_gallery/pi1/locallang.xml:wtgallery_ll_pagebrowser_next
+			}
 			
 			1 = TMENU
 			1 {
@@ -227,6 +234,13 @@ plugin.tx_wtgallery_pi1 {
 			special = userfunction
 			# Available functions are: "pagemenu" and "clickmenu"
 			special.userFunc = user_wtgallery_pagebrowser->pagemenu
+			special.userFunc {
+				# clickmenu settings
+				clickmenu.previous = TEXT
+				clickmenu.previous.data = LLL:EXT:wt_gallery/pi1/locallang.xml:wtgallery_ll_pagebrowser_previous
+				clickmenu.next = TEXT
+				clickmenu.next.data = LLL:EXT:wt_gallery/pi1/locallang.xml:wtgallery_ll_pagebrowser_next
+			}
 			
 			1 = TMENU
 			1 {

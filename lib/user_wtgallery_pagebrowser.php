@@ -117,7 +117,8 @@ class user_wtgallery_pagebrowser extends tslib_pibase {
 				);
 				$menuarray[0]['_OVERRIDE_HREF'] = $cObj->typolink('x', $tmp_params); // url for menu
 			}
-			$menuarray[0]['title'] = $this->pi_getLL('wtgallery_ll_pagebrowser_previous', 'previous'); // menu label
+			#$menuarray[0]['title'] = $this->pi_getLL('wtgallery_ll_pagebrowser_previous', 'previous'); // menu label
+			$menuarray[0]['title'] = $this->cObj->cObjGetSingle($this->conf['userFunc.']['clickmenu.']['previous'], $this->conf['userFunc.']['clickmenu.']['previous.']); // menu label
 		}
 		
 		// next link
@@ -133,7 +134,8 @@ class user_wtgallery_pagebrowser extends tslib_pibase {
 				);
 				$menuarray[1]['_OVERRIDE_HREF'] = $cObj->typolink('x', $tmp_params); // url for menu
 			}
-			$menuarray[1]['title'] = $this->pi_getLL('wtgallery_ll_pagebrowser_next', 'next'); // menu label
+			#$menuarray[1]['title'] = $this->pi_getLL('wtgallery_ll_pagebrowser_next', 'next'); // menu label
+			$menuarray[1]['title'] = $this->cObj->cObjGetSingle($this->conf['userFunc.']['clickmenu.']['next'], $this->conf['userFunc.']['clickmenu.']['next.']); // menu label
 		}
 		
 		return $menuarray;
