@@ -9,7 +9,7 @@ wt_gallery HTML Template for category view
     Relative path to this folder (e.g. fileadmin/folder/):	###DIRNAME###
     Timestamp of current picture:							###TSTAMP###
 	Name of folder:											###CURRENTFOLDER###
-    Image text (from EXIF or txt file):						###TEXT###
+    Text from txt files to any folder:						###TEXT###
     Dynamic class (firstofrow, centerofrow, lastofrow):		###CLASS###
     Subpart link to list view:								<!-- ###CATEGORYLINK### -->
 	
@@ -30,6 +30,7 @@ wt_gallery HTML Template for category view
 		<div class="wtgallery_categories ###CLASS###">
 			<div class="wtgallery_category_pic">###IMAGE###</div>
 			<div class="wtgallery_category_folder"><!-- ###CATEGORYLINK### -->###CURRENTFOLDER###<!-- ###CATEGORYLINK### --></div>
+            ###TEXT###
 		</div>
 	<!-- ###ITEM### --><!-- ###CONTENT### -->
 	<div class="clear"></div>

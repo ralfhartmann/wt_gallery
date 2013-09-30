@@ -41,7 +41,7 @@ class user_wtgallery_category_pagebrowser extends tslib_pibase {
 		
 		// let's go
 		for($i=0; $i < ceil($conf['userFunc.']['overall'] / $conf['userFunc.']['perPage']); $i++) { // one loop for every page
-			if ($conf['userFunc.']['pointer'] == intval($_GET[$this->prefixId]['listpointer'])) $menuarray[$i]['ITEM_STATE'] = 'ACT'; // act status for menu
+			if ($conf['userFunc.']['pointer'] == intval($_GET[$this->prefixId]['categorypointer'])) $menuarray[$i]['ITEM_STATE'] = 'ACT'; // act status for menu
 			
 			$menuarray[$i]['title'] = sprintf($this->pi_getLL('wtgallery_ll_pagebrowser_page', 'page '.($i+1)), ($i+1)); // menu label
 			$menuarray[$i]['_OVERRIDE_HREF'] = $this->pi_linkTP_keepPIvars_url(array('categorypointer' => $conf['userFunc.']['pointer']), 1); // url for menu

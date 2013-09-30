@@ -68,7 +68,10 @@ class tx_wtgallery_list extends tslib_pibase {
 					'pid_single' => ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : $GLOBALS['TSFE']->id), // PID of single view
 					'link_single' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($pictures_current[$pointer][$i])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) // link to single view
 				);
+				$metarow = $this->div->EXIForTXT($row['picture'], $this->conf['list.']['metainformation']); // get metainformation
+				$row = array_merge((array) $row, (array) $metarow); // add array from txt or exif to normal row
 				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
+				
 				$this->markerArray = $this->div->markersClassStyle($i, 'list', $this->conf); // fill ###CLASS###
 				if (($this->piVars['show'] == $this->div->hashCode($pictures_current[$pointer][$i])) || (!isset($this->piVars['show']) && $i == 0)) $this->markerArray['###CLASS###'] .= ' wtgallery_list_current'; // add string to div if current picture
 				if (!empty($this->conf['list.']['width'])) $this->conf['list.']['image.']['file.']['width'] = $this->conf['list.']['width'];  // set width from config (e.g. flexform if not empty)
@@ -77,14 +80,12 @@ class tx_wtgallery_list extends tslib_pibase {
 				foreach ($row as $key => $value) { // one loop for every row entry
 					$this->markerArray['###'.strtoupper($key).'###'] = $value; // fill marker with value of row
 				}
-				
-				$metarow = $this->div->EXIForTXT($row['picture'], $this->conf['list.']['metainformation']); // get metainformation
-				$this->cObj->start($metarow, 'tt_content'); // enable .field in typoscript for singleview
 				$this->markerArray['###TEXT###'] = $this->cObj->cObjGetSingle($this->conf['list.']['text'], $this->conf['list.']['text.']); // values from ts
 				
 				$this->wrappedSubpartArray['###SINGLELINK###'][0] = '<a href="'.tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)).'">'; // Link with piVars "show"
 				$this->wrappedSubpartArray['###SINGLELINK###'][1] = '</a>'; // postfix for linkwrap
 				
+				$this->hook_inner(); // add hook
 				$content_item .= $this->div->rowWrapper($this->cObj->substituteMarkerArrayCached($this->tmpl['list']['item'], $this->markerArray, array(), $this->wrappedSubpartArray), $i, 'list', count($pictures_current[$pointer]), $this->conf); // add inner html to variable
 			} 
 		}
@@ -93,11 +94,32 @@ class tx_wtgallery_list extends tslib_pibase {
 		$subpartArray['###CONTENT###'] = $content_item; // work on subpart 3
 		$this->outerMarkerArray['###PAGEBROWSER###'] = $this->pagebrowser->start($this->conf, $this->piVars, $this->cObj, array('overall' => $this->overall, 'overall_cur' => ($this->conf['list.']['rows'] * $this->conf['list.']['columns']), 'pointer' => $pointer, 'perPage' => ($this->conf['list.']['rows'] * $this->conf['list.']['columns']))); // includes pagebrowser function
 		
+		$this->hook_outer(); // add hook
 		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl['list']['all'], $this->outerMarkerArray, $subpartArray); // Get html template
 		$this->content = $this->dynamicMarkers->main($this->conf, $this->cObj, $this->content); // Fill dynamic locallang or typoscript markers
 		$this->content = preg_replace("|###.*?###|i", "", $this->content); // Finally clear not filled markers
 		if (!empty($this->content) && $i > 0) return $this->content; // return HTML if $content is not empty and if there are pictures
 	}	
+	
+	
+	// Add outer Hook
+	function hook_outer() {
+		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['list_outer']) {
+		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['list_outer'] as $_funcRef) {
+			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+		   }
+		}
+	}
+	
+	
+	// Add inner Hook
+	function hook_inner() {
+		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['list_inner']) {
+		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['list_inner'] as $_funcRef) {
+			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+		   }
+		}
+	}
 	
 
 }

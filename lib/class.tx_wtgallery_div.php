@@ -29,6 +29,7 @@ class tx_wtgallery_div extends tslib_pibase {
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_pi1.php';	// Path to any file in pi1 for locallang
 	var $extKey = 'wt_gallery';	// The extension key.
+	var $postfix_txt = '.txt'; // default postfix like pic.jpg.txt
 	var $infoarray = array('comments', 'title', 'subject', 'author', 'recordtime', 'cam_brand', 'cam_model'); // sequence for TXT and EXIF information
 	
 	
@@ -229,7 +230,6 @@ class tx_wtgallery_div extends tslib_pibase {
 			// let's start
 			if(($i+1) / $conf[$mode.'.']['columns'] == round(($i+1) / $conf[$mode.'.']['columns']) || ($i+1) == $max) { // If the current picture is the last of the row (current / cols == integer) OR current pictures is the last overall
 				$content .= $addcleardiv.'</div>'; // add closing DIV tag
-			
 			} 
 			#if (fmod($i+1, $conf[$mode.'.']['columns']) == '1') { // If the current picture is the first of the row
 			if (is_int($i/$conf[$mode.'.']['columns'])) { // If the current picture is the first of the row
@@ -267,6 +267,13 @@ class tx_wtgallery_div extends tslib_pibase {
 				$array = array_merge((array) $array, (array) $tmp_array); // add to existing array
 			}
 			
+			// add hook to manipulate TXT/EXIF Information
+			if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['EXIForTXT']) {
+			   foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['EXIForTXT'] as $_funcRef) {
+				  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $array, $this);
+			   }
+			}
+			
 			if (!empty($array)) return $array;
 		}
 	}
@@ -294,11 +301,31 @@ class tx_wtgallery_div extends tslib_pibase {
 	}
 	
 	
+	// Function readTXT4cat() gets text for every category
+	function readTXT4cat($folder) {
+		// config
+		$postfix = $this->postfix_txt; // default postfix like fileadmin/folder.txt
+		if (!empty($GLOBALS['TSFE']->tmpl->setup['config.']['language']) && file_exists($folder['dirname'] . '.' . $GLOBALS['TSFE']->tmpl->setup['config.']['language'] . $this->postfix_txt)) $postfix = '.' . $GLOBALS['TSFE']->tmpl->setup['config.']['language'] . $this->postfix_txt; // rewrite postfix with language postfix fileadmin/folder1.txt => fileadmin/folder1.en.txt
+		
+		// let's go
+		if (file_exists($folder['dirname'] . $postfix)) { // if txt file to folder exists
+			$content = t3lib_div::getURL($folder['dirname'] . $postfix); // read txtfile
+			$contentarray = t3lib_div::trimExplode('|', $content, 1); // split on '|'
+			for ($i=0; $i<count($contentarray); $i++) { // one loop for every splitted part in array
+				$array['cat_' . $this->infoarray[$i]] = htmlspecialchars($contentarray[$i]); // rewrite array
+			}
+			
+			if (!empty($array)) return $array;
+		}
+	
+	}
+	
+	
 	// Function readTXT() reads text file of any picture ($file could be 'fileadmin/pic.jpg')
 	function readTXT($file) {
 		// config
-		$postfix = '.txt'; // default postfix like pic.jpg.txt
-		if (!empty($GLOBALS['TSFE']->tmpl->setup['config.']['language']) && file_exists($file.'.'.$GLOBALS['TSFE']->tmpl->setup['config.']['language'].$postfix)) $postfix = '.'.$GLOBALS['TSFE']->tmpl->setup['config.']['language'].'.txt'; // rewrite postfix with language postfix pic.jpg.txt => pic.jpg.en.txt
+		$postfix = $this->postfix_txt; // default postfix like pic.jpg.txt
+		if (!empty($GLOBALS['TSFE']->tmpl->setup['config.']['language']) && file_exists($file . '.' . $GLOBALS['TSFE']->tmpl->setup['config.']['language'] . $postfix)) $postfix = '.' . $GLOBALS['TSFE']->tmpl->setup['config.']['language'] . $this->postfix_txt; // rewrite postfix with language postfix pic.jpg.txt => pic.jpg.en.txt
 		
 		// let's go
 		if (file_exists($file) && file_exists($file.$postfix)) { // if picture exists and txt file to picture exists

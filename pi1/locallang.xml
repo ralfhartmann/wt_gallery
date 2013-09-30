@@ -42,6 +42,8 @@
 			<label index="wtgallery_ll_pagebrowser_upto">fino a</label>
 			<label index="wtgallery_ll_pagebrowser_within">in tutto</label>
 			<label index="wtgallery_ll_pagebrowser_page">Pagina %s</label>
+			<label index="wtgallery_ll_next">Immagine successiva</label>
+			<label index="wtgallery_ll_previous">Immagine precedente</label>
 		</languageKey>
 	</data>
 </T3locallang>

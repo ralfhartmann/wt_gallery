@@ -29,7 +29,9 @@ plugin.tx_wtgallery_pi1 {
 		# Single image
 		image = IMAGE
 		image {
-			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension
+			# available variables for .field are: 
+				# Information from the pic: picture, tstamp, filename, dirname, basename, extension
+				# Information from txt/EXIF: comments, title, subject, author, recordtime, cam_brand, cam_model
 			wrap = <div class="wt_gallery_single_inner_pic">|</div>
 			file.import.field = picture
 			file.width = {$plugin.wtgallery.single.width}
@@ -51,9 +53,11 @@ plugin.tx_wtgallery_pi1 {
 		}
 		
 		# Text from txt file or EXIF information to single image
-		# available variables for .field are: comments, title, subject, author, recordtime, cam_brand, cam_model
 		text = COA
 		text {
+			# available variables for .field are: 
+				# Information from the pic: picture, tstamp, filename, dirname, basename, extension
+				# Information from txt/EXIF: comments, title, subject, author, recordtime, cam_brand, cam_model
 			wrap = <div class="wt_gallery_single_inner_text">|</div>
 			if.isTrue.field = comments
 			
@@ -96,8 +100,9 @@ plugin.tx_wtgallery_pi1 {
 		# List preview image
 		image = IMAGE
 		image {
-			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash, pid_single, link_single
-			#wrap = <div class="wt_gallery_list_pic">|</div>
+			# available variables for .field are: 
+				# Information from the pic: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash, pid_single, link_single
+				# Information from txt/EXIF: comments, title, subject, author, recordtime, cam_brand, cam_model
 			file.import.field = picture
 			file.width = {$plugin.wtgallery.list.width}
 			file.height = {$plugin.wtgallery.list.height}
@@ -113,9 +118,11 @@ plugin.tx_wtgallery_pi1 {
 		}
 		
 		# Text from txt file or EXIF information to current list image
-		# available variables for .field are: comments, title, subject, author, recordtime, cam_brand, cam_model
 		text = COA
 		text {
+			# available variables for .field are: 
+				# Information from the pic: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash, pid_single, link_single
+				# Information from txt/EXIF: comments, title, subject, author, recordtime, cam_brand, cam_model
 			wrap = <div class="wt_gallery_list_inner_text">|</div>
 			if.isTrue.field = comments
 			
@@ -163,7 +170,9 @@ plugin.tx_wtgallery_pi1 {
 		# Category preview image
 		image = IMAGE
 		image {
-			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder, link_list
+			# available variables for .field are: 
+				# Information from the pic: picture, tstamp, filename, dirname, basename, extension, currentfolder, link_list
+				# Information from txt/EXIF: comments, title, subject, author, recordtime, cam_brand, cam_model
 			wrap = <div class="wt_gallery_category_pic">|</div>
 			file.import.field = picture
 			file.width = {$plugin.wtgallery.category.width}
@@ -180,21 +189,24 @@ plugin.tx_wtgallery_pi1 {
 		}
 		
 		# Text from txt file or EXIF information to current category image
-		# available variables for .field are: comments, title, subject, author, recordtime, cam_brand, cam_model, link_list
 		text = COA
 		text {
+			# available variables for .field are: 
+				# Information from the pic: picture, tstamp, filename, dirname, basename, extension, currentfolder, link_list
+				# Information from folder txt file: cat_comments, cat_title, cat_subject, cat_author, cat_recordtime, cat_cam_brand, cat_cam_model
+				# Information from txt/EXIF of currently shown picture: comments, title, subject, author, recordtime, cam_brand, cam_model
 			wrap = <div class="wt_gallery_category_inner_text">|</div>
-			if.isTrue.field = comments
+			if.isTrue.field = cat_comments
 			
 			10 = TEXT
-			10.field = title
+			10.field = cat_title
 			10.wrap = <div class="wt_gallery_category_inner_title">|</div>
-			10.if.isTrue.field = title
+			10.if.isTrue.field = cat_title
 			
 			20 = TEXT
-			20.field = comments
+			20.field = cat_comments
 			20.wrap = <div class="wt_gallery_category_inner_comments">|</div>
-			20.if.isTrue.field = comments
+			20.if.isTrue.field = cat_comments
 		}
 		
 		# Link to the startcategory below category
@@ -274,23 +286,16 @@ seite.includeCSS.file3135 < page.includeCSS.file3135# COOLIRIS part for wt_galle
 
 
 # add rss feed to header
-page.headerData.3135 = COA
-page.headerData.3135 {
+lib.wt_gallery_coolirisRSS = TEXT
+lib.wt_gallery_coolirisRSS {
     wrap = <link rel="alternate" type="application/rss+xml" title="RSS-Feed" href="|" />
-	
-	10 = TEXT
-	10.data = getIndpEnv:TYPO3_SITE_URL
-	
-	20 = TEXT
-	20 {
-    	typolink.parameter.data = page : uid
-    	typolink.additionalParams = &type=3135
-    	typolink.addQueryString = 1
-    	typolink.returnLast = url
-	}
+    typolink.parameter.dataWrap = {TSFE:id},3135
+    typolink.returnLast = url
 }
-seite.headerData.3135 < page.headerData.3135
-
+[userFunc = user_wtgallery_oncurrentpage]
+page.headerData.3135 < lib.wt_gallery_coolirisRSS
+seite.headerData.3135 < lib.wt_gallery_coolirisRSS
+[end]
 
 
 # TypeNum 3135 offers a dynamic rss feed (listview) for cooliris (piclens) - more infos at www.cooliris.com

@@ -67,6 +67,9 @@ class tx_wtgallery_category extends tslib_pibase {
 					'currentfolder' => $this->div->fileInfo($picture[0], 'currentfolder'), // like folder
 					'link_list' => $this->cObj->typolink('x', array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname', 1), 'useCacheHash' => 1, 'returnLast' => 'url') ) // , 'ATagParams' => 'target="_self"'
 				);
+				$metarow = $this->div->EXIForTXT($row['picture'], $this->conf['category.']['metainformation']); // get metainformation
+				$catTXTrow = $this->div->readTXT4cat($row); // get txt files for every category
+				$row = array_merge((array) $row, (array) $metarow, (array) $catTXTrow); // add array from txt or exif to normal row
 				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
 				
 				$this->markerArray = $this->div->markersClassStyle($i, 'category', $this->conf); // fill ###CLASS### and ###STYLE###
@@ -76,14 +79,11 @@ class tx_wtgallery_category extends tslib_pibase {
 				foreach ($row as $key => $value) { // one loop for every row entry
 					$this->markerArray['###'.strtoupper($key).'###'] = $value; // fill marker with value of row
 				}
-				
-				$metarow = $this->div->EXIForTXT($row['picture'], $this->conf['category.']['metainformation']); // get metainformation
-				$metarow = array_merge((array) $metarow, array('link_list' => $this->cObj->typolink('x', array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname'), 'useCacheHash' => 1, 'returnLast' => 'url') ))); // add link to list
-				$this->cObj->start($metarow, 'tt_content'); // enable .field in typoscript for singleview
 				$this->markerArray['###TEXT###'] = $this->cObj->cObjGetSingle($this->conf['category.']['text'], $this->conf['category.']['text.']); // values from ts
 		
 				$this->wrappedSubpartArray['###CATEGORYLINK###'] = $this->cObj->typolinkWrap( array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname', 1), 'useCacheHash' => 1) ); // Link to same page with current folder
 				
+				$this->hook_inner(); // add hook
 				$content_item .= $this->div->rowWrapper($this->cObj->substituteMarkerArrayCached($this->tmpl['category']['item'], $this->markerArray, array(), $this->wrappedSubpartArray), $i, 'category', count($folders_current[$pointer]), $this->conf); // add inner html to variable
 			} 
 		}
@@ -93,11 +93,32 @@ class tx_wtgallery_category extends tslib_pibase {
 		// fill outer markers
 		$this->outerMarkerArray['###PAGEBROWSER###'] = $this->pagebrowser->start($this->conf, $this->piVars, $this->cObj, array('overall' => $this->overall, 'overall_cur' => ($this->conf['category.']['rows'] * $this->conf['category.']['columns']), 'pointer' => $pointer, 'perPage' => ($this->conf['category.']['rows'] * $this->conf['category.']['columns']))); // include categorybrowser
 		
+		$this->hook_outer(); // add hook
 		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl['category']['all'], $this->outerMarkerArray, $subpartArray); // Get html template
 		$this->content = $this->dynamicMarkers->main($this->conf, $this->cObj, $this->content); // Fill dynamic locallang or typoscript markers
 		$this->content = preg_replace("|###.*?###|i", '', $this->content); // Finally clear not filled markers
 		if (!empty($this->content) && ($i > 0 || !empty($this->piVars['category']))) return $this->content; // return HTML if $content is not empty AND ( if there are pictures OR category was chosen )
 	}	
+	
+	
+	// Add outer Hook
+	function hook_outer() {
+		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_outer']) {
+		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_outer'] as $_funcRef) {
+			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+		   }
+		}
+	}
+	
+	
+	// Add inner Hook
+	function hook_inner() {
+		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_inner']) {
+		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_outer'] as $_funcRef) {
+			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+		   }
+		}
+	}
 	
 
 }

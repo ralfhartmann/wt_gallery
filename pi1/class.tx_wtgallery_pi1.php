@@ -47,6 +47,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 	
 	// Gallery main function
 	function main ($content, $conf)	{
+		$this->content = $content;
 		$this->conf = $conf;
 		$this->pi_setPiVarDefaults();
 		$this->pi_loadLL();
@@ -57,7 +58,6 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 		$this->category = t3lib_div::makeInstance('tx_wtgallery_category'); // Create new instance for category class
 		$this->cooliris = t3lib_div::makeInstance('tx_wtgallery_cooliris'); // Create new instance for cooliris view
 		$this->coolirisRSS = t3lib_div::makeInstance('tx_wtgallery_coolirisrss'); // Create new instance for cooliris RSS
-		$this->content = '';
 		
 		// config
 		$this->secure(); // Clean piVars
@@ -135,6 +135,10 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 				$_procObj->setup($this->conf, $this->piVars, $this); // Enable setup manipulation
 			}
 		}
+		
+		// 5. set pid single and pid list to current page if not set
+		if (intval($this->conf['single.']['pid_single']) == 0) $this->conf['single.']['pid_single'] = $GLOBALS['TSFE']->id; // set single pid to current pid if not set
+		if (intval($this->conf['list.']['pid_list']) == 0) $this->conf['list.']['pid_list'] = $GLOBALS['TSFE']->id; // set list pid to current pid if not set
 	}
 	
 	

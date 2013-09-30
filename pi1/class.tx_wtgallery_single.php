@@ -63,14 +63,13 @@ class tx_wtgallery_single extends tslib_pibase {
 			'extension' => $this->div->fileInfo($files[0], 'extension'), // like jpg
 			'listview_link' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => ''), 0, 0, $this->conf['list.']['pid_list']) // link to list view
 		);
+		$metarow = $this->div->EXIForTXT($row['picture'], $this->conf[$this->mode.'.']['metainformation']); // get metainformation
+		$row = array_merge((array) $row, (array) $metarow); // add array from txt or exif to normal row
 		$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
 		
 		if (!empty($this->conf[$this->mode.'.']['width'])) $this->conf[$this->mode.'.']['image.']['file.']['width'] = $this->conf[$this->mode.'.']['width'];  // set width from config (e.g. flexform if not empty)
 		if (!empty($this->conf[$this->mode.'.']['height'])) $this->conf[$this->mode.'.']['image.']['file.']['height'] = $this->conf[$this->mode.'.']['height'];  // set width from config (e.g. flexform if not empty)
 		$this->markerArray['###IMAGE###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode.'.']['image'], $this->conf[$this->mode.'.']['image.']); // values from ts
-		
-		$metarow = $this->div->EXIForTXT($row['picture'], $this->conf[$this->mode.'.']['metainformation']); // get metainformation
-		$this->cObj->start($metarow, 'tt_content'); // enable .field in typoscript for singleview
 		$this->markerArray['###TEXT###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode.'.']['text'], $this->conf[$this->mode.'.']['text.']); // values from ts
 		
 		// ###LISTVIEWLINK###
@@ -79,9 +78,10 @@ class tx_wtgallery_single extends tslib_pibase {
 		);
 		if ($this->conf[$this->mode.'.']['pid_single'] == $this->conf['list.']['pid_list']) $row = array(); // clear if listview and singleview in the same page
 		$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
-		if ($this->conf[$this->mode.'.']['pid_single'] == $this->conf['list.']['pid_list']) $this->markerArray['###LISTVIEWLINK###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode.'.']['listviewlink'], $this->conf[$this->mode.'.']['listviewlink.']); // values from ts
+		if ($this->conf[$this->mode.'.']['pid_single'] != $this->conf['list.']['pid_list']) $this->markerArray['###LISTVIEWLINK###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode.'.']['listviewlink'], $this->conf[$this->mode.'.']['listviewlink.']); // values from ts
 		
 		
+		$this->hook(); // add hook
 		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode], $this->markerArray, array(), $this->wrappedSubpartArray); // substitute Marker in Template
 		$this->content = $this->dynamicMarkers->main($this->conf, $this->cObj, $this->content); // Fill dynamic locallang or typoscript markers
 		$this->content = preg_replace('|###.*?###|i', '', $this->content); // Finally clear not filled markers
@@ -106,6 +106,16 @@ class tx_wtgallery_single extends tslib_pibase {
 				$this->wrappedSubpartArray['###PREVIOUS###'][0] = '<a href="'.tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->hash['previous']), 1, 0, 0).'">'; // Link with new "show" vars
 				$this->wrappedSubpartArray['###PREVIOUS###'][1] = '</a>'; // postfix for linkwrap
 			}
+		}
+	}
+	
+	
+	// Add Hook
+	function hook() {
+		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['single']) {
+		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['single'] as $_funcRef) {
+			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+		   }
 		}
 	}
 	
