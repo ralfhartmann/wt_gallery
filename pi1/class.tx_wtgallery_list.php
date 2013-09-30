@@ -22,16 +22,17 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib.'class.tslib_pibase.php');
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_div.php'); // load div class
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_list_pagebrowser.php'); // file for dynamicmarker functions
+require_once(PATH_tslib . 'class.tslib_pibase.php');
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_list_pagebrowser.php'); // file for dynamicmarker functions
 
 class tx_wtgallery_list extends tslib_pibase {
 	
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_list.php';	// Path to any file in pi1 for locallang
 	var $extKey = 'wt_gallery';	// The extension key.
+	var $mode = 'list'; // kind of mode
 	
 	function start($conf, $piVars, $cObj) {
 		// config
@@ -43,13 +44,13 @@ class tx_wtgallery_list extends tslib_pibase {
 		$this->dynamicMarkers = t3lib_div::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
 		$this->pagebrowser = t3lib_div::makeInstance('tx_wtgallery_list_pagebrowser'); // Create new instance for pagebrowser function
 		$this->tmpl = $this->markerArray = $this->outerMarkerArray = $subpartArray = array(); $content_item = ''; // init
-		$this->tmpl['list']['all'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.']['list']), '###WTGALLERY_LIST###'); // Load HTML Template
-		$this->tmpl['list']['item'] = $this->cObj->getSubpart($this->tmpl['list']['all'],'###ITEM###'); // work on subpart 2
+		$this->tmpl[$this->mode]['all'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.'][$this->mode]), '###WTGALLERY_LIST###'); // Load HTML Template
+		$this->tmpl[$this->mode]['item'] = $this->cObj->getSubpart($this->tmpl[$this->mode]['all'],'###ITEM###'); // work on subpart 2
 		
 		// let's go
 		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->div->hash2folder($this->piVars['category'], $this->conf['main.']['path']) : $this->conf['main.']['path']); // startpath from piVars or from ts
-		$pictures = $this->div->getFiles($this->conf, $startpath, $this->conf['list.']['order'], $this->conf['list.']['limit']); // get all pictures from current folder
-		$pictures_current = array_chunk((array) $pictures, ($this->conf['list.']['rows'] * $this->conf['list.']['columns'])); // split array in parts for pagebrowser
+		$pictures = $this->div->getFiles($this->conf, $startpath, $this->conf[$this->mode . '.']['order'], $this->conf[$this->mode . '.']['limit']); // get all pictures from current folder
+		$pictures_current = array_chunk((array) $pictures, ($this->conf[$this->mode . '.']['rows'] * $this->conf[$this->mode . '.']['columns'])); // split array in parts for pagebrowser
 		$this->overall = count($pictures); // count all pictures
 		$pointer = ($this->piVars['listpointer'] > 0 ? $this->piVars['listpointer'] : 0); // pointer
 		
@@ -68,34 +69,38 @@ class tx_wtgallery_list extends tslib_pibase {
 					'pid_single' => ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : $GLOBALS['TSFE']->id), // PID of single view
 					'link_single' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($pictures_current[$pointer][$i])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) // link to single view
 				);
-				$metarow = $this->div->EXIForTXT($row['picture'], $this->conf['list.']['metainformation']); // get metainformation
+				$metarow = $this->div->EXIForTXT($row['picture'], $this->conf[$this->mode . '.']['metainformation']); // get metainformation
 				$row = array_merge((array) $row, (array) $metarow); // add array from txt or exif to normal row
 				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
 				
-				$this->markerArray = $this->div->markersClassStyle($i, 'list', $this->conf); // fill ###CLASS###
+				$this->markerArray = $this->div->markersClassStyle($i, $this->mode, $this->conf); // fill ###CLASS###
 				if (($this->piVars['show'] == $this->div->hashCode($pictures_current[$pointer][$i])) || (!isset($this->piVars['show']) && $i == 0)) $this->markerArray['###CLASS###'] .= ' wtgallery_list_current'; // add string to div if current picture
-				if (!empty($this->conf['list.']['width'])) $this->conf['list.']['image.']['file.']['width'] = $this->conf['list.']['width'];  // set width from config (e.g. flexform if not empty)
-				if (!empty($this->conf['list.']['height'])) $this->conf['list.']['image.']['file.']['height'] = $this->conf['list.']['height'];  // set height from config (e.g. flexform if not empty)
-				$this->markerArray['###IMAGE###'] = $this->cObj->cObjGetSingle($this->conf['list.']['image'], $this->conf['list.']['image.']); // values from ts
-				foreach ($row as $key => $value) { // one loop for every row entry
-					$this->markerArray['###'.strtoupper($key).'###'] = $value; // fill marker with value of row
+				if (!empty($this->conf[$this->mode . '.']['width'])) $this->conf[$this->mode . '.']['image.']['file.']['width'] = $this->conf[$this->mode . '.']['width'];  // set width from config (e.g. flexform if not empty)
+				if (!empty($this->conf[$this->mode . '.']['height'])) $this->conf[$this->mode . '.']['image.']['file.']['height'] = $this->conf[$this->mode . '.']['height'];  // set height from config (e.g. flexform if not empty)
+				foreach ($this->conf[$this->mode . '.'] as $key => $value) { // one loop for every main level in typoscript (single.image, single.text, single.listviewlink, etc...)
+					if ($key != 'pagebrowser') { // don't use pagebrowser here but everything else
+						$this->markerArray['###' . strtoupper($key) . '###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode . '.'][$key], $this->conf[$this->mode.'.'][$key . '.']); // values from ts
+					}
 				}
-				$this->markerArray['###TEXT###'] = $this->cObj->cObjGetSingle($this->conf['list.']['text'], $this->conf['list.']['text.']); // values from ts
+				foreach ($row as $key => $value) { // one loop for every row entry
+					$this->markerArray['###' . strtoupper($key) . '###'] = $value; // fill marker with value of row
+				}
 				
-				$this->wrappedSubpartArray['###SINGLELINK###'][0] = '<a href="'.tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)).'">'; // Link with piVars "show"
+				$this->wrappedSubpartArray['###SINGLELINK###'][0] = '<a href="' . tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) . '">'; // Link with piVars "show"
 				$this->wrappedSubpartArray['###SINGLELINK###'][1] = '</a>'; // postfix for linkwrap
 				
 				$this->hook_inner(); // add hook
-				$content_item .= $this->div->rowWrapper($this->cObj->substituteMarkerArrayCached($this->tmpl['list']['item'], $this->markerArray, array(), $this->wrappedSubpartArray), $i, 'list', count($pictures_current[$pointer]), $this->conf); // add inner html to variable
+				$content_item .= $this->div->rowWrapper($this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode]['item'], $this->markerArray, array(), $this->wrappedSubpartArray), $i, $this->mode, count($pictures_current[$pointer]), $this->conf); // add inner html to variable
 			} 
 		}
 		
 		$this->num = $i; // current pictures for pagebrowser
 		$subpartArray['###CONTENT###'] = $content_item; // work on subpart 3
-		$this->outerMarkerArray['###PAGEBROWSER###'] = $this->pagebrowser->start($this->conf, $this->piVars, $this->cObj, array('overall' => $this->overall, 'overall_cur' => ($this->conf['list.']['rows'] * $this->conf['list.']['columns']), 'pointer' => $pointer, 'perPage' => ($this->conf['list.']['rows'] * $this->conf['list.']['columns']))); // includes pagebrowser function
+		$this->outerMarkerArray['###PAGEBROWSER###'] = $this->pagebrowser->start($this->conf, $this->piVars, $this->cObj, array('overall' => $this->overall, 'overall_cur' => ($this->conf[$this->mode . '.']['rows'] * $this->conf[$this->mode . '.']['columns']), 'pointer' => $pointer, 'perPage' => ($this->conf[$this->mode . '.']['rows'] * $this->conf[$this->mode . '.']['columns']))); // includes pagebrowser function
+		$this->outerMarkerArray = array_merge((array) $this->markerArray, (array) $this->outerMarkerArray); // add all markers of last picture to the outermarker Array
 		
 		$this->hook_outer(); // add hook
-		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl['list']['all'], $this->outerMarkerArray, $subpartArray); // Get html template
+		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode]['all'], $this->outerMarkerArray, $subpartArray); // Get html template
 		$this->content = $this->dynamicMarkers->main($this->conf, $this->cObj, $this->content); // Fill dynamic locallang or typoscript markers
 		$this->content = preg_replace("|###.*?###|i", "", $this->content); // Finally clear not filled markers
 		if (!empty($this->content) && $i > 0) return $this->content; // return HTML if $content is not empty and if there are pictures

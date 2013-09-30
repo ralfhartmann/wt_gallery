@@ -25,6 +25,7 @@ plugin.tx_wtgallery_pi1 {
 		order = {$plugin.wtgallery.single.order}
 		metainformation = {$plugin.wtgallery.single.metainformation}
 		
+		
 		# Single image
 		image = IMAGE
 		image {
@@ -51,6 +52,7 @@ plugin.tx_wtgallery_pi1 {
 			}
 		}
 		
+		
 		# Text from txt file or EXIF information to single image
 		text = COA
 		text {
@@ -71,6 +73,7 @@ plugin.tx_wtgallery_pi1 {
 			20.if.isTrue.field = comments
 		}
 		
+		
 		# Link to the listview below picture (only if listview and singleview are not on the same page)
 		# available variables for .field are: listview_link
 		listviewlink = TEXT
@@ -79,6 +82,19 @@ plugin.tx_wtgallery_pi1 {
 			data = LLL:EXT:wt_gallery/pi1/locallang.xml:wtgallery_ll_listviewlink
 			typolink.parameter.field = listview_link
 			if.isTrue.field = listview_link
+		}
+		
+		
+		#########################################
+		# Example for your marker ###ANYMARKER###
+		#########################################
+		# available variables for .field are: 
+			# Information from the pic: picture, tstamp, filename, dirname, basename, extension
+			# Information from txt/EXIF: comments, title, subject, author, recordtime, cam_brand, cam_model
+		anymarker = TEXT
+		anymarker {
+			field = picture
+			wrap = <b>|</b>
 		}
 	}
 	
@@ -95,6 +111,7 @@ plugin.tx_wtgallery_pi1 {
 		rows = {$plugin.wtgallery.list.rows}
 		columns = {$plugin.wtgallery.list.columns}
 		metainformation = {$plugin.wtgallery.list.metainformation}
+		
 		
 		# List preview image
 		image = IMAGE
@@ -116,6 +133,7 @@ plugin.tx_wtgallery_pi1 {
 			imageLinkWrap.typolink.parameter.field = link_single
 		}
 		
+		
 		# Text from txt file or EXIF information to current list image
 		text = COA
 		text {
@@ -135,6 +153,7 @@ plugin.tx_wtgallery_pi1 {
 			20.wrap = <div class="wt_gallery_list_inner_comments">|</div>
 			20.if.isTrue.field = comments
 		}
+		
 		
 		# Pagebrowser for listview
 		pagebrowser = HMENU
@@ -159,6 +178,19 @@ plugin.tx_wtgallery_pi1 {
 				ACT.ATagParams = class="act"
 			}
 		}
+		
+		
+		#########################################
+		# Example for your marker ###ANYMARKER###
+		#########################################
+		# available variables for .field are: 
+			# Information from the pic: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash, pid_single, link_single
+			# Information from txt/EXIF: comments, title, subject, author, recordtime, cam_brand, cam_model
+		anymarker = TEXT
+		anymarker {
+			field = picture
+			wrap = <b>|</b>
+		}
 	}
 	
 	
@@ -175,6 +207,7 @@ plugin.tx_wtgallery_pi1 {
 		columns = {$plugin.wtgallery.category.columns}
 		metainformation = {$plugin.wtgallery.category.metainformation}
 		forceFolder = {$plugin.wtgallery.category.forceFolder}
+		
 		
 		# Category preview image
 		image = IMAGE
@@ -197,6 +230,7 @@ plugin.tx_wtgallery_pi1 {
 			imageLinkWrap.typolink.parameter.field = link_list
 		}
 		
+		
 		# Text from txt file or EXIF information to current category image
 		text = COA
 		text {
@@ -218,6 +252,7 @@ plugin.tx_wtgallery_pi1 {
 			20.if.isTrue.field = cat_comments
 		}
 		
+		
 		# Link to the startcategory below category
 		# available variables for .field are: startcategory_link
 		startcategorylink = TEXT
@@ -227,6 +262,7 @@ plugin.tx_wtgallery_pi1 {
 			typolink.parameter.field = startcategory_link
 			if.isTrue.field = startcategory_link
 		}
+		
 		
 		# Pagebrowser for categoryview
 		pagebrowser = HMENU
@@ -251,7 +287,23 @@ plugin.tx_wtgallery_pi1 {
 				ACT.ATagParams = class="act"
 			}
 		}
+		
+		
+		#########################################
+		# Example for your marker ###ANYMARKER###
+		#########################################
+		# available variables for .field are: 
+			# Information from the pic: picture, tstamp, filename, dirname, basename, extension, currentfolder, link_list
+			# Information from folder txt file: cat_comments, cat_title, cat_subject, cat_author, cat_recordtime, cat_cam_brand, cat_cam_model
+			# Information from txt/EXIF of currently shown picture: comments, title, subject, author, recordtime, cam_brand, cam_model
+		anymarker = TEXT
+		anymarker {
+			field = picture
+			wrap = <b>|</b>
+		}
 	}
+	
+	
 	
 	
 	

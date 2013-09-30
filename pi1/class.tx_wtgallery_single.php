@@ -22,9 +22,9 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib.'class.tslib_pibase.php');
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_div.php'); // load div class
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
+require_once(PATH_tslib . 'class.tslib_pibase.php');
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
 
 class tx_wtgallery_single extends tslib_pibase {
 	
@@ -61,25 +61,24 @@ class tx_wtgallery_single extends tslib_pibase {
 			'dirname' => $this->div->fileInfo($files[0], 'dirname'), // like fileadmin/pics
 			'basename' => $this->div->fileInfo($files[0], 'basename'), // like pic.jpg
 			'extension' => $this->div->fileInfo($files[0], 'extension'), // like jpg
+			'currentfolder' => $this->div->fileInfo($files[0], 'currentfolder'), // like folder
 			'listview_link' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => ''), 0, 0, $this->conf['list.']['pid_list']) // link to list view
 		);
 		$metarow = $this->div->EXIForTXT($row['picture'], $this->conf[$this->mode.'.']['metainformation']); // get metainformation
 		$row = array_merge((array) $row, (array) $metarow); // add array from txt or exif to normal row
+		foreach ($row as $key => $value) { // Add values from row to markerArray - one loop for every row entry
+			$this->markerArray['###' . strtoupper($key) . '###'] = $value; // fill marker with value of row
+		}
 		$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
 		
-		if (!empty($this->conf[$this->mode.'.']['width'])) $this->conf[$this->mode.'.']['image.']['file.']['width'] = $this->conf[$this->mode.'.']['width'];  // set width from config (e.g. flexform if not empty)
-		if (!empty($this->conf[$this->mode.'.']['height'])) $this->conf[$this->mode.'.']['image.']['file.']['height'] = $this->conf[$this->mode.'.']['height'];  // set width from config (e.g. flexform if not empty)
-		$this->markerArray['###IMAGE###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode.'.']['image'], $this->conf[$this->mode.'.']['image.']); // values from ts
-		$this->markerArray['###TEXT###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode.'.']['text'], $this->conf[$this->mode.'.']['text.']); // values from ts
-		
-		// ###LISTVIEWLINK###
-		$row = array ( // write $row for .field in ts
-			'listview_link' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => ''), 0, 0, $this->conf['list.']['pid_list'])
-		);
-		if ($this->conf[$this->mode.'.']['pid_single'] == $this->conf['list.']['pid_list']) $row = array(); // clear if listview and singleview in the same page
-		$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
-		if ($this->conf[$this->mode.'.']['pid_single'] != $this->conf['list.']['pid_list']) $this->markerArray['###LISTVIEWLINK###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode.'.']['listviewlink'], $this->conf[$this->mode.'.']['listviewlink.']); // values from ts
-		
+		if (!empty($this->conf[$this->mode . '.']['width'])) $this->conf[$this->mode . '.']['image.']['file.']['width'] = $this->conf[$this->mode . '.']['width'];  // set width from config (e.g. flexform if not empty)
+		if (!empty($this->conf[$this->mode . '.']['height'])) $this->conf[$this->mode . '.']['image.']['file.']['height'] = $this->conf[$this->mode . '.']['height'];  // set width from config (e.g. flexform if not empty)
+		foreach ($this->conf[$this->mode . '.'] as $key => $value) { // one loop for every main level in typoscript (single.image, single.text, single.listviewlink, etc...)
+			$this->markerArray['###' . strtoupper($key) . '###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode . '.'][$key], $this->conf[$this->mode.'.'][$key . '.']); // values from ts
+		}
+		if ($this->conf[$this->mode . '.']['pid_single'] == $this->conf['list.']['pid_list']) { // if listview and singleview in the same page
+			unset($this->markerArray['###LISTVIEWLINK###']); // clear listview_link
+		}
 		
 		$this->hook(); // add hook
 		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode], $this->markerArray, array(), $this->wrappedSubpartArray); // substitute Marker in Template
