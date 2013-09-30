@@ -88,37 +88,40 @@ plugin.wtgallery {
 	# cat=plugin.wtgallery//5000; type=text; label= Cooliris title: Define a title for the cooliris view (e.g. This is the title)
 	cooliris.title = wt_gallery for cooliris
 
-	# cat=plugin.wtgallery//5000; type=text; label= Cooliris url: Define an URL for the cooliris view (e.g. http://www.domain.org/)
+	# cat=plugin.wtgallery//5010; type=text; label= Cooliris url: Define an URL for the cooliris view (e.g. http://www.domain.org/)
 	cooliris.url = http://www.cooliris.com/
 
-	# cat=plugin.wtgallery//5000; type=text; label= Cooliris description: Define a description for the cooliris view (e.g. This is the description)
+	# cat=plugin.wtgallery//5020; type=text; label= Cooliris description: Define a description for the cooliris view (e.g. This is the description)
 	cooliris.description = This is the wt_gallery cooliris description...
 
-	# cat=plugin.wtgallery//5000; type=text; label= Width of cooliris pictures: Default width of coolirispictures (e.g. 500)
+	# cat=plugin.wtgallery//5030; type=text; label= Width of cooliris pictures: Default width of coolirispictures (e.g. 500)
 	cooliris.width = 500
 
-	# cat=plugin.wtgallery//5010; type=text; label= Height of cooliris pictures: Default height of coolirispictures (e.g. 500)
+	# cat=plugin.wtgallery//5040; type=text; label= Height of cooliris pictures: Default height of coolirispictures (e.g. 500)
 	cooliris.height =
 
-	# cat=plugin.wtgallery//5020; type=options[ASC,DESC,newest,oldest,random]; label= Sorting for coolirisview: Define the sorting of the coolirisview images (ASC,DESC,newest,oldest,random)
+	# cat=plugin.wtgallery//5050; type=options[ASC,DESC,newest,oldest,random]; label= Sorting for coolirisview: Define the sorting of the coolirisview images (ASC,DESC,newest,oldest,random)
 	cooliris.order = ASC
 
-	# cat=plugin.wtgallery//5030; type=text; label= Limit for coolirisview: Define a maximum limit of the coolirisview images (e.g. 100) (empty for no limit)
+	# cat=plugin.wtgallery//5060; type=text; label= Limit for coolirisview: Define a maximum limit of the coolirisview images (e.g. 100) (empty for no limit)
 	cooliris.limit = 
 
-	# cat=plugin.wtgallery//5040; type=int; label= Width of cooliris window: Define width of the flash window in Frontend (e.g. 800) (Note: Flexform value overwrite this setting!)
+	# cat=plugin.wtgallery//5070; type=text; label= Cooliris SWF path: Define a path for cooliris SWF file (e.g. EXT:wt_gallery/files/swf/cooliris.swf)
+	cooliris.swf = EXT:wt_gallery/files/swf/cooliris.swf
+
+	# cat=plugin.wtgallery//5080; type=int; label= Width of cooliris window: Define width of the flash window in Frontend (e.g. 800) (Note: Flexform value overwrite this setting!)
 	cooliris.window_width = 800
 
-	# cat=plugin.wtgallery//5050; type=int; label= Height of cooliris window: Define height of the flash window in Frontend (e.g. 600) (Note: Flexform value overwrite this setting!)
+	# cat=plugin.wtgallery//5090; type=int; label= Height of cooliris window: Define height of the flash window in Frontend (e.g. 600) (Note: Flexform value overwrite this setting!)
 	cooliris.window_height = 600
 
-	# cat=plugin.wtgallery//5060; type=boolean; label= Allow fullscreen button: Enable fullscreen button in cooliris flash window
+	# cat=plugin.wtgallery//5100; type=boolean; label= Allow fullscreen button: Enable fullscreen button in cooliris flash window
 	cooliris.allow_fullscreen = 1
 
-	# cat=plugin.wtgallery//5070; type=boolean; label= Allow scriptaccess button: Enable scriptaccess button in cooliris flash window
+	# cat=plugin.wtgallery//5110; type=boolean; label= Allow scriptaccess button: Enable scriptaccess button in cooliris flash window
 	cooliris.allow_scriptaccess = 0
 
-	# cat=plugin.wtgallery//5080; type=text; label= No-Flash message: Define a message if no flash was found in the browser
+	# cat=plugin.wtgallery//5120; type=text; label= No-Flash message: Define a message if no flash was found in the browser
 	cooliris.noflash_message = <a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash</a>
 		
 }

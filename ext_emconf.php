@@ -12,10 +12,10 @@
 
 $EM_CONF[$_EXTKEY] = array (
 	'title' => 'wt_gallery',
-	'description' => 'Easy to use gallery with separate single- , category- and listview. Fully configurable via typoscript, show EXIF or TXT information, Cooliris (Piclens) integration, see screenshots in manual!',
+	'description' => 'Easy to use gallery with separate single- , category- and listview. Configurable via typoscript, show EXIF or TXT information, Cooliris (Piclens) and Imagelightbox integration, see screenshots in manual!',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '3.0.3',
+	'version' => '3.0.4',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',

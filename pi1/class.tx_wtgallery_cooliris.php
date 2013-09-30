@@ -50,28 +50,25 @@ class tx_wtgallery_cooliris extends tslib_pibase {
 		if (count($pictures) > 0) { // if there are pictures in current folder
 			$rssurl = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$this->cObj->typolink('x', array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&type=3135'.($this->piVars['category'] ? '&'.$this->prefixId.'[category]='.$this->piVars['category'] : ''), 'useCacheHash' => 1, 'returnLast' => 'url') );
 			
-			if (file_exists('crossdomain.xml')) { // if crossdomain exits
-				$this->content = '
-					<object id=\'coolirisOuter\' classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' width=\''.$this->conf[$this->mode.'.']['window_width'].'\' height=\''.$this->conf[$this->mode.'.']['window_height'].'\'>
-						<param name=\'movie\' value=\'http://apps.cooliris.com/embed/cooliris.swf\' />
-						<param name=\'flashvars\' value=\'feed='.$rssurl.'\' />
-						<param name=\'allowFullScreen\' value=\''.$fullscreen.'\' />
-						<param name=\'allowScriptAccess\' value=\''.$scriptaccess.'\' />
-						<!--[if !IE]>-->
-							<object id=\'coolirisInner\' type=\'application/x-shockwave-flash\' data=\'http://apps.cooliris.com/embed/cooliris.swf\' width=\''.$this->conf[$this->mode.'.']['window_width'].'\' height=\''.$this->conf[$this->mode.'.']['window_height'].'\'>
-								<param name=\'flashvars\' value=\'feed='.$rssurl.'\' />
-								<param name=\'allowFullScreen\' value=\''.$fullscreen.'\' />
-								<param name=\'allowScriptAccess\' value=\''.$scriptaccess.'\' />
-						<!--<![endif]-->
-						<div class="wt_gallery_noflash">'.$this->conf[$this->mode.'.']['noflash_message'].'</div>
-						<!--[if !IE]>-->
-							</object>
-						<!--<![endif]-->
-					</object>
-				';
-			} else {
-				$this->content = $this->div->check4errors('crossdomain.xml', 'File crossdomain.xml not found - see manual for details', 3); // check for picture path
-			}
+			// add html code for showing swf
+			$this->content = '
+				<object id=\'coolirisOuter\' classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' width=\'' . $this->conf[$this->mode.'.']['window_width'] . '\' height=\'' . $this->conf[$this->mode.'.']['window_height'] . '\'>
+					<param name=\'movie\' value=\'' . t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $GLOBALS['TSFE']->tmpl->getFileName($this->conf['cooliris.']['swf']) . '\' />
+					<param name=\'flashvars\' value=\'feed=' . $rssurl . '\' />
+					<param name=\'allowFullScreen\' value=\'' . $fullscreen . '\' />
+					<param name=\'allowScriptAccess\' value=\'' . $scriptaccess . '\' />
+					<!--[if !IE]>-->
+						<object id=\'coolirisInner\' type=\'application/x-shockwave-flash\' data=\'' . t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $GLOBALS['TSFE']->tmpl->getFileName($this->conf['cooliris.']['swf']) . '\' width=\'' . $this->conf[$this->mode.'.']['window_width'] . '\' height=\'' . $this->conf[$this->mode.'.']['window_height'] . '\'>
+							<param name=\'flashvars\' value=\'feed=' . $rssurl . '\' />
+							<param name=\'allowFullScreen\' value=\'' . $fullscreen . '\' />
+							<param name=\'allowScriptAccess\' value=\'' . $scriptaccess . '\' />
+					<!--<![endif]-->
+					<div class="wt_gallery_noflash">' . $this->conf[$this->mode.'.']['noflash_message'] . '</div>
+					<!--[if !IE]>-->
+						</object>
+					<!--<![endif]-->
+				</object>
+			';
 		}
 		
 		if (!empty($this->content)) return $this->content; // return HTML if $content is not empty

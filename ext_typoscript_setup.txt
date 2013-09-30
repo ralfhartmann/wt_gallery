@@ -235,6 +235,7 @@ plugin.tx_wtgallery_pi1 {
 		height = {$plugin.wtgallery.cooliris.height}
 		order = {$plugin.wtgallery.cooliris.order}
 		limit = {$plugin.wtgallery.cooliris.limit}
+		swf = {$plugin.wtgallery.cooliris.swf}
 		window_width = {$plugin.wtgallery.cooliris.window_width}
 		window_height = {$plugin.wtgallery.cooliris.window_height}
 		allow_fullscreen = {$plugin.wtgallery.cooliris.allow_fullscreen}

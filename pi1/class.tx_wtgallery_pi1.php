@@ -29,7 +29,7 @@ require_once(t3lib_extMgm::extPath('wt_gallery').'pi1/class.tx_wtgallery_categor
 require_once(t3lib_extMgm::extPath('wt_gallery').'pi1/class.tx_wtgallery_cooliris.php'); // load class for cooliris view
 require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_div.php'); // load div class
 require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_coolirisrss.php'); // load class for cooliris RSS
-if(t3lib_extMgm::isLoaded('wt_doorman', 0)) require_once(t3lib_extMgm::extPath('wt_doorman').'class.tx_wtdoorman_security.php'); // load security class
+if (t3lib_extMgm::isLoaded('wt_doorman', 0)) require_once(t3lib_extMgm::extPath('wt_doorman').'class.tx_wtdoorman_security.php'); // load security class
 
 /**
  * Plugin 'WT Gallery' for the 'wt_gallery' extension.
