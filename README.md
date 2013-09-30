@@ -1,16 +1,16 @@
 # TYPO3 Extension "wt_gallery"
 Easy to use gallery with separate single- , category- and listview. Configurable via typoscript, show EXIF or TXT information, Cooliris (Piclens) and Imagelightbox integration, see screenshots in manual!
 
-## Version 3.1.5
+## Version 3.1.6
 
 
 
 
 <table>
-	<tr><td>Version</td><td>3.1.5 beta</td></tr>
-	<tr><td>Release date</td><td>21. September 2009</td></tr>
+	<tr><td>Version</td><td>3.1.6 beta</td></tr>
+	<tr><td>Release date</td><td>07. January 2010</td></tr>
 	<tr><td>Author</td><td>Alex Kellner</td></tr>
-	<tr><td>Comment</td><td>Bugfix 4714: "No valid picture path" if TYPO3 runs in a subfolder</td></tr>
+	<tr><td>Comment</td><td>Bugfix 5625, 5620, Small change in Hook</td></tr>
 </table>
 
 ## !! Attention !!

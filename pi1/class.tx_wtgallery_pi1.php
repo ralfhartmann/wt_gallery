@@ -90,7 +90,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 			}
 		}
 		
-		if (t3lib_div::GPvar('type') == 3135) { // typenum is 3135 (rss feed for cooliris)
+		if (t3lib_div::_GP('type') == 3135) { // typenum is 3135 (rss feed for cooliris)
 			return $this->coolirisRSS->start($this->conf, $this->piVars, $this->cObj); // RSS Feed
 		}
 		

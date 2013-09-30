@@ -279,7 +279,7 @@ class tx_wtgallery_div extends tslib_pibase {
 		if (!empty($file)) { // only if isset
 			// config
 			$array = $tmp_array = array(); // init array
-			$mode_array = array_reverse(t3lib_div::trimExplode('/', $mode, 1)); // split mode on ,
+			$mode_array = array_reverse(t3lib_div::trimExplode('/', $mode, 1)); // split mode on /
 			
 			// let's go
 			for ($i=0; $i<count($mode_array); $i++) { // one loop for every set mode
@@ -302,7 +302,7 @@ class tx_wtgallery_div extends tslib_pibase {
 			// add hook to manipulate TXT/EXIF Information
 			if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['EXIForTXT']) {
 			   foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['EXIForTXT'] as $_funcRef) {
-				  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $array, $this);
+				  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $array, $file);
 			   }
 			}
 			

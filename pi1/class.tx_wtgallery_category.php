@@ -127,7 +127,7 @@ class tx_wtgallery_category extends tslib_pibase {
 	// Add inner Hook
 	function hook_inner() {
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_inner']) {
-		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_outer'] as $_funcRef) {
+		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_inner'] as $_funcRef) {
 			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
 		   }
 		}
