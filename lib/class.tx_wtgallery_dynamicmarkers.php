@@ -28,8 +28,14 @@ class tx_wtgallery_dynamicmarkers extends tslib_pibase {
 
     var $extKey = 'wt_gallery';
     var $scriptRelPath = 'pi1/class.tx_wtgallery_pi1.php';    // Path to pi1 to get locallang.xml from pi1 folder
-    var $locallangmarker_prefix = array('WTGALLERY_LL_','wtgallery_ll_'); // prefix for automatic locallangmarker
-    var $typoscriptmarker_prefix = array('WTGALLERY_TS_','dynamicTyposcript'); // prefix for automatic typoscriptmarker
+    var $locallangmarker_prefix = array( // prefix for automatic locallangmarker
+		'WTGALLERY_LL_', // prefix for HTML template part
+		'wtgallery_ll_' // prefix for typoscript part
+	);
+    var $typoscriptmarker_prefix = array( // prefix for automatic typoscriptmarker
+		'WTGALLERY_TS_', // prefix for HTML template part
+		'dynamicTyposcript' // prefix for typoscript part
+	);
     
 	
 	// Function main() to replace typoscript- and locallang markers
@@ -45,14 +51,14 @@ class tx_wtgallery_dynamicmarkers extends tslib_pibase {
 			// let's go
 			// 1. replace locallang markers
 			$this->content = preg_replace_callback ( // Automaticly fill locallangmarkers with fitting value of locallang.xml
-				'#\#\#\#'.$this->locallangmarker_prefix[0].'(.*)\#\#\##Uis', // regulare expression
+				'#\#\#\#' . $this->locallangmarker_prefix[0] . '(.*)\#\#\##Uis', // regulare expression
 				array($this, 'DynamicLocalLangMarker'), // open function
 				$this->content // current content
 			);
 			
 			// 2. replace typoscript markers
 			$this->content = preg_replace_callback ( // Automaticly fill locallangmarkers with fitting value of locallang.xml
-				'#\#\#\#'.$this->typoscriptmarker_prefix[0].'(.*)\#\#\##Uis', // regulare expression
+				'#\#\#\#' . $this->typoscriptmarker_prefix[0] . '(.*)\#\#\##Uis', // regulare expression
 				array($this, 'DynamicTyposcriptMarker'), // open function
 				$this->content // current content
 			);
@@ -65,7 +71,7 @@ class tx_wtgallery_dynamicmarkers extends tslib_pibase {
     
     // Function DynamicLocalLangMarker() to get automaticly a marker from locallang.xml (###LOCALLANG_BLABLA### from locallang.xml: locallangmarker_blabla)
     function DynamicLocalLangMarker($array) {
-		if (!empty($array[1])) $string = $this->pi_getLL(strtolower($this->locallangmarker_prefix[1].$array[1]), '<i>'.strtolower($array[1]).'</i>'); // search for a fitting entry in locallang.xml or typoscript
+		if (!empty($array[1])) $string = $this->pi_getLL(strtolower($this->locallangmarker_prefix[1] . $array[1]), '<i>' . strtolower($array[1]) . '</i>'); // search for a fitting entry in locallang.xml or typoscript
         
 		if (!empty($string)) return $string;
     }
@@ -73,8 +79,8 @@ class tx_wtgallery_dynamicmarkers extends tslib_pibase {
     
     // Function DynamicTyposcriptMarker() to get automaticly a marker from typoscript 
     function DynamicTyposcriptMarker($array) {
-		if ($this->conf['dynamicTyposcript.'][strtolower($array[1])]) { // If there is a fitting entry in typoscript
-			$string = $this->cObj->cObjGetSingle($this->conf[$this->typoscriptmarker_prefix[1].'.'][strtolower($array[1])], $this->conf[$this->typoscriptmarker_prefix[1].'.'][strtolower($array[1]).'.']); // fill string with typoscript value
+		if ($this->conf[$this->typoscriptmarker_prefix[1] . '.'][strtolower($array[1])]) { // If there is a fitting entry in typoscript
+			$string = $this->cObj->cObjGetSingle($this->conf[$this->typoscriptmarker_prefix[1] . '.'][strtolower($array[1])], $this->conf[$this->typoscriptmarker_prefix[1] . '.'][strtolower($array[1]) . '.']); // fill string with typoscript value
 		}
         
 		if (!empty($string)) return $string;

@@ -48,7 +48,8 @@ class tx_wtgallery_category extends tslib_pibase {
 
 		// let's go
 		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->div->hash2folder($this->piVars['category'], $this->conf['main.']['path']) : $this->conf['main.']['path']); // startpath from piVars or from ts
-		$folders = $this->div->sorting4folders(t3lib_div::get_dirs($startpath), $this->conf['category.']['order']); // Get all subfolders in the picture folder
+		if ($this->conf['category.']['forceFolder'] != '') $startpath = $this->div->validatePicturePath($this->conf['category.']['forceFolder']); // overwrite startpath if forceFolder is set in constants
+		$folders = $this->div->sorting4folders(t3lib_div::get_dirs($startpath), $this->conf['category.']['order'], $this->conf['category.']['limit']); // Get all subfolders in the picture folder
 		$folders_current = array_chunk((array) $folders, ($this->conf['category.']['rows'] * $this->conf['category.']['columns'])); // split array in parts for pagebrowser
 		$this->overall = count($folders); // count all pictures
 		$pointer = ($this->piVars['categorypointer'] > 0 ? $this->piVars['categorypointer'] : 0); // pointer
@@ -91,7 +92,15 @@ class tx_wtgallery_category extends tslib_pibase {
 		$subpartArray['###CONTENT###'] = $content_item; // work on subpart 3
 		
 		// fill outer markers
-		$this->outerMarkerArray['###PAGEBROWSER###'] = $this->pagebrowser->start($this->conf, $this->piVars, $this->cObj, array('overall' => $this->overall, 'overall_cur' => ($this->conf['category.']['rows'] * $this->conf['category.']['columns']), 'pointer' => $pointer, 'perPage' => ($this->conf['category.']['rows'] * $this->conf['category.']['columns']))); // include categorybrowser
+		$pbarray = array( // prepare array for pagebrowser
+			'overall' => $this->overall, // all numbers of categories
+			'overall_cur' => ($this->conf['category.']['rows'] * $this->conf['category.']['columns']), // categories on each page
+			'pointer' => $pointer, // pointer
+			'perPage' => ($this->conf['category.']['rows'] * $this->conf['category.']['columns']), // categories on each page
+			'folders' => $folders, // folder array
+			'startpath' => $startpath
+		);
+		$this->outerMarkerArray['###PAGEBROWSER###'] = $this->pagebrowser->start($this->conf, $this->piVars, $this->cObj, $pbarray); // include categorybrowser
 		
 		$this->hook_outer(); // add hook
 		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl['category']['all'], $this->outerMarkerArray, $subpartArray); // Get html template

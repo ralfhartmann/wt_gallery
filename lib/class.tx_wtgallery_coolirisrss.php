@@ -63,6 +63,8 @@ class tx_wtgallery_coolirisrss extends tslib_pibase {
 						'currentfolder' => $this->div->fileInfo($pictures[$i], 'currentfolder'), // like folder
 						'picturehash' => t3lib_div::md5int($pictures[$i]), // like 12345678
 					);
+					$metarow = $this->div->EXIForTXT($row['picture'], $this->conf[$this->mode . '.']['metainformation']); // get metainformation
+					$row = array_merge((array) $row, (array) $metarow); // add array from txt or exif to normal row
 					$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
 					
 					if (!empty($this->conf[$this->mode.'.']['width'])) $this->conf[$this->mode.'.']['image.']['file.']['width'] = $this->conf[$this->mode.'.']['width'];  // set width from config (e.g. flexform if not empty)

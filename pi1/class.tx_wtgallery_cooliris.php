@@ -48,7 +48,8 @@ class tx_wtgallery_cooliris extends tslib_pibase {
 		$pictures = $this->div->getFiles($this->conf, $startpath, $this->conf[$this->mode.'.']['order'], $this->conf[$this->mode.'.']['limit']); // get all pictures from current folder
 		
 		if (count($pictures) > 0) { // if there are pictures in current folder
-			$rssurl = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$this->cObj->typolink('x', array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&type=3135'.($this->piVars['category'] ? '&'.$this->prefixId.'[category]='.$this->piVars['category'] : ''), 'useCacheHash' => 1, 'returnLast' => 'url') );
+			$rssurl = t3lib_div::getIndpEnv('TYPO3_SITE_URL'); // start with the domain
+			$rssurl .= $this->cObj->typolink('x', array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&type=3135'. ($this->piVars['category'] ? '&' . $this->prefixId . '[category]=' . $this->piVars['category'] : '') . ($this->conf[$this->mode . '.']['flashvars'] ? $this->conf[$this->mode . '.']['flashvars'] : ''), 'useCacheHash' => 1, 'returnLast' => 'url')); // generate link
 			
 			// add html code for showing swf
 			$this->content = '

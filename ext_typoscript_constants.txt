@@ -79,14 +79,20 @@ plugin.wtgallery {
 	# cat=plugin.wtgallery//4030; type=text; label= Category number of columns: Set the number of columns for categoryview (e.g. 6) (Note: Flexform value overwrite this setting!)
 	category.columns = 
 
-	# cat=plugin.wtgallery//4035; type=options[ASC,DESC,random]; label= Category sorting: Define the sorting of the categories itselve (ASC,DESC,random)
+	# cat=plugin.wtgallery//4040; type=options[ASC,DESC,random]; label= Category sorting: Define the sorting of the categories itselve (ASC,DESC,random)
 	category.order = ASC
 
-	# cat=plugin.wtgallery//4040; type=options[ASC,DESC,newest,oldest,random]; label= Category image sorting: If no special picture is chosen, any picture of the folder will be chosen (ASC,DESC,newest,oldest,random)
+	# cat=plugin.wtgallery//4050; type=text; label= Category limit: Define a maximum limit of the category images (e.g. 100) (empty for no limit)
+	category.limit = 
+
+	# cat=plugin.wtgallery//4060; type=options[ASC,DESC,newest,oldest,random]; label= Category image sorting: If no special picture is chosen, any picture of the folder will be chosen (ASC,DESC,newest,oldest,random)
 	category.previewpicture_order = random
 
-	# cat=plugin.wtgallery//4050; type=options[TXT/EXIF,EXIF/TXT,TXT,EXIF,]; label= Category metainformation: Show meta information of a category picture from textfile or from EXIF information (possibilities: TXT/EXIF,EXIF/TXT,TXT,EXIF or empty) (TXT/EXIF means - search for a txt file and if no info from txt than take EXIF information of picture)
+	# cat=plugin.wtgallery//4070; type=options[TXT/EXIF,EXIF/TXT,TXT,EXIF,]; label= Category metainformation: Show meta information of a category picture from textfile or from EXIF information (possibilities: TXT/EXIF,EXIF/TXT,TXT,EXIF or empty) (TXT/EXIF means - search for a txt file and if no info from txt than take EXIF information of picture)
 	category.metainformation = TXT/EXIF
+
+	# cat=plugin.wtgallery//4080; type=text; label= Category force folder: If you want to force a folder for your categories, you can enter a folder (e.g. fileadmin/pics/). This could be useful, if you want to always show your categories - even on list- and singleview!
+	category.forceFolder = 
 
 	# cat=plugin.wtgallery//5000; type=text; label= Cooliris title: Define a title for the cooliris view (e.g. This is the title)
 	cooliris.title = wt_gallery for cooliris
@@ -124,7 +130,13 @@ plugin.wtgallery {
 	# cat=plugin.wtgallery//5110; type=boolean; label= Cooliris scriptaccess button: Enable scriptaccess button in cooliris flash window
 	cooliris.allow_scriptaccess = 0
 
-	# cat=plugin.wtgallery//5120; type=text; label= Cooliris No-Flash message: Define a message if no flash was found in the browser
+	# cat=plugin.wtgallery//5120; type=text; label= Cooliris flashvars: Add some cooliris flashvars if you want (e.g. &numRows=5&style=light) - see whole list at http://developer.cooliris.com/?p=embed/flash
+	cooliris.flashvars = 
+
+	# cat=plugin.wtgallery//5130; type=text; label= Cooliris No-Flash message: Define a message if no flash was found in the browser
 	cooliris.noflash_message = <a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash</a>
+
+	# cat=plugin.wtgallery//5140; type=options[TXT/EXIF,EXIF/TXT,TXT,EXIF,]; label= Cooliris metainformation: Show meta information of the listed picture from textfile or from EXIF information (possibilities: TXT/EXIF,EXIF/TXT,TXT,EXIF or empty) (TXT/EXIF means - search for a txt file and if no info from txt than take EXIF information of picture) (You have to make some changes in the cooliris.html as you want)
+	cooliris.metainformation = TXT/EXIF
 		
 }

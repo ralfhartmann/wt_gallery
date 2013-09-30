@@ -1,6 +1,5 @@
 # WT_GALLERY PLUGIN #
-includeLibs.user_wtgallery_list_pagebrowser = EXT:wt_gallery/lib/user_wtgallery_list_pagebrowser.php
-includeLibs.user_wtgallery_category_pagebrowser = EXT:wt_gallery/lib/user_wtgallery_category_pagebrowser.php
+includeLibs.user_wtgallery_pagebrowser = EXT:wt_gallery/lib/user_wtgallery_pagebrowser.php
 
 # main settings
 plugin.tx_wtgallery_pi1 {
@@ -141,7 +140,8 @@ plugin.tx_wtgallery_pi1 {
 		pagebrowser = HMENU
 		pagebrowser {
 			special = userfunction
-			special.userFunc = user_wtgallery_list_pagebrowser->start
+			# Available functions are: "pagemenu" and "clickmenu"
+			special.userFunc = user_wtgallery_pagebrowser->pagemenu
 			
 			1 = TMENU
 			1 {
@@ -160,12 +160,14 @@ plugin.tx_wtgallery_pi1 {
 	category {
 		# Constants
 		order = {$plugin.wtgallery.category.order}
+		limit = {$plugin.wtgallery.category.limit}
 		width = {$plugin.wtgallery.category.width}
 		height = {$plugin.wtgallery.category.height}
 		previewpicture_order = {$plugin.wtgallery.category.previewpicture_order}
 		rows = {$plugin.wtgallery.category.rows}
 		columns = {$plugin.wtgallery.category.columns}
 		metainformation = {$plugin.wtgallery.category.metainformation}
+		forceFolder = {$plugin.wtgallery.category.forceFolder}
 		
 		# Category preview image
 		image = IMAGE
@@ -223,7 +225,8 @@ plugin.tx_wtgallery_pi1 {
 		pagebrowser = HMENU
 		pagebrowser {
 			special = userfunction
-			special.userFunc = user_wtgallery_category_pagebrowser->start
+			# Available functions are: "pagemenu" and "clickmenu"
+			special.userFunc = user_wtgallery_pagebrowser->pagemenu
 			
 			1 = TMENU
 			1 {
@@ -254,17 +257,21 @@ plugin.tx_wtgallery_pi1 {
 		allow_fullscreen = {$plugin.wtgallery.cooliris.allow_fullscreen}
 		allow_scriptaccess = {$plugin.wtgallery.cooliris.allow_scriptaccess}
 		noflash_message = {$plugin.wtgallery.cooliris.noflash_message}
+		flashvars = {$plugin.wtgallery.cooliris.flashvars}
+		metainformation = {$plugin.wtgallery.cooliris.metainformation}
 		
 		# path for cooliris image
 		image = COA
 		image {
+			# available variables for .field are: 
+				# Information from the pic: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash
+				# Information from txt/EXIF of currently shown picture: comments, title, subject, author, recordtime, cam_brand, cam_model
 			10 = TEXT
 			10 {
 				data = getIndpEnv:TYPO3_SITE_URL
 			}
 			20 = IMG_RESOURCE
 			20 {
-				# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash
 				file.import.field = picture
 				file.width = {$plugin.wtgallery.cooliris.width}
 				file.height = {$plugin.wtgallery.cooliris.height}

@@ -106,7 +106,7 @@ class tx_wtgallery_div extends tslib_pibase {
 	
 	
 	// Function sorting4folders() returns sorted folder array ($sort could be: random, ASC, DESC, newest, oldest)
-	function sorting4folders($folderArray, $sort = 'ASC') {
+	function sorting4folders($folderArray, $sort = 'ASC', $limit = 0) {
 		if (is_array($folderArray)) {
 			// sort array
 			switch ($sort) { // sortmode
@@ -122,6 +122,12 @@ class tx_wtgallery_div extends tslib_pibase {
 				case 'ASC': // or ASC
 					asort($folderArray);
 					break;
+			}
+			
+			// cut array
+			if ($limit) {
+				$tmp_array = array_chunk($folderArray, $limit); // split array in same parts
+				$folderArray = $tmp_array[0]; // take first part of array
 			}
 		}	
 		return $folderArray;
