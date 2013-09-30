@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006 Alex <alex@wunschtacho.de>
+*  (c) 2008 Alex <alexander.kellner@einpraegsam.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,45 +28,45 @@
 /**
  * Class that adds the wizard icon.
  *
- * @author	Alex <alex@wunschtacho.de>
+ * @author	Alex <alexander.kellner@einpraegsam.net>
  * @package	TYPO3
  * @subpackage	tx_wtgallery
  */
 class tx_wtgallery_pi1_wizicon {
 
-					/**
-					 * Processing the wizard items array
-					 *
-					 * @param	array		$wizardItems: The wizard items
-					 * @return	Modified array with wizard items
-					 */
-					function proc($wizardItems)	{
-						global $LANG;
+	/**
+	 * Processing the wizard items array
+	 *
+	 * @param	array		$wizardItems: The wizard items
+	 * @return	Modified array with wizard items
+	 */
+	function proc($wizardItems)	{
+		global $LANG;
 
-						$LL = $this->includeLocalLang();
+		$LL = $this->includeLocalLang();
 
-						$wizardItems['plugins_tx_wtgallery_pi1'] = array(
-							'icon'=>t3lib_extMgm::extRelPath('wt_gallery').'pi1/ce_wiz.gif',
-							'title'=>$LANG->getLLL('pi1_title',$LL),
-							'description'=>$LANG->getLLL('pi1_plus_wiz_description',$LL),
-							'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=wt_gallery_pi1'
-						);
+		$wizardItems['plugins_tx_wtgallery_pi1'] = array(
+			'icon'=>t3lib_extMgm::extRelPath('wt_gallery').'pi1/ce_wiz.gif',
+			'title'=>$LANG->getLLL('pi1_title',$LL),
+			'description'=>$LANG->getLLL('pi1_plus_wiz_description',$LL),
+			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=wt_gallery_pi1'
+		);
 
-						return $wizardItems;
-					}
+		return $wizardItems;
+	}
 
-					/**
-					 * Reads the [extDir]/locallang.xml and returns the \$LOCAL_LANG array found in that file.
-					 *
-					 * @return	The array with language labels
-					 */
-					function includeLocalLang()	{
-						$llFile = t3lib_extMgm::extPath(wt_gallery).'locallang.xml';
-						$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
-						
-						return $LOCAL_LANG;
-					}
-				}
+	/**
+	 * Reads the [extDir]/locallang.xml and returns the \$LOCAL_LANG array found in that file.
+	 *
+	 * @return	The array with language labels
+	 */
+	function includeLocalLang()	{
+		$llFile = t3lib_extMgm::extPath(wt_gallery).'locallang.xml';
+		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+		
+		return $LOCAL_LANG;
+	}
+}
 
 
 
