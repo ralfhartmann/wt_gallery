@@ -1,7 +1,7 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
-#t3lib_extMgm::addStaticFile($_EXTKEY, 'static/cooliris/', 'wt_gallery cooliris RSS');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'files/static/', 'Add default CSS');
 
 t3lib_div::loadTCA('tt_content');
 
@@ -20,6 +20,6 @@ t3lib_extMgm::addPlugin(
 
 t3lib_extMgm::addPiFlexFormValue($_EXTKEY.'_pi1', 'FILE:EXT:wt_gallery/be/flexform_ds_pi1.xml');
 
-if (TYPO3_MODE=="BE")	$TBE_MODULES_EXT["xMOD_db_new_content_el"]["addElClasses"]["tx_wtgallery_pi1_wizicon"] = t3lib_extMgm::extPath($_EXTKEY).'pi1/class.tx_wtgallery_pi1_wizicon.php';
+if (TYPO3_MODE=="BE") $TBE_MODULES_EXT["xMOD_db_new_content_el"]["addElClasses"]["tx_wtgallery_pi1_wizicon"] = t3lib_extMgm::extPath($_EXTKEY).'pi1/class.tx_wtgallery_pi1_wizicon.php';
 
 ?>

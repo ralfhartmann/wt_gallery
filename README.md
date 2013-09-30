@@ -1,16 +1,16 @@
 # TYPO3 Extension "wt_gallery"
 Easy to use gallery with separate single- , category- and listview. Configurable via typoscript, show EXIF or TXT information, Cooliris (Piclens) and Imagelightbox integration, see screenshots in manual!
 
-## Version 3.0.5
+## Version 3.0.6
 
 
 
 
 <table>
-	<tr><td>Version</td><td>3.0.5 alpha</td></tr>
-	<tr><td>Release date</td><td>14. January 2009</td></tr>
+	<tr><td>Version</td><td>3.0.6 alpha</td></tr>
+	<tr><td>Release date</td><td>05. April 2009</td></tr>
 	<tr><td>Author</td><td>Alex Kellner</td></tr>
-	<tr><td>Comment</td><td>Cooliris with category view enabled, New cooliris swf file added, category sorting enabled, Bugfix with categories and realurl, Manual changes, see manual for details...</td></tr>
+	<tr><td>Comment</td><td>Next and previous button in single view added, class for current picture in list view added, Bugfix for EXIF information</td></tr>
 </table>
 
 ## !! Attention !!

@@ -33,7 +33,7 @@ class tx_wtgallery_div extends tslib_pibase {
 	
 	
 	// Function getFiles() returns file array ($sort could be: random, ASC, DESC, newest, oldest)
-	function getFiles($conf, $folder, $sort = 'ASC', $limit = '') {
+	function getFiles($conf, $folder, $sort = 'ASC', $limit = '', $hash = 0) {
 		$files = t3lib_div::getFilesInDir($folder, $conf['main.']['file_extensions'], 1, 1); // Get all pictures (sort by name ASC AND with folders)
 		
 		// 1. sort array
@@ -73,7 +73,11 @@ class tx_wtgallery_div extends tslib_pibase {
 		$array = array();
 		if (is_array($files)) { // if the array is filled
 			foreach ($files as $key => $value) { // one loop for every key
-				$array[] = $value; // rewrite key in new array
+				
+				// rewrite key in new array
+				if (!$hash) $array[] = $value; // with filename
+				else $array[] = $this->hashCode($value); // with hashcode instead of filename
+				
 			}
 		}
 		
@@ -271,13 +275,14 @@ class tx_wtgallery_div extends tslib_pibase {
 	// Function readEXIF() reads EXIF information of a given picture ($file could be 'fileadmin/pic.jpg')
 	function readEXIF($file) {
 		if(file_exists($file) && function_exists('exif_read_data')) { // if file exists AND EXIF function exists
-			$info = exif_read_data($file, 'EXIF', 1, 0); // get exif of image
+			$info = exif_read_data($file); // get exif of image
+			//$info = exif_read_data($file, 'EXIF', 1, 0); // get exif of image
 			
 			// make EXIF array
-			if ($info['WINXP']['Comments']) $array[$this->infoarray[0]] = $info['WINXP']['Comments']; // comments
-			if ($info['WINXP']['Title']) $array[$this->infoarray[1]] = $info['WINXP']['Title']; // title
-			if ($info['WINXP']['Subject']) $array[$this->infoarray[2]] = $info['WINXP']['Subject']; // subject
-			if ($info['WINXP']['Author']) $array[$this->infoarray[3]] = $info['WINXP']['Author']; // author
+			if ($info['Comments'] || $info['WINXP']['Comments']) $array[$this->infoarray[0]] = ($info['Comments'] ? $info['Comments'] : $info['WINXP']['Comments']); // comments
+			if ($info['Title'] || $info['WINXP']['Title']) $array[$this->infoarray[1]] = ($info['Title'] ? $info['Title'] : $info['WINXP']['Title']); // title
+			if ($info['Subject'] || $info['WINXP']['Subject']) $array[$this->infoarray[2]] = ($info['Subject'] ? $info['Subject'] : $info['WINXP']['Subject']); // subject
+			if ($info['Author'] || $info['WINXP']['Author']) $array[$this->infoarray[3]] = ($info['Author'] ? $info['Author'] : $info['WINXP']['Author']); // author
 			if ($info['EXIF']['DateTimeOriginal']) $array[$this->infoarray[4]] = $info['EXIF']['DateTimeOriginal']; // recordtime original
 			if ($info['IFD0']['Make']) $array[$this->infoarray[5]] = $info['IFD0']['Make']; // camera brand
 			if ($info['IFD0']['Model']) $array[$this->infoarray[6]] = $info['IFD0']['Model']; // camera model

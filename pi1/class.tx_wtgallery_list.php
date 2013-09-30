@@ -64,13 +64,13 @@ class tx_wtgallery_list extends tslib_pibase {
 					'basename' => $this->div->fileInfo($pictures_current[$pointer][$i], 'basename'), // like pic.jpg
 					'extension' => $this->div->fileInfo($pictures_current[$pointer][$i], 'extension'), // like jpg
 					'currentfolder' => $this->div->fileInfo($pictures_current[$pointer][$i], 'currentfolder'), // like folder
-					'picturehash' => t3lib_div::md5int($pictures_current[$pointer][$i]), // like 12345678
+					'picturehash' => $this->div->hashCode($pictures_current[$pointer][$i]), // like 12345678
 					'pid_single' => ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : $GLOBALS['TSFE']->id), // PID of single view
-					'link_single' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => t3lib_div::md5int($pictures_current[$pointer][$i])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) // link to single view
+					'link_single' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($pictures_current[$pointer][$i])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) // link to single view
 				);
 				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
-				
-				$this->markerArray = $this->div->markersClassStyle($i, 'list', $this->conf); // fill ###CLASS### and ###STYLE###
+				$this->markerArray = $this->div->markersClassStyle($i, 'list', $this->conf); // fill ###CLASS###
+				if (($this->piVars['show'] == $this->div->hashCode($pictures_current[$pointer][$i])) || (!isset($this->piVars['show']) && $i == 0)) $this->markerArray['###CLASS###'] .= ' wtgallery_list_current'; // add string to div if current picture
 				if (!empty($this->conf['list.']['width'])) $this->conf['list.']['image.']['file.']['width'] = $this->conf['list.']['width'];  // set width from config (e.g. flexform if not empty)
 				if (!empty($this->conf['list.']['height'])) $this->conf['list.']['image.']['file.']['height'] = $this->conf['list.']['height'];  // set height from config (e.g. flexform if not empty)
 				$this->markerArray['###IMAGE###'] = $this->cObj->cObjGetSingle($this->conf['list.']['image'], $this->conf['list.']['image.']); // values from ts
@@ -82,7 +82,7 @@ class tx_wtgallery_list extends tslib_pibase {
 				$this->cObj->start($metarow, 'tt_content'); // enable .field in typoscript for singleview
 				$this->markerArray['###TEXT###'] = $this->cObj->cObjGetSingle($this->conf['list.']['text'], $this->conf['list.']['text.']); // values from ts
 				
-				$this->wrappedSubpartArray['###SINGLELINK###'][0] = '<a href="'.tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => t3lib_div::md5int($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)).'">'; // Link with piVars "show"
+				$this->wrappedSubpartArray['###SINGLELINK###'][0] = '<a href="'.tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)).'">'; // Link with piVars "show"
 				$this->wrappedSubpartArray['###SINGLELINK###'][1] = '</a>'; // postfix for linkwrap
 				
 				$content_item .= $this->div->rowWrapper($this->cObj->substituteMarkerArrayCached($this->tmpl['list']['item'], $this->markerArray, array(), $this->wrappedSubpartArray), $i, 'list', count($pictures_current[$pointer]), $this->conf); // add inner html to variable

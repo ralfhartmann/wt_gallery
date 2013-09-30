@@ -9,6 +9,8 @@ wt_directory HTML Template for single view
     Extension (e.g. jpg):								###EXTENSION###
     Timestamp of changedate:							###TSTAMP###
     Insert link to listview (define via TS):			###LISTVIEWLINK###
+    Subpart for next link:								<!-- ###NEXT### -->Next<!-- ###NEXT### -->
+    Subpart for previous link:							<!-- ###PREVIOUS### -->Previous<!-- ###PREVIOUS### -->
     
 
 	GLOBAL MARKERS:
@@ -21,6 +23,14 @@ wt_directory HTML Template for single view
 	<div class="wtgallery wtgallery_single wt_gallery_single_###FILENAME###">
 		<h2 class="wtgallery_single">###WTGALLERY_LL_TITLE_SINGLE###</h2>
         ###IMAGE###
+        <div class="wtgallery_single_browser">
+        	<div class="wtgallery_single_browser_previous">
+            	<!-- ###PREVIOUS### -->###WTGALLERY_LL_PREVIOUS###<!-- ###PREVIOUS### -->
+            </div>
+            <div class="wtgallery_single_browser_next">
+            	<!-- ###NEXT### -->###WTGALLERY_LL_NEXT###<!-- ###NEXT### -->
+            </div>
+        </div>
         ###TEXT###
         ###LISTVIEWLINK###
     </div>
