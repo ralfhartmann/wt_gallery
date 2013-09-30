@@ -11,24 +11,24 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array (
-	'title' => 'WT Gallery',
-	'description' => 'Easy gallery with separate single- and thumbnailview and with subgallery mode. A crop function enables styled images (e.g. quadratic thumbnails). Rounded Corners and filters like greyscale available. Wallpaper- and Imagelightbox function added.',
+	'title' => 'wt_gallery',
+	'description' => 'Easy to use gallery with separate single- , category- and listview. Fully configurable via typoscript (e.g. crop function for quadratic thumbnails...), show EXIF or TXT information',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '2.6.3',
+	'version' => '3.0.0',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
 	'module' => '',
-	'state' => 'stable',
+	'state' => 'alpha',
 	'uploadfolder' => 0,
-	'createDirs' => 'uploads/tx_wtgallery/single, uploads/tx_wtgallery/thumbs, uploads/tx_wtgallery/wmarked, uploads/tx_wtgallery/popup, uploads/tx_wtgallery/cat',
+	'createDirs' => '',
 	'modify_tables' => '',
 	'clearcacheonload' => 0,
 	'lockType' => '',
-	'author' => 'Alexander Kellner (wunschtacho)',
-	'author_email' => 'alex@wunschtacho.de',
+	'author' => 'Alex Kellner',
+	'author_email' => 'alexander.kellner@einpraegsam.net',
 	'author_company' => '',
 	'CGLcompliance' => NULL,
 	'CGLcompliance_note' => NULL,
@@ -38,6 +38,7 @@ $EM_CONF[$_EXTKEY] = array (
 		array (
 			'php' => '4.2.0-0.0.0',
 			'typo3' => '3.5.0-0.0.0',
+			'wt_doorman' => '0.2.1-0.0.0',
 		),
 		'conflicts' => 
 		array (

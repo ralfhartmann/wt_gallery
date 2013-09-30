@@ -7,61 +7,47 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="tt_content.list_type_pi1">WT Gallery</label>
-			<label index="pi_flexform.sheet_general">Site Configuration</label>
-			<label index="pi_flexform.sheet_general2">Single Configuration</label>
-			<label index="pi_flexform.sheet_general3">List Configuration</label>
-			<label index="pi_flexform.choose">Show:</label>
-			<label index="pi_flexform.choose.0">Single</label>
-			<label index="pi_flexform.choose.1">Thumb</label>
-			<label index="pi_flexform.template">Template:</label>
-			<label index="pi_flexform.pic_folder">Pic Folder (e.g. fileadmin/pics/):</label>
-			<label index="pi_flexform.watermark_pic">Watermark picture:</label>
-			<label index="pi_flexform.watermark_alpha">Watermark opacity (0-100):</label>
-			<label index="pi_flexform.single_site">Site with Single Plugin:</label>
-			<label index="pi_flexform.list_site">Site with Thumb Plugin:</label>
-			<label index="pi_flexform.single_width">Width (px):</label>
-			<label index="pi_flexform.single_quality">Picture Quality (%):</label>
-			<label index="pi_flexform.show_comments">Show comments:</label>
-			<label index="pi_flexform.show_comments.0">Defined by TypoScript</label>
-			<label index="pi_flexform.show_comments.1">none</label>
-			<label index="pi_flexform.show_comments.2">Text</label>
-			<label index="pi_flexform.show_comments.3">EXIF</label>
-			<label index="pi_flexform.show_comments.4">Text/EXIF</label>
-			<label index="pi_flexform.show_comments.5">EXIF/Text</label>
-			<label index="pi_flexform.single_ratio">Picture ratio (e.g. 1:1):</label>
-			<label index="pi_flexform.list_width">Width (px):</label>
-			<label index="pi_flexform.list_ratio">Picture ratio (e.g. 1:1):</label>
-			<label index="pi_flexform.width_number">Number of colums:</label>
-			<label index="pi_flexform.height_number">Number of rows:</label>
+			<label index="pi_flexform.sheet_main">Main Configuration</label>
+			<label index="pi_flexform.sheet_single">Single</label>
+			<label index="pi_flexform.sheet_list">List</label>
+			<label index="pi_flexform.sheet_latest">Latest</label>
+			<label index="pi_flexform.sheet_category">Category</label>
+			<label index="pi_flexform.mode">Show:</label>
+			<label index="pi_flexform.mode.0">Single</label>
+			<label index="pi_flexform.mode.1">List</label>
+			<label index="pi_flexform.mode.2">Latest</label>
+			<label index="pi_flexform.mode.3">Category</label>
+			<label index="pi_flexform.path">Pic Folder (e.g. fileadmin/pics/)</label>
+			<label index="pi_flexform.width">Width</label>
+			<label index="pi_flexform.height">Height</label>
+			<label index="pi_flexform.columns">Number of columns</label>
+			<label index="pi_flexform.rows">Number of rows</label>
+			<label index="pi_flexform.pid_single">Page with single view (empty = same page)</label>
+			<label index="pi_flexform.pid_list">Page with list view (empty = same page)</label>
+			<label index="pi_flexform.pid_category">Page with category view (empty = same page)</label>
+			<label index="pi_flexform.pid_latest">Page with latest view (empty = same page)</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="tt_content.list_type_pi1">WT Galerie</label>
-			<label index="pi_flexform.sheet_general">Seiteneinstellung</label>
-			<label index="pi_flexform.sheet_general2">Single Konfiguration</label>
-			<label index="pi_flexform.sheet_general3">List Konfiguration</label>
-			<label index="pi_flexform.choose">Anzeige:</label>
-			<label index="pi_flexform.choose.0">Single</label>
-			<label index="pi_flexform.choose.1">Vorschau</label>
-			<label index="pi_flexform.template">Template:</label>
-			<label index="pi_flexform.watermark_pic">Wasserzeichenbild:</label>
-			<label index="pi_flexform.watermark_alpha">Wasserzeichen Deckkraft (0-100):</label>
-			<label index="pi_flexform.pic_folder">Bild Verzeichnis (z.B. fileadmin/pics/):</label>
-			<label index="pi_flexform.single_site">Seite mit Single Ansicht:</label>
-			<label index="pi_flexform.list_site">Seite mit Vorschau:</label>
-			<label index="pi_flexform.single_width">Breite (px):</label>
-			<label index="pi_flexform.single_quality">Bildqualitaet (%):</label>
-			<label index="pi_flexform.show_comments">Zeige Kommentare:</label>
-			<label index="pi_flexform.show_comments.0">Definiert durch TypoScript</label>
-			<label index="pi_flexform.show_comments.1">keine</label>
-			<label index="pi_flexform.show_comments.2">Text</label>
-			<label index="pi_flexform.show_comments.3">EXIF</label>
-			<label index="pi_flexform.show_comments.4">Text/EXIF</label>
-			<label index="pi_flexform.show_comments.5">EXIF/Text</label>
-			<label index="pi_flexform.single_ratio">Seitenverhältnis (zb 1:1):</label>
-			<label index="pi_flexform.list_width">Breite (px):</label>
-			<label index="pi_flexform.list_ratio">Seitenverhältnis (zb 1:1):</label>
-			<label index="pi_flexform.width_number">Anzahl Spalten (pro Seite):</label>
-			<label index="pi_flexform.height_number">Anzahl Zeilen (pro Seite):</label>
+			<label index="pi_flexform.sheet_main">Haupteinstellungen</label>
+			<label index="pi_flexform.sheet_single">Single</label>
+			<label index="pi_flexform.sheet_list">Liste</label>
+			<label index="pi_flexform.sheet_latest">Letzte (Latest)</label>
+			<label index="pi_flexform.sheet_category">Kategorie</label>
+			<label index="pi_flexform.mode">Anzeige:</label>
+			<label index="pi_flexform.mode.0">Single</label>
+			<label index="pi_flexform.mode.1">Liste</label>
+			<label index="pi_flexform.mode.2">Letzte (Latest)</label>
+			<label index="pi_flexform.mode.3">Kategorien</label>
+			<label index="pi_flexform.path">Bild Verzeichnis (z.B. fileadmin/pics/)</label>
+			<label index="pi_flexform.width">Breite</label>
+			<label index="pi_flexform.height">Höhe</label>
+			<label index="pi_flexform.columns">Anzahl Spalten</label>
+			<label index="pi_flexform.rows">Anzahl Zeilen</label>
+			<label index="pi_flexform.pid_single">Seite mit Singleansicht (leer = gleiche Seite)</label>
+			<label index="pi_flexform.pid_list">Seite mit Listenansicht (leer = gleiche Seite)</label>
+			<label index="pi_flexform.pid_category">Seite mit Kategorieansicht (leer = gleiche Seite)</label>
+			<label index="pi_flexform.pid_latest">Seite mit Ansicht der Letzen Bilder (leer = gleiche Seite)</label>
 		</languageKey>
 	</data>
 </T3locallang>

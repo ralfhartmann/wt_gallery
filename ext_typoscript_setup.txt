@@ -1,90 +1,214 @@
-# PLUGIN WT GALLERY #
+# WT_GALLERY PLUGIN #
+includeLibs.user_wtgallery_list_pagebrowser = EXT:wt_gallery/lib/class.user_wtgallery_list_pagebrowser.php
+includeLibs.user_wtgallery_category_pagebrowser = EXT:wt_gallery/lib/class.user_wtgallery_category_pagebrowser.php
 
+# main settings
 plugin.tx_wtgallery_pi1 {
-
-	pageconfig {
-		template = {$plugin.wt_gallery.pageconfig.template}
-		pic_folder = {$plugin.wt_gallery.pageconfig.picturefolder}
-		delete_old_cache_files = {$plugin.wt_gallery.pageconfig.delete_cache}
-		choose = {$plugin.wt_gallery.pageconfig.choose}
-		generate_basename = {$plugin.wt_gallery.pageconfig.generate_basename}
-		allow_fe_cache_delete = {$plugin.wt_gallery.pageconfig.allow_fe_cache_delete}
+	
+	# Constants
+	template.single = {$plugin.wtgallery.template.single}
+	template.category = {$plugin.wtgallery.template.category}
+	template.list = {$plugin.wtgallery.template.list}
+	main.mode = {$plugin.wtgallery.main.mode}
+	main.path = {$plugin.wtgallery.main.path}
+	main.file_extensions = {$plugin.wtgallery.main.file_extensions}
+	
+	
+	
+	# Single view settings
+	single {
+		# Constants
+		pid_single = {$plugin.wtgallery.single.pid_single}
+		width = {$plugin.wtgallery.single.width}
+		height = {$plugin.wtgallery.single.height}
+		order = {$plugin.wtgallery.single.order}
+		metainformation = {$plugin.wtgallery.single.metainformation}
+		
+		# Single image
+		image = IMAGE
+		image {
+			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension
+			wrap = <div class="wt_gallery_single_inner_pic">|</div>
+			file.import.field = picture
+			file.width = {$plugin.wtgallery.single.width}
+			file.height = {$plugin.wtgallery.single.height}
+			altText.field = basename
+			titleText.field = filename
+			params = class="wtgallery wtgallery_single"
+			if.isTrue.field = picture
+			
+			# popup definition
+			imageLinkWrap = 1
+			imageLinkWrap.enable = 1
+			imageLinkWrap {
+				bodyTag = <body style="background-color: black;">
+				wrap = <a href="javascript:close();">|</a>
+				JSwindow = 1
+				JSwindow.newWindow = 1
+			}
+		}
+		
+		# Text from txt file or EXIF information to single image
+		# available variables for .field are: comments, title, subject, author, recordtime, cam_brand, cam_model
+		text = COA
+		text {
+			wrap = <div class="wt_gallery_single_inner_text">|</div>
+			if.isTrue.field = comments
+			
+			10 = TEXT
+			10.field = title
+			10.wrap = <div class="wt_gallery_single_inner_title">|</div>
+			10.if.isTrue.field = title
+			
+			20 = TEXT
+			20.field = comments
+			20.wrap = <div class="wt_gallery_single_inner_comments">|</div>
+			20.if.isTrue.field = comments
+		}
+		
+		# Link to the listview below picture (only if listview and singleview are not on the same page)
+		# available variables for .field are: listview_link
+		listviewlink = TEXT
+		listviewlink {
+			wrap = <p>|</p>
+			data = LLL:EXT:wt_gallery/pi1/locallang.xml:wtgallery_ll_listviewlink
+			typolink.parameter.field = listview_link
+			if.isTrue.field = listview_link
+		}
 	}
-
-	config_single {
-		list_site = {$plugin.wt_gallery.config_singlepage.list_site}
-		show_comments = {$plugin.wt_gallery.config_singlepage.show_comments}
-		single_ratio = {$plugin.wt_gallery.config_singlepage.ratio}
-		single_width = {$plugin.wt_gallery.config_singlepage.width}
-		single_quality = {$plugin.wt_gallery.config_singlepage.quality}
-		watermark_pic = {$plugin.wt_gallery.config_singlepage.watermark_pic}
-		watermark_alpha = {$plugin.wt_gallery.config_singlepage.watermark_alpha}
-		showcat = {$plugin.wt_gallery.config_singlepage.showcat}
+	
+	
+	
+	# List view settings
+	list {
+		# Constants
+		pid_list = {$plugin.wtgallery.single.pid_list}
+		order = {$plugin.wtgallery.list.order}
+		limit = {$plugin.wtgallery.list.limit}
+		width = {$plugin.wtgallery.list.width}
+		height = {$plugin.wtgallery.list.height}
+		rows = {$plugin.wtgallery.list.rows}
+		columns = {$plugin.wtgallery.list.columns}
+		metainformation = {$plugin.wtgallery.list.metainformation}
+		
+		# List preview image
+		image = IMAGE
+		image {
+			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash, pid_single
+			wrap = <div class="wt_gallery_list_pic">|</div>
+			file.import.field = picture
+			file.width = {$plugin.wtgallery.list.width}
+			file.height = {$plugin.wtgallery.list.height}
+			altText.field = basename
+			titleText.field = filename
+			params = class="wtgallery wtgallery_list"
+			if.isTrue.field = picture
+		}
+		
+		# Text from txt file or EXIF information to current list image
+		# available variables for .field are: comments, title, subject, author, recordtime, cam_brand, cam_model
+		text = COA
+		text {
+			wrap = <div class="wt_gallery_list_inner_text">|</div>
+			if.isTrue.field = comments
+			
+			10 = TEXT
+			10.field = title
+			10.wrap = <div class="wt_gallery_list_inner_title">|</div>
+			10.if.isTrue.field = title
+			
+			20 = TEXT
+			20.field = comments
+			20.wrap = <div class="wt_gallery_list_inner_comments">|</div>
+			20.if.isTrue.field = comments
+		}
+		
+		# Pagebrowser for listview
+		pagebrowser = HMENU
+		pagebrowser {
+			special = userfunction
+			special.userFunc = user_wtgallery_list_pagebrowser->start
+			
+			1 = TMENU
+			1 {
+				wrap = <ul class="wtgallery_pagebrowser_list">|</ul>
+				NO.allWrap = <li>|</li>
+				ACT = 1
+				ACT.allWrap = <li>|</li>
+				ACT.ATagParams = class="act"
+			}
+		}
 	}
-
-	config_list {
-		single_site = {$plugin.wt_gallery.config_list.single_site}
-		list_width = {$plugin.wt_gallery.config_list.width}
-		list_ratio = {$plugin.wt_gallery.config_list.ratio}
-		width_number = {$plugin.wt_gallery.config_list.cols}
-		height_number = {$plugin.wt_gallery.config_list.rows}
-		list_quality = {$plugin.wt_gallery.config_list.quality}
-		showcat = {$plugin.wt_gallery.config_list.showcat}
+	
+	
+	
+	# Category view settings
+	category {
+		# Constants
+		width = {$plugin.wtgallery.category.width}
+		height = {$plugin.wtgallery.category.height}
+		previewpicture_order = {$plugin.wtgallery.category.previewpicture_order}
+		rows = {$plugin.wtgallery.category.rows}
+		columns = {$plugin.wtgallery.category.columns}
+		metainformation = {$plugin.wtgallery.category.metainformation}
+		
+		# Category preview image
+		image = IMAGE
+		image {
+			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder
+			wrap = <div class="wt_gallery_category_pic">|</div>
+			file.import.field = picture
+			file.width = {$plugin.wtgallery.category.width}
+			file.height = {$plugin.wtgallery.category.height}
+			altText.field = basename
+			titleText.field = filename
+			params = class="wtgallery wtgallery_category"
+			if.isTrue.field = picture
+		}
+		
+		# Text from txt file or EXIF information to current category image
+		# available variables for .field are: comments, title, subject, author, recordtime, cam_brand, cam_model
+		text = COA
+		text {
+			wrap = <div class="wt_gallery_category_inner_text">|</div>
+			if.isTrue.field = comments
+			
+			10 = TEXT
+			10.field = title
+			10.wrap = <div class="wt_gallery_category_inner_title">|</div>
+			10.if.isTrue.field = title
+			
+			20 = TEXT
+			20.field = comments
+			20.wrap = <div class="wt_gallery_category_inner_comments">|</div>
+			20.if.isTrue.field = comments
+		}
+		
+		# Link to the startcategory below category
+		# available variables for .field are: startcategory_link
+		startcategorylink = TEXT
+		startcategorylink {
+			wrap = <p>|</p>
+			data = LLL:EXT:wt_gallery/pi1/locallang.xml:wtgallery_ll_startcategorylink
+			typolink.parameter.field = startcategory_link
+			if.isTrue.field = startcategory_link
+		}
+		
+		# Pagebrowser for categoryview
+		pagebrowser = HMENU
+		pagebrowser {
+			special = userfunction
+			special.userFunc = user_wtgallery_category_pagebrowser->start
+			
+			1 = TMENU
+			1 {
+				wrap = <ul class="wtgallery_pagebrowser_category">|</ul>
+				NO.allWrap = <li>|</li>
+				ACT = 1
+				ACT.allWrap = <li>|</li>
+				ACT.ATagParams = class="act"
+			}
+		}
 	}
-
-	config_popup {
-		show_popup = {$plugin.wt_gallery.config_popup.show}
-		popup_width = {$plugin.wt_gallery.config_popup.width}
-		popup_height = {$plugin.wt_gallery.config_popup.height}
-		quality = {$plugin.wt_gallery.config_popup.quality}
-	}
-
-	config_category {
-		image_width = {$plugin.wt_gallery.config_category.width}
-		image_quality = {$plugin.wt_gallery.config_category.quality}
-		category_ratio = {$plugin.wt_gallery.config_category.ratio}
-		picture = {$plugin.wt_gallery.config_category.picture}
-		catperpage = {$plugin.wt_gallery.config_category.catperpage}
-		order = {$plugin.wt_gallery.config_category.order}
-	}
-
-	special_effects_category {
-		roundedcorner_active = {$plugin.wt_gallery.special_effects.category.roundedcorner_active}
-		roundedcorner_radius = {$plugin.wt_gallery.special_effects.category.roundedcorner_radius}
-		roundedcorner_border = {$plugin.wt_gallery.special_effects.category.roundedcorner_border}
-		roundedcorner_bordercolor = {$plugin.wt_gallery.special_effects.category.roundedcorner_bordercolor}
-		roundedcorner_backgroundcolor = {$plugin.wt_gallery.special_effects.category.roundedcorner_backgroundcolor}
-		roundedcorner_innerradiussubtract = {$plugin.wt_gallery.special_effects.category.roundedcorner_innerradiussubtract}
-		filter_greyscale = {$plugin.wt_gallery.special_effects.category.filter_greyscale}
-		filter_soft = {$plugin.wt_gallery.special_effects.category.filter_soft}
-		filter_bright = {$plugin.wt_gallery.special_effects.category.filter_bright}
-		filter_contrast = {$plugin.wt_gallery.special_effects.category.filter_contrast}
-	}
-
-	special_effects_list {
-		roundedcorner_active = {$plugin.wt_gallery.special_effects.list.roundedcorner_active}
-		roundedcorner_radius = {$plugin.wt_gallery.special_effects.list.roundedcorner_radius}
-		roundedcorner_border = {$plugin.wt_gallery.special_effects.list.roundedcorner_border}
-		roundedcorner_bordercolor = {$plugin.wt_gallery.special_effects.list.roundedcorner_bordercolor}
-		roundedcorner_backgroundcolor = {$plugin.wt_gallery.special_effects.list.roundedcorner_backgroundcolor}
-		roundedcorner_innerradiussubtract = {$plugin.wt_gallery.special_effects.list.roundedcorner_innerradiussubtract}
-		filter_greyscale = {$plugin.wt_gallery.special_effects.list.filter_greyscale}
-		filter_soft = {$plugin.wt_gallery.special_effects.list.filter_soft}
-		filter_bright = {$plugin.wt_gallery.special_effects.list.filter_bright}
-		filter_contrast = {$plugin.wt_gallery.special_effects.list.filter_contrast}
-	}
-
-	special_effects_single {
-		roundedcorner_active = {$plugin.wt_gallery.special_effects.single.roundedcorner_active}
-		roundedcorner_radius = {$plugin.wt_gallery.special_effects.single.roundedcorner_radius}
-		roundedcorner_border = {$plugin.wt_gallery.special_effects.single.roundedcorner_border}
-		roundedcorner_bordercolor = {$plugin.wt_gallery.special_effects.single.roundedcorner_bordercolor}
-		roundedcorner_backgroundcolor = {$plugin.wt_gallery.special_effects.single.roundedcorner_backgroundcolor}
-		roundedcorner_innerradiussubtract = {$plugin.wt_gallery.special_effects.single.roundedcorner_innerradiussubtract}
-		filter_greyscale = {$plugin.wt_gallery.special_effects.single.filter_greyscale}
-		filter_soft = {$plugin.wt_gallery.special_effects.single.filter_soft}
-		filter_bright = {$plugin.wt_gallery.special_effects.single.filter_bright}
-		filter_contrast = {$plugin.wt_gallery.special_effects.single.filter_contrast}
-	}
-
+	
 }
