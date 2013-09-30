@@ -1,0 +1,90 @@
+# PLUGIN WT GALLERY #
+
+plugin.tx_wtgallery_pi1 {
+
+	pageconfig {
+		template = {$plugin.wt_gallery.pageconfig.template}
+		pic_folder = {$plugin.wt_gallery.pageconfig.picturefolder}
+		delete_old_cache_files = {$plugin.wt_gallery.pageconfig.delete_cache}
+		choose = {$plugin.wt_gallery.pageconfig.choose}
+		generate_basename = {$plugin.wt_gallery.pageconfig.generate_basename}
+		allow_fe_cache_delete = {$plugin.wt_gallery.pageconfig.allow_fe_cache_delete}
+	}
+
+	config_single {
+		list_site = {$plugin.wt_gallery.config_singlepage.list_site}
+		show_comments = {$plugin.wt_gallery.config_singlepage.show_comments}
+		single_ratio = {$plugin.wt_gallery.config_singlepage.ratio}
+		single_width = {$plugin.wt_gallery.config_singlepage.width}
+		single_quality = {$plugin.wt_gallery.config_singlepage.quality}
+		watermark_pic = {$plugin.wt_gallery.config_singlepage.watermark_pic}
+		watermark_alpha = {$plugin.wt_gallery.config_singlepage.watermark_alpha}
+		showcat = {$plugin.wt_gallery.config_singlepage.showcat}
+	}
+
+	config_list {
+		single_site = {$plugin.wt_gallery.config_list.single_site}
+		list_width = {$plugin.wt_gallery.config_list.width}
+		list_ratio = {$plugin.wt_gallery.config_list.ratio}
+		width_number = {$plugin.wt_gallery.config_list.cols}
+		height_number = {$plugin.wt_gallery.config_list.rows}
+		list_quality = {$plugin.wt_gallery.config_list.quality}
+		showcat = {$plugin.wt_gallery.config_list.showcat}
+	}
+
+	config_popup {
+		show_popup = {$plugin.wt_gallery.config_popup.show}
+		popup_width = {$plugin.wt_gallery.config_popup.width}
+		popup_height = {$plugin.wt_gallery.config_popup.height}
+		quality = {$plugin.wt_gallery.config_popup.quality}
+	}
+
+	config_category {
+		image_width = {$plugin.wt_gallery.config_category.width}
+		image_quality = {$plugin.wt_gallery.config_category.quality}
+		category_ratio = {$plugin.wt_gallery.config_category.ratio}
+		picture = {$plugin.wt_gallery.config_category.picture}
+		catperpage = {$plugin.wt_gallery.config_category.catperpage}
+		order = {$plugin.wt_gallery.config_category.order}
+	}
+
+	special_effects_category {
+		roundedcorner_active = {$plugin.wt_gallery.special_effects.category.roundedcorner_active}
+		roundedcorner_radius = {$plugin.wt_gallery.special_effects.category.roundedcorner_radius}
+		roundedcorner_border = {$plugin.wt_gallery.special_effects.category.roundedcorner_border}
+		roundedcorner_bordercolor = {$plugin.wt_gallery.special_effects.category.roundedcorner_bordercolor}
+		roundedcorner_backgroundcolor = {$plugin.wt_gallery.special_effects.category.roundedcorner_backgroundcolor}
+		roundedcorner_innerradiussubtract = {$plugin.wt_gallery.special_effects.category.roundedcorner_innerradiussubtract}
+		filter_greyscale = {$plugin.wt_gallery.special_effects.category.filter_greyscale}
+		filter_soft = {$plugin.wt_gallery.special_effects.category.filter_soft}
+		filter_bright = {$plugin.wt_gallery.special_effects.category.filter_bright}
+		filter_contrast = {$plugin.wt_gallery.special_effects.category.filter_contrast}
+	}
+
+	special_effects_list {
+		roundedcorner_active = {$plugin.wt_gallery.special_effects.list.roundedcorner_active}
+		roundedcorner_radius = {$plugin.wt_gallery.special_effects.list.roundedcorner_radius}
+		roundedcorner_border = {$plugin.wt_gallery.special_effects.list.roundedcorner_border}
+		roundedcorner_bordercolor = {$plugin.wt_gallery.special_effects.list.roundedcorner_bordercolor}
+		roundedcorner_backgroundcolor = {$plugin.wt_gallery.special_effects.list.roundedcorner_backgroundcolor}
+		roundedcorner_innerradiussubtract = {$plugin.wt_gallery.special_effects.list.roundedcorner_innerradiussubtract}
+		filter_greyscale = {$plugin.wt_gallery.special_effects.list.filter_greyscale}
+		filter_soft = {$plugin.wt_gallery.special_effects.list.filter_soft}
+		filter_bright = {$plugin.wt_gallery.special_effects.list.filter_bright}
+		filter_contrast = {$plugin.wt_gallery.special_effects.list.filter_contrast}
+	}
+
+	special_effects_single {
+		roundedcorner_active = {$plugin.wt_gallery.special_effects.single.roundedcorner_active}
+		roundedcorner_radius = {$plugin.wt_gallery.special_effects.single.roundedcorner_radius}
+		roundedcorner_border = {$plugin.wt_gallery.special_effects.single.roundedcorner_border}
+		roundedcorner_bordercolor = {$plugin.wt_gallery.special_effects.single.roundedcorner_bordercolor}
+		roundedcorner_backgroundcolor = {$plugin.wt_gallery.special_effects.single.roundedcorner_backgroundcolor}
+		roundedcorner_innerradiussubtract = {$plugin.wt_gallery.special_effects.single.roundedcorner_innerradiussubtract}
+		filter_greyscale = {$plugin.wt_gallery.special_effects.single.filter_greyscale}
+		filter_soft = {$plugin.wt_gallery.special_effects.single.filter_soft}
+		filter_bright = {$plugin.wt_gallery.special_effects.single.filter_bright}
+		filter_contrast = {$plugin.wt_gallery.special_effects.single.filter_contrast}
+	}
+
+}

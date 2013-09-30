@@ -1,0 +1,44 @@
+/* WT GALLERY category mode */
+div.wtgallery_categories { 
+	border: 1px solid silver;
+	width: 170px;
+	padding: 10px;
+	float: left;
+	margin: 5px 0;
+}
+div.wtgallery_category_pic {
+	float: left;
+}
+div.wtgallery_category_pic {
+	margin-right: 10px;
+}
+div.wtgallery_category_folder {
+	margin: 20px 0 10px 0;
+}
+p.wtgallery_category_pagebrowser {
+	display: none;
+}
+/* WT GALLERY list mode */
+.wtgallery_listpic_pic {
+	border: 1px solid white;
+}
+.wtgallery_listpic {
+	border: 1px solid #888888;
+	width: 52px;
+	height: 52px;
+	margin: 5px;
+}
+.wtgallery_pagebrowser_up {
+	display: none;
+}
+/* WT GALLERY singleview mode */
+.wtgallery_singlepic_pic {
+	border: 1px solid white;
+}
+.wtgallery_singlepic {
+	border: 1px solid #888888;
+	width: 482px;
+	margin-left: 50px;
+	text-align: center;
+}
+/* wt_gallery END */

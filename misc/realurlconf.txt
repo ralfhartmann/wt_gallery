@@ -1,0 +1,47 @@
+This example can be used for RealURL in your localconf.php:
+
+
+ENGLISH EXAMPLE:
+'picture' => array(
+	array(
+		'GETvar' => 'tx_wtgallery_pi1[picid]',
+	),
+),
+'thumbnail' => array(
+	array(
+		'GETvar' => 'tx_wtgallery_pi1[thumbid]',
+	),
+),
+'category' => array(
+	array(
+		'GETvar' => 'tx_wtgallery_pi1[cat]',
+	),
+),
+'categorynumber' => array(
+	array(
+		'GETvar' => 'tx_wtgallery_pi1[catno]',
+	),
+),
+
+
+GERMAN EXAMPLE:
+'bild' => array(
+	array(
+		'GETvar' => 'tx_wtgallery_pi1[picid]',
+	),
+),
+'vorschau' => array(
+	array(
+		'GETvar' => 'tx_wtgallery_pi1[thumbid]',
+	),
+),
+'kategorie' => array(
+	array(
+		'GETvar' => 'tx_wtgallery_pi1[cat]',
+	),
+),
+'kategorienummer' => array(
+	array(
+		'GETvar' => 'tx_wtgallery_pi1[catno]',
+	),
+),

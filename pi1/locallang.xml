@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for plugin 'tx_wtgallery_pi1'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="pagebrowser_fwd">forward</label>
+			<label index="pagebrowser_back">back</label>
+			<label index="enlarge">Click picture to enlarge</label>
+			<label index="backtolist">Back to list view</label>
+			<label index="category_header">Choose a category</label>
+			<label index="up">Show category view</label>
+			<label index="fwd">Next Picture</label>
+			<label index="back">Last Picture</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="pagebrowser_fwd">weiter</label>
+			<label index="pagebrowser_back">zurück</label>
+			<label index="enlarge">Zum Vergrößern, Bild anklicken</label>
+			<label index="backtolist">Zurück zur Listenansicht</label>
+			<label index="category_header">Wählen Sie eine Kategorie</label>
+			<label index="up">Zurück zur Kategorieansicht</label>
+			<label index="fwd">Nächstes Bild</label>
+			<label index="back">Vorheriges Bild</label>
+		</languageKey>
+		<languageKey index="it" type="array">
+			<label index="pagebrowser_fwd">avanti</label>
+			<label index="pagebrowser_back">indietro</label>
+			<label index="enlarge">Fai clic sull'immagine per ingrandirla</label>
+			<label index="backtolist">Ritorna alla lista</label>
+			<label index="category_header">Scegli una categoria</label>
+			<label index="up">Vai alla lista delle categorie</label>
+			<label index="fwd">Immagine successiva</label>
+			<label index="back">Immagine precedente</label>
+		</languageKey> 
+	</data>
+</T3locallang>

@@ -1,0 +1,221 @@
+###
+# This are the default TS-constants for wt_gallery
+##
+
+plugin.wt_gallery {
+	
+	### PAGECONFIG ###	
+		
+	# cat=plugin.wt_gallery//010; type=file[html,htm,tmpl,txt]; label= PAGE - HTML Template: HTML-template file for wt_gallery single, thumbs and category (see EXT:wt_gallery/pi1/template.html for an example)
+	pageconfig.template = EXT:wt_gallery/pi1/template.html
+
+	# cat=plugin.wt_gallery//020; type=text; label= PAGE - Picture folder: Use this folder to display your pictures (No Default value) (Example fileadmin/pictures/)
+	pageconfig.picturefolder = 
+
+	# cat=plugin.wt_gallery//030; type=boolean; label= PAGE - What to show: Plugin shows single-(0) or listview(1) - THIS IS NORMALLY SET BY FLEXFORM (Default 0) (Example 1)
+	pageconfig.choose = 0
+
+	# cat=plugin.wt_gallery//040; type=options[jpg,png]; label= PAGE - PNG or JPG files: Use this if you want to create PNG instead of JPG files - usefull for transparent corners (Default jpg) (Example png)
+	pageconfig.generate_basename = jpg
+	
+	# cat=plugin.wt_gallery//050; type=int+; label= PAGE - Delete picturecache: Use this switch to delete old cached files in days (Default 100) (Example off disables deleting, 100 deletes cache after 100 days)
+	pageconfig.delete_cache = 100
+
+	# cat=plugin.wt_gallery//060; type=boolean; label= PAGE - Delte cache in FE: (De)activate &tx_wtgallery_pi1[delete]=all to the frontend URL will delete cache (Default 1) (Example 0)
+	pageconfig.allow_fe_cache_delete = 1
+		
+
+
+	### SINGLE VIEW ###
+	
+	# cat=plugin.wt_gallery//100; type=int+; label= SINGLE - Thumbnail PID: PID of the page where the plugin with thumbnail view is installed (if empty plugin use same PID) 
+	config_singlepage.list_site = 
+
+	# cat=plugin.wt_gallery//110; type=options[1,2,3,4,5]; label= SINGLE - Show exif: Show comments (TXT, EXIF) (Default 2) (Example 1 off, 2 show TXT, 3 show EXIF, 4 show TXT/EXIF, 5 show EXIF/TXT)
+	config_singlepage.show_comments = 2
+	
+	# cat=plugin.wt_gallery//120; type=options[,1:1,16:9,4:3,16:10,2:1,1:2,3:2,2:3]; label= SINGLE - Ratio: Show single pictures with a special ratio (No Default value) (Example 1colon1 quadratic, 16colon9 kino format, empty for no special ratio)
+	config_singlepage.ratio = 
+	
+	# cat=plugin.wt_gallery//130; type=int+; label= SINGLE - Picture width: Show single picture width px (No Default value) (Example 400 (means 400px), 400m (means max. 400px), auto (original size))
+	config_singlepage.width = 
+	
+	# cat=plugin.wt_gallery//140; type=int[0-100]; label= SINGLE - Quality: Single picture with a special quality (Default 75) (Example any number between 1 and 100)
+	config_singlepage.quality = 75
+
+	# cat=plugin.wt_gallery//150; type=text; label= SINGLE - Watermark picture: Show Watermark picture - use the whole path with file (No Default value) (Example fileadmin/logo.jpg)
+	config_singlepage.watermark_pic = 
+
+	# cat=plugin.wt_gallery//160; type=int[0-100]; label= SINGLE - Watermark transparency: Watermark transparency (Default 50) (Example any number between 1 and 100)
+	config_singlepage.watermark_alpha = 50
+
+	# cat=plugin.wt_gallery//170; type=boolean; label= SINGLE - Category mode: Show category mode if available (Default 0) (Example: 0 off, 1 on)
+	config_singlepage.showcat = 0
+	
+
+
+	### LIST VIEW ###
+	
+	# cat=plugin.wt_gallery//200; type=int+; label= LIST - Single PID: PID of the page where the plugin with single view is installed (if empty plugin use same PID)
+	config_list.single_site =  
+	
+	# cat=plugin.wt_gallery//210; type=int+; label= LIST - Picture width: Width of the thumbnails in px (Default 100) (Example 120 (means 120px), 120m (means max. 120px), auto (original size))
+	config_list.width = 100
+	
+	# cat=plugin.wt_gallery//220; type=options[,1:1,16:9,4:3,16:10,2:1,1:2,3:2,2:3]; label= LIST - Ratio: Ratio of the thumbnails (No Default value) (Example 1colon1 quadratic, 16colon9 kino format, empty for no special ratio)
+	config_list.ratio = 
+	
+	# cat=plugin.wt_gallery//230; type=int[0-100]; label= LIST - Number of cols: Numbers of columns where the list pictures are listed (Default 3) (Example any number between 1 and 100)
+	config_list.cols = 3
+	
+	# cat=plugin.wt_gallery//240; type=int[0-100]; label= LIST - Number of rows: Numbers of rows where the list pictures are listed (Default 3) (Example any number between 1 and 100)
+	config_list.rows = 
+	
+	# cat=plugin.wt_gallery//250; type=int[0-100]; label= LIST - Thumb quality: Quality of the thumbnails (Default 75) (Example any number between 1 and 100)
+	config_list.quality = 75
+	
+	# cat=plugin.wt_gallery//260; type=boolean; label= LIST - Category mode: Show category mode if available (Default 1) (Example: 0 off, 1 on)
+	config_list.showcat = 1
+		
+	
+	
+	### POPUP VIEW ###
+	
+	# cat=plugin.wt_gallery//300; type=options[0,1,wallpaper,imagelightbox,perfectlightbox]; label= POPUP - Activate popup: Ratio of the thumbnails (De)Activate Popup (Default 1) (Example 0 for off, 1 for on, wallpaper for showing orignal picture, imagelightbox for using kj_imagelightbox2, perfectlightbox for using perfectlightbox)
+	config_popup.show = 1
+	
+	# cat=plugin.wt_gallery//310; type=text; label= POPUP - Picture width: Width of the popup pictures (Default 800) (Example 800 (means 800px), 800m (means max. 800px), auto (original size))
+	config_popup.width = 800
+
+	# cat=plugin.wt_gallery//320; type=text; label= POPUP - Picture height: Height of the popup pictures (Default 600) (Example 800 (means 800px))	
+	config_popup.height = 600
+	
+	# cat=plugin.wt_gallery//330; type=int[0-100]; label= POPUP - Picture quality: Quality of the popup pictures (Default 75) (Example any number between 1 and 100)
+	config_popup.quality = 75
+	
+
+
+	### CATEGORY VIEW ###
+	
+	# cat=plugin.wt_gallery//400; type=text; label= CATEGORY - Picture width: Image width of category pictures in px (Default 150) (Example 120 (means 120px), 120m (means max. 120px), auto (original size))	
+	config_category.width = 150
+	
+	# cat=plugin.wt_gallery//410; type=int[0-100]; label= CATEGORY - Picture quality: Quality of the category pictures (Default 75) (Example any number between 1 and 100)
+	config_category.quality = 75
+
+	# cat=plugin.wt_gallery//420; type=options[,1:1,16:9,4:3,16:10,2:1,1:2,3:2,2:3]; label= CATEGORY - Ratio: Ratio of the cat pictures (No Default value) (Example 1colon1 quadratic, 16colon9 kino format, empty for no special ratio)
+	config_category.ratio = 
+	
+	# cat=plugin.wt_gallery//430; type=options[off,random,defined,newest,oldest,alphabeticalASC,alphabeticalDESC]; label= CATEGORY - Picture mode: Show a picture in the category view (Default random) (Example off, random, defined, newest, oldest, alphabeticalASC, alphabeticalDESC)
+	config_category.picture = random
+	
+	# cat=plugin.wt_gallery//440; type=int[0-1000]; label= CATEGORY - number of cats: Show X categories per page (Default 10)
+	config_category.catperpage = 10
+	
+	# cat=plugin.wt_gallery//440; type=options[alphabeticalASC,alphabeticalDESC,newest,oldest,random]; label= CATEGORY - Category order: Order categories (Example alphabeticalASC, alphabeticalDESC, newest, oldest, random)
+	config_category.order = alphabeticalASC
+
+	
+	
+### SPECIAL EFFECTS ###
+	
+	### CATEGORY ###	
+	
+	# cat=plugin.wt_gallery_specialeffects//100; type=boolean; label= CATEGORY - Rounded corners: (De)activate rounded corners for your pictures (Default: 0) (Example 0 or 1 (off or on))
+	special_effects.category.roundedcorner_active = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//110; type=int[0-50]; label= CATEGORY - Roundedcorner radius: If roundedcorner is activated, choose radius of the corners (px) (Default: 20)
+	special_effects.category.roundedcorner_radius = 20
+	
+	# cat=plugin.wt_gallery_specialeffects//120; type=int[0-100]; label= CATEGORY - Roundedcorner borderwidth: If roundedcorner is activated, choose a rounded border width (px) (Default: 3) (Example any value from 0 up to 100 (0 deaktivates the border))
+	special_effects.category.roundedcorner_border = 3
+
+	# cat=plugin.wt_gallery_specialeffects//130; type=color; label= CATEGORY - Roundedcorner bordercolor: If roundedcorner is activated, choose color of the border (hex) (Default: #444444) (Example #888888)
+	special_effects.category.roundedcorner_bordercolor = #444444
+
+	# cat=plugin.wt_gallery_specialeffects//140; type=color; label= CATEGORY - Roundedcorner backcolor: If roundedcorner is activated, choose color of the background (hex) (Default: #ffffff) (Example #888888)
+	special_effects.category.roundedcorner_backgroundcolor = #ffffff
+	
+	# cat=plugin.wt_gallery_specialeffects//150; type=int[0-100]; label= CATEGORY - Radiussubstract: If roundedcorner is activated, inner radius is smaller with X px (Default: 3)
+	special_effects.category.roundedcorner_innerradiussubtract = 3
+	
+	# cat=plugin.wt_gallery_specialeffects//160; type=boolean; label= CATEGORY - Use greyscale: If you're using PHP 5 or higher, you can turn your images to greyscale (Default: 0)
+	special_effects.category.filter_greyscale = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//170; type=boolean; label= CATEGORY - Use softer: If you're using PHP 5 or higher, you can soft your images (Default: 0)	
+	special_effects.category.filter_soft = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//180; type=text; label= CATEGORY - Brightness: If you're using PHP 5 or higher, you can make your images brighter (Default: 0) (Example Any value between -255 and 255 (negative make them darker, positive make them brighter))
+	special_effects.category.filter_bright = 0
+
+	# cat=plugin.wt_gallery_specialeffects//190; type=text; label= CATEGORY - Contrast: If you're using PHP 5 or higher, you can change your image contrast (Default: 0) (Example Any value between -255 and 255 (negative decrease contrast, positive increase contrast))
+	special_effects.category.filter_contrast = 0
+
+
+
+	### SINGLE ###
+
+	# cat=plugin.wt_gallery_specialeffects//200; type=boolean; label= SINGLE - Rounded corners: (De)activate rounded corners for your pictures (Default: 0) (Example 0 or 1 (off or on))
+	special_effects.single.roundedcorner_active = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//210; type=int[0-50]; label= SINGLE - Roundedcorner radius: If roundedcorner is activated, choose radius of the corners (px) (Default: 20)
+	special_effects.single.roundedcorner_radius = 20
+	
+	# cat=plugin.wt_gallery_specialeffects//220; type=int[0-100]; label= SINGLE - Roundedcorner borderwidth: If roundedcorner is activated, choose a rounded border width (px) (Default: 3) (Example any value from 0 up to 100 (0 deaktivates the border))
+	special_effects.single.roundedcorner_border = 3
+	
+	# cat=plugin.wt_gallery_specialeffects//230; type=color; label= SINGLE - Roundedcorner bordercolor: If roundedcorner is activated, choose color of the border (hex) (Default: #444444) (Example #888888)
+	special_effects.single.roundedcorner_bordercolor = #444444
+	
+	# cat=plugin.wt_gallery_specialeffects//240; type=color; label= SINGLE - Roundedcorner backcolor: If roundedcorner is activated, choose color of the background (hex) (Default: #ffffff) (Example #888888)
+	special_effects.single.roundedcorner_backgroundcolor = #ffffff
+	
+	# cat=plugin.wt_gallery_specialeffects//250; type=int[0-100]; label= SINGLE - Radiussubstract: If roundedcorner is activated, inner radius is smaller with X px (Default: 3)
+	special_effects.single.roundedcorner_innerradiussubtract = 3
+	
+	# cat=plugin.wt_gallery_specialeffects//260; type=boolean; label= SINGLE - Use greyscale: If you're using PHP 5 or higher, you can turn your images to greyscale (Default: 0)
+	special_effects.single.filter_greyscale = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//270; type=boolean; label= SINGLE - Use softer: If you're using PHP 5 or higher, you can soft your images (Default: 0)	
+	special_effects.single.filter_soft = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//280; type=text; label= SINGLE - Brightness: If you're using PHP 5 or higher, you can make your images brighter (Default: 0) (Example Any value between -255 and 255 (negative make them darker, positive make them brighter))
+	special_effects.single.filter_bright = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//290; type=text; label= SINGLE - Contrast: If you're using PHP 5 or higher, you can change your image contrast (Default: 0) (Example Any value between -255 and 255 (negative decrease contrast, positive increase contrast))
+	special_effects.single.filter_contrast = 0
+
+	
+	
+	### LIST ###
+	
+	# cat=plugin.wt_gallery_specialeffects//300; type=boolean; label= LIST - Rounded corners: (De)activate rounded corners for your pictures (Default: 0) (Example 0 or 1 (off or on))
+	special_effects.list.roundedcorner_active = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//310; type=int[0-50]; label= LIST - Roundedcorner radius: If roundedcorner is activated, choose radius of the corners (px) (Default: 20)
+	special_effects.list.roundedcorner_radius = 20
+	
+	# cat=plugin.wt_gallery_specialeffects//320; type=int[0-100]; label= LIST - Roundedcorner borderwidth: If roundedcorner is activated, choose a rounded border width (px) (Default: 3) (Example any value from 0 up to 100 (0 deaktivates the border))
+	special_effects.list.roundedcorner_border = 3
+	
+	# cat=plugin.wt_gallery_specialeffects//330; type=color; label= LIST - Roundedcorner bordercolor: If roundedcorner is activated, choose color of the border (hex) (Default: #444444) (Example #888888)
+	special_effects.list.roundedcorner_bordercolor = #444444
+	
+	# cat=plugin.wt_gallery_specialeffects//340; type=color; label= LIST - Roundedcorner backcolor: If roundedcorner is activated, choose color of the background (hex) (Default: #ffffff) (Example #888888)
+	special_effects.list.roundedcorner_backgroundcolor = #ffffff
+	
+	# cat=plugin.wt_gallery_specialeffects//350; type=int[0-100]; label= LIST - Radiussubstract: If roundedcorner is activated, inner radius is smaller with X px (Default: 3)
+	special_effects.list.roundedcorner_innerradiussubtract = 3
+	
+	# cat=plugin.wt_gallery_specialeffects//360; type=boolean; label= LIST - Use greyscale: If you're using PHP 5 or higher, you can turn your images to greyscale (Default: 0)
+	special_effects.list.filter_greyscale = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//370; type=boolean; label= LIST - Use softer: If you're using PHP 5 or higher, you can soft your images (Default: 0)	
+	special_effects.list.filter_soft = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//380; type=text; label= LIST - Brightness: If you're using PHP 5 or higher, you can make your images brighter (Default: 0) (Example Any value between -255 and 255 (negative make them darker, positive make them brighter))
+	special_effects.list.filter_bright = 0
+	
+	# cat=plugin.wt_gallery_specialeffects//390; type=text; label= LIST - Contrast: If you're using PHP 5 or higher, you can change your image contrast (Default: 0) (Example Any value between -255 and 255 (negative decrease contrast, positive increase contrast))
+	special_effects.list.filter_contrast = 0
+}

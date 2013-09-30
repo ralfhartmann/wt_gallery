@@ -1,0 +1,80 @@
+
+
+CATEGORYVIEW (Only if subfolders available in picture folder)
+<!-- ###TEMPLATE_CATEGORY### begin --> 
+<div id="wtgallery_category_area">
+	<h1 class="wtgallery_category_h1">###CATEGORY_HEADER###</h1>
+	<!-- ###INNER### begin -->
+		<!-- ###TEMPLATE_CATEGORY_CONTENT### begin --> 
+			<div class="wtgallery_categories">
+				<div class="wtgallery_category_pic">###CATEGORY_PIC###</div>
+				<div class="wtgallery_category_folder">###CATEGORY_FOLDER###</div>
+				<div class="wtgallery_category_txt">###CATEGORY_TXT###</div>
+			</div>
+		<!-- ###TEMPLATE_CATEGORY_CONTENT### end -->
+	<!-- ###INNER### end -->
+	<p class="wtgallery_category_pagebrowser">###PAGEBROWSER_BACK### ###PAGEBROWSER_FROM###/###PAGEBROWSER_TO### ###PAGEBROWSER_FWD###</p>
+</div>
+<!-- ###TEMPLATE_CATEGORY### end -->
+
+
+
+
+
+SINGLE (Backlink is only displayed, if thumbnails and single-view are on different pages)
+<!-- ###TEMPLATE_SINGLE### begin --> 
+<div id="wtgallery_singlepic_area">
+	<div class="wtgallery_singlepic">###PIC###</div>
+	<div class="wtgallery_singlepic_popup">###ENLARGE###</div>
+	<div class="wtgallery_singlepic_fwdback">
+		<div class="wtgallery_singlepic_fwd"><!-- ###LINK_FWD### -->###FWD###<!-- ###LINK_FWD### --></div>
+		<div class="wtgallery_singlepic_back"><!-- ###LINK_BACK### -->###BACK###<!-- ###LINK_BACK### --></div>
+	</div>
+	<div class="wtgallery_singlepic_comment">###COMMENT###</div>
+	<div class="wtgallery_singlepic_up"><!-- ###LINK_UP### -->###UP###<!-- ###LINK_UP### --></div>
+	###BACKLINK###
+</div>
+<!-- ###TEMPLATE_SINGLE### end -->
+
+
+
+
+
+THUMBNAIL / LIST
+<!-- ###TEMPLATE_LIST### begin -->
+<div style="float: left;">
+	###PIC###
+	
+	<div style="clear: both;"></div>
+	<div class="wtgallery_pagebrowser">
+		<div class="wtgallery_pagebrowser_sign wtgallery_pagebrowser_back"><!-- ###LINK_BACK### -->###PAGEBROWSER_BACK###<!-- ###LINK_BACK### --></div>
+		<div class="wtgallery_pagebrowser_sign wtgallery_pagebrowser_page">###PAGEBROWSER_PAGE_FROM###/###PAGEBROWSER_PAGE_TO###</div>
+		<div class="wtgallery_pagebrowser_sign wtgallery_pagebrowser_fwd"><!-- ###LINK_FWD### -->###PAGEBROWSER_FWD###<!-- ###LINK_FWD### --></div>
+		<div class="wtgallery_pagebrowser_up"><!-- ###LINK_UP### -->###UP###<!-- ###LINK_UP### --></div>
+	</div>
+</div>
+<div style="clear: both;"></div>
+<!-- ###TEMPLATE_LIST### end -->
+
+
+
+
+
+PICTURE COMMENT FOR TXT FILES
+<!-- ###TEMPLATE_COMMENT### begin -->
+<h2 class="wtgallery_h2">###TITLE_COMMENT###</h2>
+<p class="bodytext wtgallery_p">###COMMENT_TEXT###</p>
+<!-- ###TEMPLATE_COMMENT### end -->
+
+
+
+
+
+PICTURE COMMENT FOR EXIF INFORMATIONS
+<!-- ###TEMPLATE_EXIF### begin -->
+<h2 class="wtgallery_h2">###TITLE_EXIF###</h2>
+<p class="bodytext wtgallery_exif_subject">###SUBJECT_EXIF###</p>
+<p class="bodytext wtgallery_exif_comment">###COMMENT_EXIF###</p>
+<p class="bodytext wtgallery_exif_author">###AUTHOR_EXIF###</p>
+<p class="bodytext wtgallery_exif_comment">###KEYWORDS_EXIF###</p>
+<!-- ###TEMPLATE_EXIF### end -->
