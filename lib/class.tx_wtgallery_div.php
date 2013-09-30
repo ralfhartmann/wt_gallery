@@ -106,9 +106,15 @@ class tx_wtgallery_div extends tslib_pibase {
 	
 	
 	// Function sorting4folders() returns sorted folder array ($sort could be: random, ASC, DESC, newest, oldest)
-	function sorting4folders($folderArray, $sort = 'ASC', $limit = 0) {
+	function sorting4folders($curpath, $sort = 'ASC', $limit = 0) {
+		// config
+		$folderArray = t3lib_div::get_dirs($curpath); // get all directories in current path
+		$sortFileName = '_sorting.txt'; // default filename for sorting file
+		
+		// Let's go
 		if (is_array($folderArray)) {
-			// sort array
+		
+			// 1. Automatic sorting
 			switch ($sort) { // sortmode
 				case 'random': // shuffle array
 					shuffle($folderArray);
@@ -124,13 +130,33 @@ class tx_wtgallery_div extends tslib_pibase {
 					break;
 			}
 			
-			// cut array
+			// 2. Manual sorting (if _sorting.txt exists)
+			if (file_exists($curpath . $sortFileName)) { // if txt file to main folder exists
+				$content = t3lib_div::getURL($curpath . $sortFileName); // read txtfile
+				$content = str_replace(array(',', ';', '|'), "\n", $content); // rewrite , ; | to linebreaks
+				$contentarray = t3lib_div::trimExplode("\n", $content, 1); // split every line
+				$manArray = array(); // init new tmp array
+				
+				for ($i=0; $i < count($contentarray); $i++) { // one loop for every line in _sorting.txt
+					if (in_array($contentarray[$i], $folderArray)) { // if current foldername really exists in folder array
+						$manArray[] = $contentarray[$i];
+					}
+				}
+				
+				if (count($manArray) > 0) { // if there are folders in the manArray
+					$folderArray = array_merge($manArray, $folderArray); // add folderArray to manualArray
+					$folderArray = array_unique($folderArray); // clean douplicated entries in the array
+				}
+			}
+			
+			// 3. Cut array im limit is set
 			if ($limit) {
 				$tmp_array = array_chunk($folderArray, $limit); // split array in same parts
 				$folderArray = $tmp_array[0]; // take first part of array
 			}
 		}	
-		return $folderArray;
+		
+		return $folderArray; // always return folderArray
 	}
 	
 	
@@ -348,13 +374,25 @@ class tx_wtgallery_div extends tslib_pibase {
 	
 	// Function folderChange() gives an array with all picture folders and the fitting md5 hash
 	function folderChange($startpath) {
+		// config
+		$subfolder = '';
+		
+		// let's go
 		$folderArray = $newArray = array(); // init empty array
 		$folderArray = t3lib_div::getAllFilesAndFoldersInPath($folderArray, t3lib_div::getFileAbsFileName($startpath), 'wt_gallery', 1); // get all folders of the startpath in an array
 		$folderArray = array_flip($folderArray); // flip array
 		
 		foreach ((array) $folderArray as $key => $value) { // one loop for every array content
-			if (substr($key, -1) === '/') $key = substr($key, 0, -1); // if last sign is '/' than delete it
-			$newArray[str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT').'/', '', $key)] = $this->hashCode(str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT').'/', '', $key)); // rewrite array like 12345 => fileadmin/pics
+		
+			if (substr($key, -1) === '/') {// if last sign is '/'
+				$key = substr($key, 0, -1); // delete last sign
+			}
+			
+			if (t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/' != t3lib_div::getIndpEnv('TYPO3_SITE_URL')) { // if request_host is different to site_url (TYPO3 runs in a subfolder)
+				$subfolder = str_replace(t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/', '', t3lib_div::getIndpEnv('TYPO3_SITE_URL')); // get the folder (like "subfolder/")
+			} 
+			
+			$newArray[str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)] = $this->hashCode(str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)); // rewrite array like 12345 => fileadmin/pics
 		}
 		
 		if (!empty($newArray)) return $newArray;

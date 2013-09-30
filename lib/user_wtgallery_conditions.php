@@ -39,7 +39,7 @@ function user_wtgallery_oncurrentpage() {
 	$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery (
 		'tt_content.pi_flexform',
 		'tt_content',
-		$where_clause = 'pid = ' . $GLOBALS['TSFE']->id . ' AND sys_language_uid = ' . $languid . ' AND deleted = 0 AND hidden = 0',
+		$where_clause = 'pid = ' . intval($GLOBALS['TSFE']->id) . ' AND sys_language_uid = ' . $languid . ' AND deleted = 0 AND hidden = 0',
 		$groupBy = '',
 		$orderBy = '',
 		$limit = '1'

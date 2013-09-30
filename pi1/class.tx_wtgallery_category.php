@@ -50,7 +50,7 @@ class tx_wtgallery_category extends tslib_pibase {
 		// let's go
 		$startpath = $this->div->validatePicturePath($this->piVars[$this->mode] ? $this->div->hash2folder($this->piVars[$this->mode], $this->conf['main.']['path']) : $this->conf['main.']['path']); // startpath from piVars or from ts
 		if ($this->conf[$this->mode . '.']['forceFolder'] != '') $startpath = $this->div->validatePicturePath($this->conf[$this->mode . '.']['forceFolder']); // overwrite startpath if forceFolder is set in constants
-		$folders = $this->div->sorting4folders(t3lib_div::get_dirs($startpath), $this->conf[$this->mode . '.']['order'], $this->conf[$this->mode . '.']['limit']); // Get all subfolders in the picture folder
+		$folders = $this->div->sorting4folders($startpath, $this->conf[$this->mode . '.']['order'], $this->conf[$this->mode . '.']['limit']); // Get all subfolders in the picture folder
 		$folders_current = array_chunk((array) $folders, ($this->conf[$this->mode . '.']['rows'] * $this->conf[$this->mode . '.']['columns'])); // split array in parts for pagebrowser
 		$this->overall = count($folders); // count all pictures
 		$pointer = ($this->piVars['categorypointer'] > 0 ? $this->piVars['categorypointer'] : 0); // pointer
