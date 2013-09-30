@@ -60,6 +60,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 		$this->content = '';
 		
 		// config
+		#$this->piVars['category'] = $this->div->changeSlash($this->piVars['category'], 0); // change @ to slash in category piVars
 		$this->secure(); // Clean piVars
 		$this->config(); // Enable flexform values in config
 		$this->check(); // Fast check if all is ok
@@ -144,7 +145,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 			$this->sec = t3lib_div::makeInstance('tx_wtdoorman_security'); // Create new instance for security class
 			$this->sec->secParams = array ( // Allowed piVars type (int, text, alphanum, "value")
 				'show' => 'int', // should be integer
-				'category' => 'alphanum ++ \/\._', // alphanum for folders extended with '/', '.' and '_'
+				'category' => 'alphanum ++ \/\._@', // alphanum for folders extended with '/', '.' and '_'
 				'listpointer' => 'int', // pointer for pagebrowser in listview should be integer
 				'categorypointer' => 'int' // pointer for pagebrowser in categoryview should be integer
 			);

@@ -45,7 +45,7 @@ class tx_wtgallery_category extends tslib_pibase {
 		$this->tmpl = $this->markerArray = $this->outerMarkerArray = array(); $content_item = ''; // init
 		$this->tmpl['category']['all'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.']['category']), '###WTGALLERY_CATEGORY###'); // Load HTML Template
 		$this->tmpl['category']['item'] = $this->cObj->getSubpart($this->tmpl['category']['all'],'###ITEM###'); // work on subpart 2
-		
+
 		// let's go
 		$startpath = $this->div->validatePicturePath($this->piVars['category'] ? $this->piVars['category'] : $this->conf['main.']['path']); // startpath from piVars or from ts
 		$folders = t3lib_div::get_dirs($startpath); // Get all subfolders in the picture folder

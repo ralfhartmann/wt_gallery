@@ -195,7 +195,10 @@ class tx_wtgallery_div extends tslib_pibase {
 			// let's start
 			if(($i+1) / $conf[$mode.'.']['columns'] == round(($i+1) / $conf[$mode.'.']['columns']) || ($i+1) == $max) { // If the current picture is the last of the row (current / cols == integer) OR current pictures is the last overall
 				$content .= $addcleardiv.'</div>'; // add closing DIV tag
-			} elseif (fmod($i+1, $conf[$mode.'.']['columns']) == '1') { // If the current picture is the first of the row
+			
+			} 
+			#if (fmod($i+1, $conf[$mode.'.']['columns']) == '1') { // If the current picture is the first of the row
+			if (is_int($i/$conf[$mode.'.']['columns'])) { // If the current picture is the first of the row
 				$content = '<div class="'.$mode.'_row '.$mode.'_row_'.$j.'">'.$content; // add starting DIV tag
 			} 
 		}
@@ -289,6 +292,15 @@ class tx_wtgallery_div extends tslib_pibase {
 			if (is_array($folders)) return $array; // if there where folders, return array
 			else return 0; // if there where no folders return 0
 		}
+	}
+	
+	
+	// Function changeSlash() changes / to @ and reverse
+	function changeSlash($string, $encode = 1) {
+		if ($encode) $string = str_replace('/', '@', $string); // replace 1
+		else $string = str_replace('@', '/', $string); // replace 2
+		
+		return $string;
 	}
 	
 	
