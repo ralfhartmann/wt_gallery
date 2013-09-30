@@ -135,6 +135,12 @@ class tx_wtgallery_div extends tslib_pibase {
 					$error = $this->extKey . ' Error: ' . $msg . '!'; // set errormessage
 				}
 				break;
+				
+			case 3: // check if file exits
+				if (!file_exists($value)) { // if $value (file) don't exits
+					$error = $this->extKey . ' Error: ' . $msg . '!'; // set errormessage
+				}
+				break;
 		}
 			
 		if (isset($error)) { // if there is an error
@@ -159,28 +165,42 @@ class tx_wtgallery_div extends tslib_pibase {
 	}
 	
 	
-	// Function markersClassStyle() returns markerArray with definitions of ###CLASS### and ###STYLE###
+	// Function markersClassStyle() returns markerArray with definitions of ###CLASS### (firstofrow, centerofrow, lastofrow)
 	function markersClassStyle($i, $mode = 'list', $conf) {
+		// config
 		$markerArray = array();
 		
+		// let's start
 		if ($conf[$mode.'.']['columns'] > 0) { // only if columns where set via flexform or ts
-			
-			if (($i % $conf[$mode.'.']['columns'])-1 != 0) { // if picture is in the last column
-				$markerArray['###CLASS###'] = 'lastofrow'; // name for class
-			} else {
-				$markerArray['###CLASS###'] = ''; // clean classname
+			if(($i+1) / $conf[$mode.'.']['columns'] == round(($i+1) / $conf[$mode.'.']['columns'])) { // If the current picture is the last of the row (current / cols == integer)
+				$markerArray['###CLASS###'] = 'wtgallery_'.$mode.'_lastofrow'; // Additional class for DIV Container
+			} elseif (fmod($i+1, $conf[$mode.'.']['columns']) == '1') { // If the current picture is the first of the row
+				$markerArray['###CLASS###'] = 'wtgallery_'.$mode.'_firstofrow'; // Additional class for DIV Container
+			} else { // If current is not the first and not the last in the row
+				$markerArray['###CLASS###'] = 'wtgallery_'.$mode.'_centerofrow'; // No additional class
 			}
-			
-			if ($i % $conf[$mode.'.']['columns'] != 0) { // if picture is in the first column
-				$markerArray['###STYLE###'] = ' style="float: left;"'; // next picture div on the right
-			} else {
-				$markerArray['###STYLE###'] = ' style="float: left; clear: both;"'; // own div in a new line and next picture on the right
-				$markerArray['###CLASS###'] = 'firstofrow'; // name for class
-			}
-			
 			return $markerArray;
 		}
 		
+	}
+	
+	
+	// Function rowWrapper() wraps content with a div (so every row in list view gets its own parent DIV container)
+	function rowWrapper($content, $i, $mode = 'list', $max, $conf) {
+		if ($conf['main.']['DIVforRows']) { // if DIV container for every row is activated in constants
+			// config
+			$addcleardiv = '<div class="clear"></div>';
+			$j = ceil(($i+1) / $conf[$mode.'.']['columns']); // row counter
+			
+			// let's start
+			if(($i+1) / $conf[$mode.'.']['columns'] == round(($i+1) / $conf[$mode.'.']['columns']) || ($i+1) == $max) { // If the current picture is the last of the row (current / cols == integer) OR current pictures is the last overall
+				$content .= $addcleardiv.'</div>'; // add closing DIV tag
+			} elseif (fmod($i+1, $conf[$mode.'.']['columns']) == '1') { // If the current picture is the first of the row
+				$content = '<div class="'.$mode.'_row '.$mode.'_row_'.$j.'">'.$content; // add starting DIV tag
+			} 
+		}
+		
+		return $content;
 	}
 	
 	

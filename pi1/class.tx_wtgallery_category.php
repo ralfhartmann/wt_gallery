@@ -64,7 +64,8 @@ class tx_wtgallery_category extends tslib_pibase {
 					'dirname' => $this->div->fileInfo($picture[0], 'dirname'), // like fileadmin/pics
 					'basename' => $this->div->fileInfo($picture[0], 'basename'), // like pic.jpg
 					'extension' => $this->div->fileInfo($picture[0], 'extension'), // like jpg
-					'currentfolder' => $this->div->fileInfo($picture[0], 'currentfolder') // like folder
+					'currentfolder' => $this->div->fileInfo($picture[0], 'currentfolder'), // like folder
+					'link_list' => $this->cObj->typolink('x', array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname'), 'useCacheHash' => 1, 'returnLast' => 'url') ) // , 'ATagParams' => 'target="_self"'
 				);
 				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
 				
@@ -77,12 +78,13 @@ class tx_wtgallery_category extends tslib_pibase {
 				}
 				
 				$metarow = $this->div->EXIForTXT($row['picture'], $this->conf['category.']['metainformation']); // get metainformation
+				$metarow = array_merge((array) $metarow, array('link_list' => $this->cObj->typolink('x', array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname'), 'useCacheHash' => 1, 'returnLast' => 'url') ))); // add link to list
 				$this->cObj->start($metarow, 'tt_content'); // enable .field in typoscript for singleview
 				$this->markerArray['###TEXT###'] = $this->cObj->cObjGetSingle($this->conf['category.']['text'], $this->conf['category.']['text.']); // values from ts
 		
-				$this->wrappedSubpartArray['###CATEGORYLINK###'] = $this->cObj->typolinkWrap( array("parameter" => $GLOBALS["TSFE"]->id, "additionalParams" => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname'), "useCacheHash" => 1) ); // Link to same page with current folder
+				$this->wrappedSubpartArray['###CATEGORYLINK###'] = $this->cObj->typolinkWrap( array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname'), 'useCacheHash' => 1) ); // Link to same page with current folder
 				
-				$content_item .= $this->cObj->substituteMarkerArrayCached($this->tmpl['category']['item'], $this->markerArray, array(), $this->wrappedSubpartArray); // add inner html to variable
+				$content_item .= $this->div->rowWrapper($this->cObj->substituteMarkerArrayCached($this->tmpl['category']['item'], $this->markerArray, array(), $this->wrappedSubpartArray), $i, 'category', count($folders_current[$pointer]), $this->conf); // add inner html to variable
 			} 
 		}
 		$this->num = $i; // current pictures for pagebrowser
@@ -93,7 +95,7 @@ class tx_wtgallery_category extends tslib_pibase {
 		
 		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl['category']['all'], $this->outerMarkerArray, $subpartArray); // Get html template
 		$this->content = $this->dynamicMarkers->main($this->conf, $this->cObj, $this->content); // Fill dynamic locallang or typoscript markers
-		$this->content = preg_replace("|###.*?###|i", "", $this->content); // Finally clear not filled markers
+		$this->content = preg_replace("|###.*?###|i", '', $this->content); // Finally clear not filled markers
 		if (!empty($this->content) && ($i > 0 || !empty($this->piVars['category']))) return $this->content; // return HTML if $content is not empty AND ( if there are pictures OR category was chosen )
 	}	
 	

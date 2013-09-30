@@ -10,8 +10,8 @@ wt_gallery HTML Template for list view
     Timestamp of current picture:							###TSTAMP###
 	Name of folder:											###CURRENTFOLDER###
     Image text (from EXIF or txt file):						###TEXT###
-    Inserts float or clear via style:						###STYLE###
-    Dynamic class (firstofrow, lastofrow):					###CLASS###
+    Dynamic class (firstofrow, centerofrow, lastofrow):		###CLASS###
+    Subpart for Single view link:							<!-- ###SINGLELINK### -->Image<!-- ###SINGLELINK### -->
     
     --- Markers out of the loop ---
     Inserts pagebrowser to Marker							###PAGEBROWSER###
@@ -27,11 +27,11 @@ wt_gallery HTML Template for list view
     <div class="wtgallery_list_area">
         <h2 class="wtgallery_list">###WTGALLERY_LL_TITLE_LIST###</h2>
         <!-- ###CONTENT### --><!-- ###ITEM### -->
-            <div class="wtgallery_list ###CLASS###"###STYLE###>
-                <div class="wtgallery_list_pic"><!-- ###SINGLELINK### -->###IMAGE###<!-- ###SINGLELINK### --></div>
+            <div class="wtgallery_list ###CLASS###">
+                ###IMAGE###
             </div>
         <!-- ###ITEM### --><!-- ###CONTENT### -->
-        <div style="clear: both;"></div>
+        <div class="clear"></div>
         ###PAGEBROWSER###
     </div>
 <!-- ###WTGALLERY_LIST### end -->

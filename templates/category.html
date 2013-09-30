@@ -10,8 +10,8 @@ wt_gallery HTML Template for category view
     Timestamp of current picture:							###TSTAMP###
 	Name of folder:											###CURRENTFOLDER###
     Image text (from EXIF or txt file):						###TEXT###
-    Inserts float or clear via style:						###STYLE###
-    Dynamic class (firstofrow, lastofrow):					###CLASS###
+    Dynamic class (firstofrow, centerofrow, lastofrow):		###CLASS###
+    Subpart link to list view:								<!-- ###CATEGORYLINK### -->
 	
 	--- Markers out of the loop ---
 	Insert category browser									###PAGEBROWSER###
@@ -27,12 +27,12 @@ wt_gallery HTML Template for category view
 <div class="wtgallery_category_area">
 	<h2 class="wtgallery_category">###WTGALLERY_LL_TITLE_CATEGORY###</h2>
 	<!-- ###CONTENT### --><!-- ###ITEM### -->
-		<div class="wtgallery_categories ###CLASS###"###STYLE###>
-			<div class="wtgallery_category_pic"><!-- ###CATEGORYLINK### -->###IMAGE###<!-- ###CATEGORYLINK### --></div>
+		<div class="wtgallery_categories ###CLASS###">
+			<div class="wtgallery_category_pic">###IMAGE###</div>
 			<div class="wtgallery_category_folder"><!-- ###CATEGORYLINK### -->###CURRENTFOLDER###<!-- ###CATEGORYLINK### --></div>
 		</div>
 	<!-- ###ITEM### --><!-- ###CONTENT### -->
-	<div style="clear: both;"></div>
+	<div class="clear"></div>
 	###PAGEBROWSER###
 </div>
 <!-- ###WTGALLERY_CATEGORY### end -->

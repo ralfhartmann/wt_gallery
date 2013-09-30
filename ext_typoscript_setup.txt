@@ -9,9 +9,11 @@ plugin.tx_wtgallery_pi1 {
 	template.single = {$plugin.wtgallery.template.single}
 	template.category = {$plugin.wtgallery.template.category}
 	template.list = {$plugin.wtgallery.template.list}
+	template.cooliris = {$plugin.wtgallery.template.cooliris}
 	main.mode = {$plugin.wtgallery.main.mode}
 	main.path = {$plugin.wtgallery.main.path}
 	main.file_extensions = {$plugin.wtgallery.main.file_extensions}
+	main.DIVforRows = {$plugin.wtgallery.main.DIVforRows}
 	
 	
 	
@@ -94,8 +96,8 @@ plugin.tx_wtgallery_pi1 {
 		# List preview image
 		image = IMAGE
 		image {
-			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash, pid_single
-			wrap = <div class="wt_gallery_list_pic">|</div>
+			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash, pid_single, link_single
+			#wrap = <div class="wt_gallery_list_pic">|</div>
 			file.import.field = picture
 			file.width = {$plugin.wtgallery.list.width}
 			file.height = {$plugin.wtgallery.list.height}
@@ -103,6 +105,11 @@ plugin.tx_wtgallery_pi1 {
 			titleText.field = filename
 			params = class="wtgallery wtgallery_list"
 			if.isTrue.field = picture
+			
+			# link to singleview
+			imageLinkWrap = 1
+			imageLinkWrap.enable = 1
+			imageLinkWrap.typolink.parameter.field = link_single
 		}
 		
 		# Text from txt file or EXIF information to current list image
@@ -155,7 +162,7 @@ plugin.tx_wtgallery_pi1 {
 		# Category preview image
 		image = IMAGE
 		image {
-			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder
+			# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder, link_list
 			wrap = <div class="wt_gallery_category_pic">|</div>
 			file.import.field = picture
 			file.width = {$plugin.wtgallery.category.width}
@@ -164,10 +171,15 @@ plugin.tx_wtgallery_pi1 {
 			titleText.field = filename
 			params = class="wtgallery wtgallery_category"
 			if.isTrue.field = picture
+			
+			# link to categoryview
+			imageLinkWrap = 1
+			imageLinkWrap.enable = 1
+			imageLinkWrap.typolink.parameter.field = link_list
 		}
 		
 		# Text from txt file or EXIF information to current category image
-		# available variables for .field are: comments, title, subject, author, recordtime, cam_brand, cam_model
+		# available variables for .field are: comments, title, subject, author, recordtime, cam_brand, cam_model, link_list
 		text = COA
 		text {
 			wrap = <div class="wt_gallery_category_inner_text">|</div>
@@ -211,4 +223,109 @@ plugin.tx_wtgallery_pi1 {
 		}
 	}
 	
+	
+	
+	# Cooliris view settings
+	cooliris {
+		# Constants
+		title = {$plugin.wtgallery.cooliris.title}
+		url = {$plugin.wtgallery.cooliris.url}
+		description = {$plugin.wtgallery.cooliris.description}
+		width = {$plugin.wtgallery.cooliris.width}
+		height = {$plugin.wtgallery.cooliris.height}
+		order = {$plugin.wtgallery.cooliris.order}
+		limit = {$plugin.wtgallery.cooliris.limit}
+		window_width = {$plugin.wtgallery.cooliris.window_width}
+		window_height = {$plugin.wtgallery.cooliris.window_height}
+		allow_fullscreen = {$plugin.wtgallery.cooliris.allow_fullscreen}
+		allow_scriptaccess = {$plugin.wtgallery.cooliris.allow_scriptaccess}
+		noflash_message = {$plugin.wtgallery.cooliris.noflash_message}
+		
+		# path for cooliris image
+		image = COA
+		image {
+			10 = TEXT
+			10 {
+				data = getIndpEnv:TYPO3_SITE_URL
+			}
+			20 = IMG_RESOURCE
+			20 {
+				# available variables for .field are: picture, tstamp, filename, dirname, basename, extension, currentfolder, picturehash
+				file.import.field = picture
+				file.width = {$plugin.wtgallery.cooliris.width}
+				file.height = {$plugin.wtgallery.cooliris.height}
+				if.isTrue.field = picture
+			}
+		}
+	}
+	
+	
+}
+
+
+
+
+# Add css file for "table style" of list and categoryview
+page.includeCSS.file3135 = EXT:wt_gallery/files/css/wtgallery_main.css
+seite.includeCSS.file3135 < page.includeCSS.file3135# COOLIRIS part for wt_gallery
+
+
+
+# add rss feed to header
+page.headerData.3135 = COA
+page.headerData.3135.wrap = <link rel="alternate" type="application/rss+xml" title="RSS-Feed" href="|" />
+page.headerData.3135 {
+	10 = TEXT
+	10.data = getIndpEnv:TYPO3_SITE_URL
+	
+	20 = TEXT
+	20 {
+		value = x
+		stdWrap.wrap = |
+		stdWrap.typolinkno_cache = 1
+		stdWrap.typolink.returnLast = url
+		stdWrap.typolink.parameter.cObject = COA
+		stdWrap.typolink.parameter.cObject {
+			10 = TEXT
+			10.data = page:uid
+			10.wrap = index.php?id=|
+			10.required = 1
+       
+			20 = TEXT
+			20.data = GPvar : L
+			20.wrap = &L=|
+			20.required = 1
+		   
+			30 = TEXT
+			30.data = GPvar : tx_wtgallery_pi1|category
+			30.wrap = &tx_wtgallery_pi1[category]=|
+			30.required = 1
+		   
+			40 = TEXT
+			40.data = GPvar : cHash
+			40.wrap = &cHash=|
+			40.required = 1
+		   
+			50 = TEXT
+			50.value = &type=3135
+			50.required = 1
+		}
+	}
+}
+seite.headerData.3135 < page.headerData.3135
+
+
+
+# TypeNum 3135 offers a dynamic rss feed (listview) for cooliris (piclens) - more infos at www.cooliris.com
+wtgallery_cooliris_rss = PAGE
+wtgallery_cooliris_rss {
+	typeNum = 3135
+	10 < plugin.tx_wtgallery_pi1
+	
+	config {
+		disableAllHeaderCode = 1
+		disablePrefixComment = 1
+		xhtml_cleaning = 0
+		admPanel = 0
+	}
 }

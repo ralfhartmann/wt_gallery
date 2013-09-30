@@ -34,6 +34,10 @@
 										<numIndex index="0">LLL:EXT:wt_gallery/locallang_db.xml:pi_flexform.mode.3</numIndex>
 										<numIndex index="1">category</numIndex>
 									</numIndex>
+									<numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:wt_gallery/locallang_db.xml:pi_flexform.mode.4</numIndex>
+										<numIndex index="1">cooliris</numIndex>
+									</numIndex>
 								</items>
 								<maxitems>100</maxitems>
 								<size>4</size>
@@ -280,5 +284,55 @@
 			</ROOT>
 		</latest>
 		-->
+		<cooliris>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:wt_gallery/locallang_db.xml:pi_flexform.sheet_cooliris</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<width>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:wt_gallery/locallang_db.xml:pi_flexform.width</label>
+							<config>
+								<type>input</type>
+								<size>2</size>
+							</config>
+						</TCEforms>
+					</width>
+					<height>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:wt_gallery/locallang_db.xml:pi_flexform.height</label>
+							<config>
+								<type>input</type>
+								<size>2</size>
+							</config>
+						</TCEforms>
+					</height>
+					<window_width>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:wt_gallery/locallang_db.xml:pi_flexform.window_width</label>
+							<config>
+								<type>input</type>
+								<size>2</size>
+							</config>
+						</TCEforms>
+					</window_width>
+					<window_height>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:wt_gallery/locallang_db.xml:pi_flexform.window_height</label>
+							<config>
+								<type>input</type>
+								<size>2</size>
+							</config>
+						</TCEforms>
+					</window_height>
+				</el>
+			</ROOT>
+		</cooliris>
 	</sheets>
 </T3DataStructure>

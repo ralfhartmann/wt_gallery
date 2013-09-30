@@ -12,8 +12,11 @@ plugin.wtgallery {
 	
 	# cat=plugin.wtgallery//0030; type=file[html,htm,tmpl,txt]; label= Template File category: HTML-template file for category view (see EXT:wt_gallery/templates/category.html for an example)
 	template.category = EXT:wt_gallery/templates/category.html
+	
+	# cat=plugin.wtgallery//0040; type=file[html,htm,tmpl,txt]; label= Template File cooliris: HTML-template file for cooliris view (see EXT:wt_gallery/templates/cooliris.html for an example)
+	template.cooliris = EXT:wt_gallery/templates/cooliris.html
 
-	# cat=plugin.wtgallery//1000; type=options[single,list,latest]; label= Gallery mode: Define what the gallery should do - normally set via flexform in the plugin (e.g. single)
+	# cat=plugin.wtgallery//1000; type=options[,single,list,latest]; label= Gallery mode: Define what the gallery should do - normally set via flexform in the plugin (e.g. single)
 	main.mode = 
 
 	# cat=plugin.wtgallery//1010; type=text; label= Picture path: Relative path to the pictures (e.g. fileadmin/pictures/)
@@ -21,6 +24,9 @@ plugin.wtgallery {
 
 	# cat=plugin.wtgallery//1020; type=text; label= Allowed file extensions: Define all allowed file extensions of the picture path (not allowed files will be ignored) (default jpg,jpeg,gif,png)
 	main.file_extensions = jpg,jpeg,gif,png
+
+	# cat=plugin.wtgallery//1030; type=boolean; label= Parent DIV for rows: De/Activate a parent DIV container for every row of the list or category view (default 1)
+	main.DIVforRows = 1
 
 	# cat=plugin.wtgallery//2000; type=text; label= PID of single view: Set PID of single page (e.g. 5) (Note: Flexform value overwrite this setting!)
 	single.pid_single = 
@@ -78,5 +84,41 @@ plugin.wtgallery {
 
 	# cat=plugin.wtgallery//4050; type=options[TXT/EXIF,EXIF/TXT,TXT,EXIF,]; label= Show metainformation category: Show meta information of a category picture from textfile or from EXIF information (possibilities: TXT/EXIF,EXIF/TXT,TXT,EXIF or empty) (TXT/EXIF means - search for a txt file and if no info from txt than take EXIF information of picture)
 	category.metainformation = TXT/EXIF
+
+	# cat=plugin.wtgallery//5000; type=text; label= Cooliris title: Define a title for the cooliris view (e.g. This is the title)
+	cooliris.title = wt_gallery for cooliris
+
+	# cat=plugin.wtgallery//5000; type=text; label= Cooliris url: Define an URL for the cooliris view (e.g. http://www.domain.org/)
+	cooliris.url = http://www.cooliris.com/
+
+	# cat=plugin.wtgallery//5000; type=text; label= Cooliris description: Define a description for the cooliris view (e.g. This is the description)
+	cooliris.description = This is the wt_gallery cooliris description...
+
+	# cat=plugin.wtgallery//5000; type=text; label= Width of cooliris pictures: Default width of coolirispictures (e.g. 500)
+	cooliris.width = 500
+
+	# cat=plugin.wtgallery//5010; type=text; label= Height of cooliris pictures: Default height of coolirispictures (e.g. 500)
+	cooliris.height =
+
+	# cat=plugin.wtgallery//5020; type=options[ASC,DESC,newest,oldest,random]; label= Sorting for coolirisview: Define the sorting of the coolirisview images (ASC,DESC,newest,oldest,random)
+	cooliris.order = ASC
+
+	# cat=plugin.wtgallery//5030; type=text; label= Limit for coolirisview: Define a maximum limit of the coolirisview images (e.g. 100) (empty for no limit)
+	cooliris.limit = 
+
+	# cat=plugin.wtgallery//5040; type=int; label= Width of cooliris window: Define width of the flash window in Frontend (e.g. 800) (Note: Flexform value overwrite this setting!)
+	cooliris.window_width = 800
+
+	# cat=plugin.wtgallery//5050; type=int; label= Height of cooliris window: Define height of the flash window in Frontend (e.g. 600) (Note: Flexform value overwrite this setting!)
+	cooliris.window_height = 600
+
+	# cat=plugin.wtgallery//5060; type=boolean; label= Allow fullscreen button: Enable fullscreen button in cooliris flash window
+	cooliris.allow_fullscreen = 1
+
+	# cat=plugin.wtgallery//5070; type=boolean; label= Allow scriptaccess button: Enable scriptaccess button in cooliris flash window
+	cooliris.allow_scriptaccess = 0
+
+	# cat=plugin.wtgallery//5080; type=text; label= No-Flash message: Define a message if no flash was found in the browser
+	cooliris.noflash_message = <a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash</a>
 		
 }

@@ -65,7 +65,8 @@ class tx_wtgallery_list extends tslib_pibase {
 					'extension' => $this->div->fileInfo($pictures_current[$pointer][$i], 'extension'), // like jpg
 					'currentfolder' => $this->div->fileInfo($pictures_current[$pointer][$i], 'currentfolder'), // like folder
 					'picturehash' => t3lib_div::md5int($pictures_current[$pointer][$i]), // like 12345678
-					'pid_single' => ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : $GLOBALS['TSFE']->id) // PID of single view
+					'pid_single' => ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : $GLOBALS['TSFE']->id), // PID of single view
+					'link_single' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => t3lib_div::md5int($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) // link to single view
 				);
 				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
 				
@@ -81,10 +82,10 @@ class tx_wtgallery_list extends tslib_pibase {
 				$this->cObj->start($metarow, 'tt_content'); // enable .field in typoscript for singleview
 				$this->markerArray['###TEXT###'] = $this->cObj->cObjGetSingle($this->conf['list.']['text'], $this->conf['list.']['text.']); // values from ts
 				
-				$this->wrappedSubpartArray['###SINGLELINK###'][0] = '<a href="'.tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => t3lib_div::md5int($row['picture'])), 0, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)).'">'; // Link with piVars "show"
+				$this->wrappedSubpartArray['###SINGLELINK###'][0] = '<a href="'.tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => t3lib_div::md5int($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)).'">'; // Link with piVars "show"
 				$this->wrappedSubpartArray['###SINGLELINK###'][1] = '</a>'; // postfix for linkwrap
 				
-				$content_item .= $this->cObj->substituteMarkerArrayCached($this->tmpl['list']['item'], $this->markerArray, array(), $this->wrappedSubpartArray); // add inner html to variable
+				$content_item .= $this->div->rowWrapper($this->cObj->substituteMarkerArrayCached($this->tmpl['list']['item'], $this->markerArray, array(), $this->wrappedSubpartArray), $i, 'list', count($pictures_current[$pointer]), $this->conf); // add inner html to variable
 			} 
 		}
 		

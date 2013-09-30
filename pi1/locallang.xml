@@ -13,6 +13,7 @@
 			<label index="wtgallery_ll_listviewlink">Back to listview</label>
 			<label index="wtgallery_ll_pagebrowser_upto">up to</label>
 			<label index="wtgallery_ll_pagebrowser_within">within</label>
+			<label index="wtgallery_ll_pagebrowser_page">Page %s</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wtgallery_ll_title_category">Galeriekategorien</label>
@@ -22,6 +23,7 @@
 			<label index="wtgallery_ll_listviewlink">Zurück zur Listenansicht</label>
 			<label index="wtgallery_ll_pagebrowser_upto">bis</label>
 			<label index="wtgallery_ll_pagebrowser_within">von insgesamt</label>
+			<label index="wtgallery_ll_pagebrowser_page">Seite %s</label>
 		</languageKey>
 		<languageKey index="it" type="array">
 			<label index="wtgallery_ll_title_category">Lista delle categorie</label>
@@ -31,6 +33,7 @@
 			<label index="wtgallery_ll_listviewlink">Vai alla lista</label>
 			<label index="wtgallery_ll_pagebrowser_upto">fino a</label>
 			<label index="wtgallery_ll_pagebrowser_within">in tutto</label>
+			<label index="wtgallery_ll_pagebrowser_page">Pagina %s</label>
 		</languageKey>
 	</data>
 </T3locallang>

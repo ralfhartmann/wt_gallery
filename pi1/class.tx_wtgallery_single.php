@@ -76,7 +76,7 @@ class tx_wtgallery_single extends tslib_pibase {
 		);
 		if ($this->conf['single.']['pid_single'] == $this->conf['list.']['pid_list']) $row = array(); // clear if listview and singleview in the same page
 		$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
-		$this->markerArray['###LISTVIEWLINK###'] = $this->cObj->cObjGetSingle($this->conf['single.']['listviewlink'], $this->conf['single.']['listviewlink.']); // values from ts
+		if ($this->conf['single.']['pid_single'] == $this->conf['list.']['pid_list']) $this->markerArray['###LISTVIEWLINK###'] = $this->cObj->cObjGetSingle($this->conf['single.']['listviewlink'], $this->conf['single.']['listviewlink.']); // values from ts
 		
 		
 		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl['single'], $this->markerArray, array(), array()); // substitute Marker in Template
