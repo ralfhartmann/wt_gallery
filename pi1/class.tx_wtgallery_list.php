@@ -66,7 +66,7 @@ class tx_wtgallery_list extends tslib_pibase {
 					'currentfolder' => $this->div->fileInfo($pictures_current[$pointer][$i], 'currentfolder'), // like folder
 					'picturehash' => t3lib_div::md5int($pictures_current[$pointer][$i]), // like 12345678
 					'pid_single' => ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : $GLOBALS['TSFE']->id), // PID of single view
-					'link_single' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => t3lib_div::md5int($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) // link to single view
+					'link_single' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => t3lib_div::md5int($pictures_current[$pointer][$i])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) // link to single view
 				);
 				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
 				

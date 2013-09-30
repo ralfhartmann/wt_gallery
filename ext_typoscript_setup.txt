@@ -1,6 +1,6 @@
 # WT_GALLERY PLUGIN #
-includeLibs.user_wtgallery_list_pagebrowser = EXT:wt_gallery/lib/class.user_wtgallery_list_pagebrowser.php
-includeLibs.user_wtgallery_category_pagebrowser = EXT:wt_gallery/lib/class.user_wtgallery_category_pagebrowser.php
+includeLibs.user_wtgallery_list_pagebrowser = EXT:wt_gallery/lib/user_wtgallery_list_pagebrowser.php
+includeLibs.user_wtgallery_category_pagebrowser = EXT:wt_gallery/lib/user_wtgallery_category_pagebrowser.php
 
 # main settings
 plugin.tx_wtgallery_pi1 {
