@@ -22,14 +22,14 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib.'class.tslib_pibase.php');
-require_once(t3lib_extMgm::extPath('wt_gallery').'pi1/class.tx_wtgallery_single.php'); // load class for single view
-require_once(t3lib_extMgm::extPath('wt_gallery').'pi1/class.tx_wtgallery_list.php'); // load class for list view
-require_once(t3lib_extMgm::extPath('wt_gallery').'pi1/class.tx_wtgallery_category.php'); // load class for category view
-require_once(t3lib_extMgm::extPath('wt_gallery').'pi1/class.tx_wtgallery_cooliris.php'); // load class for cooliris view
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_div.php'); // load div class
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_coolirisrss.php'); // load class for cooliris RSS
-if (t3lib_extMgm::isLoaded('wt_doorman', 0)) require_once(t3lib_extMgm::extPath('wt_doorman').'class.tx_wtdoorman_security.php'); // load security class
+require_once(PATH_tslib . 'class.tslib_pibase.php');
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_single.php'); // load class for single view
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_list.php'); // load class for list view
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_category.php'); // load class for category view
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_cooliris.php'); // load class for cooliris view
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_coolirisrss.php'); // load class for cooliris RSS
+if (t3lib_extMgm::isLoaded('wt_doorman', 0)) require_once(t3lib_extMgm::extPath('wt_doorman') . 'class.tx_wtdoorman_security.php'); // load security class
 
 /**
  * Plugin 'WT Gallery' for the 'wt_gallery' extension.
@@ -106,7 +106,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 				if (count($this->cObj->data['pi_flexform']['data'][$key]['lDEF']) > 0) { // if there are flexform values
 					foreach ($this->cObj->data['pi_flexform']['data'][$key]['lDEF'] as $key2 => $value2) { // every flexform option
 						if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], $key2, $key)) { // if value exists in flexform
-							$this->conf[$key.'.'][$key2] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $key2, $key); // overwrite $this->conf
+							$this->conf[$key . '.'][$key2] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $key2, $key); // overwrite $this->conf
 						}
 					}
 				}
@@ -161,9 +161,11 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 	// Function check() makes a fast check if all is ok
 	function check() {
 		$this->div->init($this->conf); // init function
-		if (t3lib_div::GPvar('type') != 3135) $this->content .= $this->div->check4errors($this->conf['main.']['path'], 'Picture path not set - set in flexform or in constants'); // check for picture path
-		if (t3lib_div::GPvar('type') != 3135) $this->content .= $this->div->check4errors($this->conf['main.']['mode'], 'Mode not set - set mode in flexform or in constants'); // check for mode
-		if (t3lib_div::GPvar('type') != 3135) $this->content .= $this->div->check4errors($this->piVars['category'], 'No valid picture path', 2, 1); // check for correct path
+		if (t3lib_div::_GP('type') != 3135) {
+			$this->content .= $this->div->check4errors($this->conf['main.']['path'], 'Picture path not set - set in flexform or in constants'); // check for picture path
+			$this->content .= $this->div->check4errors($this->conf['main.']['mode'], 'Mode not set - set mode in flexform or in constants'); // check for mode
+			$this->content .= $this->div->check4errors($this->piVars['category'], 'No valid picture path', 2, 1); // check for correct path
+		}
 	}
 
 }

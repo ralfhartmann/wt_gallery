@@ -239,7 +239,7 @@ plugin.tx_wtgallery_pi1 {
 				# Information from folder txt file: cat_comments, cat_title, cat_subject, cat_author, cat_recordtime, cat_cam_brand, cat_cam_model
 				# Information from txt/EXIF of currently shown picture: comments, title, subject, author, recordtime, cam_brand, cam_model
 			wrap = <div class="wt_gallery_category_inner_text">|</div>
-			if.isTrue.field = cat_title
+			if.isTrue.field = cat_comments
 			
 			10 = TEXT
 			10.field = cat_title
