@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib . 'class.tslib_pibase.php');
+if (!class_exists('tslib_pibase')) require_once(PATH_tslib . 'class.tslib_pibase.php');
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_list_pagebrowser.php'); // file for dynamicmarker functions

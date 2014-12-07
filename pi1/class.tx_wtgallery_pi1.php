@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib . 'class.tslib_pibase.php');
+if (!class_exists('tslib_pibase')) require_once(PATH_tslib . 'class.tslib_pibase.php');
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_single.php'); // load class for single view
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_list.php'); // load class for list view
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_category.php'); // load class for category view

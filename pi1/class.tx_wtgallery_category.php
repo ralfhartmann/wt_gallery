@@ -22,18 +22,18 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib . 'class.tslib_pibase.php');
+if (!class_exists('tslib_pibase')) require_once(PATH_tslib . 'class.tslib_pibase.php');
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_category_pagebrowser.php'); // file for categorybrowser function
 
 class tx_wtgallery_category extends tslib_pibase {
-	
+
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_category.php';	// Path to any file in pi1 for locallang
 	var $extKey = 'wt_gallery';	// The extension key.
 	var $mode = 'category'; // kind of mode
-	
+
 	function start($conf, $piVars, $cObj) {
 		// config
 		$this->conf = $conf;
@@ -54,7 +54,7 @@ class tx_wtgallery_category extends tslib_pibase {
 		$folders_current = array_chunk((array) $folders, ($this->conf[$this->mode . '.']['rows'] * $this->conf[$this->mode . '.']['columns'])); // split array in parts for pagebrowser
 		$this->overall = count($folders); // count all pictures
 		$pointer = ($this->piVars['categorypointer'] > 0 ? $this->piVars['categorypointer'] : 0); // pointer
-		
+
 		if (count($folders_current[$pointer]) > 0) { // if there are folders
 			for ($i=0; $i<count($folders_current[$pointer]); $i++) { // one loop for every folder in current folder
 				// let's start
@@ -73,7 +73,7 @@ class tx_wtgallery_category extends tslib_pibase {
 				$catTXTrow = $this->div->readTXT4cat($row); // get txt files for every category
 				$row = array_merge((array) $row, (array) $metarow, (array) $catTXTrow); // add array from txt or exif to normal row
 				$this->cObj->start($row, 'tt_content'); // enable .field in typoscript for singleview
-				
+
 				$this->markerArray = $this->div->markersClassStyle($i, $this->mode, $this->conf); // fill ###CLASS### and ###STYLE###
 				if (!empty($this->conf[$this->mode . '.']['width'])) $this->conf[$this->mode . '.']['image.']['file.']['width'] = $this->conf[$this->mode . '.']['width'];  // set width from config (e.g. flexform if not empty)
 				if (!empty($this->conf[$this->mode . '.']['height'])) $this->conf[$this->mode . '.']['image.']['file.']['height'] = $this->conf[$this->mode . '.']['height'];  // set height from config (e.g. flexform if not empty)
@@ -85,16 +85,16 @@ class tx_wtgallery_category extends tslib_pibase {
 				foreach ($row as $key => $value) { // one loop for every row entry
 					$this->markerArray['###'.strtoupper($key).'###'] = $value; // fill marker with value of row
 				}
-		
+
 				$this->wrappedSubpartArray['###CATEGORYLINK###'] = $this->cObj->typolinkWrap( array('parameter' => $GLOBALS['TSFE']->id, 'additionalParams' => '&'.$this->prefixId.'[category]='.$this->div->fileInfo($picture[0], 'dirname', 1), 'useCacheHash' => 1) ); // Link to same page with current folder
-				
+
 				$this->hook_inner(); // add hook
 				$content_item .= $this->div->rowWrapper($this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode]['item'], $this->markerArray, array(), $this->wrappedSubpartArray), $i, $this->mode, count($folders_current[$pointer]), $this->conf); // add inner html to variable
-			} 
+			}
 		}
 		$this->num = $i; // current pictures for pagebrowser
 		$subpartArray['###CONTENT###'] = $content_item; // work on subpart 3
-		
+
 		// fill outer markers
 		$pbarray = array( // prepare array for pagebrowser
 			'overall' => $this->overall, // all numbers of categories
@@ -105,15 +105,15 @@ class tx_wtgallery_category extends tslib_pibase {
 			'startpath' => $startpath
 		);
 		$this->outerMarkerArray['###PAGEBROWSER###'] = $this->pagebrowser->start($this->conf, $this->piVars, $this->cObj, $pbarray); // include categorybrowser
-		
+
 		$this->hook_outer(); // add hook
 		$this->content = $this->cObj->substituteMarkerArrayCached($this->tmpl[$this->mode]['all'], $this->outerMarkerArray, $subpartArray); // Get html template
 		$this->content = $this->dynamicMarkers->main($this->conf, $this->cObj, $this->content); // Fill dynamic locallang or typoscript markers
 		$this->content = preg_replace("|###.*?###|i", '', $this->content); // Finally clear not filled markers
 		if (!empty($this->content) && ($i > 0 || !empty($this->piVars[$this->mode]))) return $this->content; // return HTML if $content is not empty AND ( if there are pictures OR category was chosen )
-	}	
-	
-	
+	}
+
+
 	// Add outer Hook
 	function hook_outer() {
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_outer']) {
@@ -122,8 +122,8 @@ class tx_wtgallery_category extends tslib_pibase {
 		   }
 		}
 	}
-	
-	
+
+
 	// Add inner Hook
 	function hook_inner() {
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_inner']) {
@@ -132,10 +132,10 @@ class tx_wtgallery_category extends tslib_pibase {
 		   }
 		}
 	}
-	
+
 
 }
-	
+
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_gallery/pi1/class.tx_wtgallery_category.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_gallery/pi1/class.tx_wtgallery_category.php']);

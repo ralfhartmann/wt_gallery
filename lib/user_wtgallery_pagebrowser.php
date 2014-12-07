@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib.'class.tslib_pibase.php');
+if (!class_exists('tslib_pibase')) require_once(PATH_tslib . 'class.tslib_pibase.php');
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
 
 
@@ -35,7 +35,7 @@ require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.p
  * @function This Class offeres different pagebrowser methods
  */
 class user_wtgallery_pagebrowser extends tslib_pibase {
-	
+
 	var $prefixId = 'tx_wtgallery_pi1'; // Plugin name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_list.php';	// Path to any file in pi1 for locallang
 	var $extKey = 'wt_gallery';	// The extension key.
@@ -59,16 +59,16 @@ class user_wtgallery_pagebrowser extends tslib_pibase {
 		$menuarray = array(); // init array for menu
 		$conf['userFunc.']['pointer'] = 0; // start pointer with 0 (will be increased in every loop)
 		$mode = (!empty($this->conf['userFunc.']['mode']) ? $this->conf['userFunc.']['mode'] : 'list'); // set mode (could be "category" or "list")
-		
+
 		// let's go
 		for ($i=0; $i < ceil($conf['userFunc.']['overall'] / $conf['userFunc.']['perPage']); $i++) { // one loop for every page
 			if ($conf['userFunc.']['pointer'] == intval($_GET[$this->prefixId][$mode . 'pointer'])) $menuarray[$i]['ITEM_STATE'] = 'ACT'; // act status for menu
-			
+
 			$menuarray[$i]['title'] = sprintf($this->pi_getLL('wtgallery_ll_pagebrowser_page', 'page '.($i+1)), ($i+1)); // menu label
 			$menuarray[$i]['_OVERRIDE_HREF'] = $this->pi_linkTP_keepPIvars_url(array($mode . 'pointer' => $conf['userFunc.']['pointer']), 1); // url for menu
 			$conf['userFunc.']['pointer'] = ($i+1);
 		};
-		
+
 		return $menuarray;
 	}
 
@@ -94,7 +94,7 @@ class user_wtgallery_pagebrowser extends tslib_pibase {
 			'next' => (intval($_GET[$this->prefixId][$mode . 'pointer']) + 1), // increase current pointer with one
 			'previous' => (intval($_GET[$this->prefixId][$mode . 'pointer']) - 1) // decrease current pointer with one
 		);
-		
+
 		// Get picture array (only if category.forceFolder is set and only in category mode)
 		if ($mode == 'category' && $GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->prefixId . '.']['category.']['forceFolder'] != '') { // if forceFolder is set
 			$force = 1; // activate forceFolder
@@ -103,16 +103,16 @@ class user_wtgallery_pagebrowser extends tslib_pibase {
 				$pic[] = $this->div->fileInfo($tmp_pic[0], 'dirname', 1); // get hash from current picture
 			}
 		}
-		
+
 		// previous link
 		if (intval($_GET[$this->prefixId][$mode . 'pointer']) != 0) { // show prev link only if this is not the first cat
 			if (!$force) { // forceFolder not active?
 				$menuarray[0]['_OVERRIDE_HREF'] = $this->pi_linkTP_keepPIvars_url(array($mode . 'pointer' => $no['previous']), 1); // url for menu
 			} else { // forceFolder active
 				$tmp_params = array(
-					'parameter' => $GLOBALS['TSFE']->id, 
-					'additionalParams' => '&' . $this->prefixId . '[' . $mode . 'pointer]=' . $no['previous'] . '&' . ($force ? $this->prefixId . '[category]=' . $pic[$no['previous']] : ''), 
-					'useCacheHash' => 1, 
+					'parameter' => $GLOBALS['TSFE']->id,
+					'additionalParams' => '&' . $this->prefixId . '[' . $mode . 'pointer]=' . $no['previous'] . '&' . ($force ? $this->prefixId . '[category]=' . $pic[$no['previous']] : ''),
+					'useCacheHash' => 1,
 					'returnLast' => 'url'
 				);
 				$menuarray[0]['_OVERRIDE_HREF'] = $cObj->typolink('x', $tmp_params); // url for menu
@@ -120,16 +120,16 @@ class user_wtgallery_pagebrowser extends tslib_pibase {
 			#$menuarray[0]['title'] = $this->pi_getLL('wtgallery_ll_pagebrowser_previous', 'previous'); // menu label
 			$menuarray[0]['title'] = $this->cObj->cObjGetSingle($this->conf['userFunc.']['clickmenu.']['previous'], $this->conf['userFunc.']['clickmenu.']['previous.']); // menu label
 		}
-		
+
 		// next link
 		if (intval($_GET[$this->prefixId][$mode . 'pointer']) < (ceil($conf['userFunc.']['overall'] / $conf['userFunc.']['perPage']) - 1)) { // if current pointer is smaller than all categories
 			if (!$force) { // forceFolder not active?
 				$menuarray[1]['_OVERRIDE_HREF'] = $this->pi_linkTP_keepPIvars_url(array($mode . 'pointer' => $no['next']), 1); // url for menu
 			} else { // forceFolder active
 				$tmp_params = array(
-					'parameter' => $GLOBALS['TSFE']->id, 
-					'additionalParams' => '&' . $this->prefixId . '[' . $mode . 'pointer]=' . $no['next'] . '&' . ($force ? $this->prefixId . '[category]=' . $pic[$no['next']] : ''), 
-					'useCacheHash' => 1, 
+					'parameter' => $GLOBALS['TSFE']->id,
+					'additionalParams' => '&' . $this->prefixId . '[' . $mode . 'pointer]=' . $no['next'] . '&' . ($force ? $this->prefixId . '[category]=' . $pic[$no['next']] : ''),
+					'useCacheHash' => 1,
 					'returnLast' => 'url'
 				);
 				$menuarray[1]['_OVERRIDE_HREF'] = $cObj->typolink('x', $tmp_params); // url for menu
@@ -137,10 +137,10 @@ class user_wtgallery_pagebrowser extends tslib_pibase {
 			#$menuarray[1]['title'] = $this->pi_getLL('wtgallery_ll_pagebrowser_next', 'next'); // menu label
 			$menuarray[1]['title'] = $this->cObj->cObjGetSingle($this->conf['userFunc.']['clickmenu.']['next'], $this->conf['userFunc.']['clickmenu.']['next.']); // menu label
 		}
-		
+
 		return $menuarray;
 	}
-	
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_gallery/lib/user_wtgallery_pagebrowser.php'])	{
