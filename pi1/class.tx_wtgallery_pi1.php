@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib . 'class.tslib_pibase.php');
+if (!class_exists('tslib_pibase')) require_once(PATH_tslib . 'class.tslib_pibase.php');
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_single.php'); // load class for single view
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_list.php'); // load class for list view
 require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_category.php'); // load class for category view
@@ -39,12 +39,12 @@ if (t3lib_extMgm::isLoaded('wt_doorman', 0)) require_once(t3lib_extMgm::extPath(
  * @subpackage	tx_wtgallery
  */
 class tx_wtgallery_pi1 extends tslib_pibase {
-	
+
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_pi1.php';	// Path to this script relative to the extension dir.
 	var $extKey = 'wt_gallery';	// The extension key.
-	
-	
+
+
 	// Gallery main function
 	function main ($content, $conf)	{
 		$this->content = $content;
@@ -58,46 +58,46 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 		$this->category = t3lib_div::makeInstance('tx_wtgallery_category'); // Create new instance for category class
 		$this->cooliris = t3lib_div::makeInstance('tx_wtgallery_cooliris'); // Create new instance for cooliris view
 		$this->coolirisRSS = t3lib_div::makeInstance('tx_wtgallery_coolirisrss'); // Create new instance for cooliris RSS
-		
+
 		// config
 		$this->secure(); // Clean piVars
 		$this->config(); // Enable flexform values in config
 		$this->check(); // Fast check if all is ok
 		$mode = t3lib_div::trimExplode(',', $this->conf['main.']['mode'], 1); // split mode
-		
+
 		// let's go
 		if ($this->conf['main.']['mode'] && $this->conf['main.']['path']) { // only if mode and path are set
 			for ($i=0; $i < count($mode); $i++) { // One loop for every selected mode
-				
+
 				switch ($mode[$i]) { // mode
 					case 'single': // if single mode is selected
 						$this->content .= $this->single->start($this->conf, $this->piVars, $this->cObj); // get single view
 						break;
-						
+
 					case 'list': // if list mode is selected
 						$this->content .= $this->list->start($this->conf, $this->piVars, $this->cObj); // get list view
 						break;
-						
+
 					case 'category': // if category mode is selected
 						$this->content .= $this->category->start($this->conf, $this->piVars, $this->cObj); // get category view
 						break;
-						
+
 					case 'cooliris': // if cooliris mode is selected
 						$this->content .= $this->cooliris->start($this->conf, $this->piVars, $this->cObj); // get cooliris listview
 						break;
 				}
-				
+
 			}
 		}
-		
+
 		if (t3lib_div::_GP('type') == 3135) { // typenum is 3135 (rss feed for cooliris)
 			return $this->coolirisRSS->start($this->conf, $this->piVars, $this->cObj); // RSS Feed
 		}
-		
+
 		return $this->pi_wrapInBaseClass($this->content);
 	}
-	
-	
+
+
 	// enables flexform values in $conf
 	function config() {
 		// 1. add flexform values to $this->conf
@@ -112,22 +112,22 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 				}
 			}
 		}
-		
+
 		// 2. validate picture path
-		if ($this->conf['main.']['path']) { // if picture path exists 
+		if ($this->conf['main.']['path']) { // if picture path exists
 			if (substr($this->conf['main.']['path'], -1, 1) != '/') $this->conf['main.']['path'] .= '/'; // add slash at the end if this is missing
 			if (substr($this->conf['main.']['path'], 0, 1) == '/') $this->conf['main.']['path'] = substr($this->conf['main.']['path'], 1); // remove first slash if exits
 			if (!t3lib_div::validPathStr($this->conf['main.']['path'])) { // picture path is not valid
 				die ($this->extKey . ': Picture path not valid - please correct it!'); // stop script
 			}
 		}
-		
+
 		// 3. set value for columns and rows if no value is set
 		if (empty($this->conf['list.']['rows'])) $this->conf['list.']['rows'] = 1000; // set 1000 for default lines
 		if (empty($this->conf['list.']['columns'])) $this->conf['list.']['columns'] = 1; // set 1 for default columns
 		if (empty($this->conf['category.']['rows'])) $this->conf['category.']['rows'] = 1000; // set 1000 for default lines
 		if (empty($this->conf['category.']['columns'])) $this->conf['category.']['columns'] = 1; // set 1 for default columns
-		
+
 		// 4. add hook for conf manipulation
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['setup'])) { // Adds hook for processing
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['setup'] as $_classRef) {
@@ -135,13 +135,13 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 				$_procObj->setup($this->conf, $this->piVars, $this); // Enable setup manipulation
 			}
 		}
-		
+
 		// 5. set pid single and pid list to current page if not set
 		if (intval($this->conf['single.']['pid_single']) == 0) $this->conf['single.']['pid_single'] = $GLOBALS['TSFE']->id; // set single pid to current pid if not set
 		if (intval($this->conf['list.']['pid_list']) == 0) $this->conf['list.']['pid_list'] = $GLOBALS['TSFE']->id; // set list pid to current pid if not set
 	}
-	
-	
+
+
 	// Function secure() uses wt_doorman to clear piVars
 	function secure() {
 		if (class_exists('tx_wtdoorman_security')) { // if doorman class exits
@@ -156,8 +156,8 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 			$this->piVars = $this->sec->sec($this->piVars); // overwrite piVars with piVars from doorman class
 		} else die ($this->extKey . ': Extension wt_doorman not found, please install first!'); // stop script
 	}
-	
-	
+
+
 	// Function check() makes a fast check if all is ok
 	function check() {
 		$this->div->init($this->conf); // init function
@@ -169,7 +169,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 	}
 
 }
-	
+
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_gallery/pi1/class.tx_wtgallery_pi1.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/wt_gallery/pi1/class.tx_wtgallery_pi1.php']);
